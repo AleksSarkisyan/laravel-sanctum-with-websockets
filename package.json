@@ -10,9 +10,14 @@
         "production": "mix --production"
     },
     "devDependencies": {
+        "@types/node": "^16.11.9",
         "axios": "^0.21",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14"
+    },
+    "dependencies": {
+        "@vue/composition-api": "^1.4.0",
+        "vuex-persistedstate": "^4.1.0"
     }
 }

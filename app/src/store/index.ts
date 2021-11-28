@@ -1,10 +1,15 @@
-import { store } from 'quasar/wrappers'
-import { InjectionKey } from 'vue'
+import { store } from 'quasar/wrappers';
+import { InjectionKey } from 'vue';
 import {
   createStore,
   Store as VuexStore,
   useStore as vuexUseStore,
-} from 'vuex'
+} from 'vuex';
+import { UserType, AxiosModel } from '../components/models';
+import exampleModule from './module-example';
+import userModule from './user';
+import axiosModule from './axios';
+import createdPersistedState from 'vuex-persistedstate'
 
 // import example from './module-example'
 // import { ExampleStateInterface } from './module-example/state';
@@ -23,6 +28,8 @@ export interface StateInterface {
   // example: ExampleStateInterface;
   // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
   example: unknown
+  userState: UserType,
+  axios: AxiosModel
 }
 
 // provide typings for `this.$store`
@@ -38,12 +45,15 @@ export const storeKey: InjectionKey<VuexStore<StateInterface>> = Symbol('vuex-ke
 export default store(function (/* { ssrContext } */) {
   const Store = createStore<StateInterface>({
     modules: {
-      // example
+      example: exampleModule,
+      user: userModule,
+      axios: axiosModule
     },
 
     // enable strict mode (adds overhead!)
     // for dev mode and --debug builds only
-    strict: !!process.env.DEBUGGING
+    strict: !!process.env.DEBUGGING,
+    plugins: [createdPersistedState()]
   })
 
   return Store;

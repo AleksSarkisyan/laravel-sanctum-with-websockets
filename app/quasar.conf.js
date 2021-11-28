@@ -3,6 +3,8 @@
  * the ES6 features that are supported by your Node version. https://node.green/
  */
 
+const envparser = require('./src/config/envparser.js')
+
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 
@@ -45,8 +47,9 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
+      env: envparser(),
       vueRouterMode: 'hash', // available values: 'hash', 'history'
-
+      apiUrl: ctx.prod ? process.env.MIX_API_URL : '',
       // transpile: false,
       // publicPath: '/',
 

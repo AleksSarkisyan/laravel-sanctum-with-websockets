@@ -1,1 +1,87 @@
-// app global css in SCSS form
+.modal-window {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  transition: all 0.3s;
+  width: 100%;
+  height: 100%;
+  background: rgba(4, 10, 30, 0.8);
+  .ui-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    top: 50%;
+    width: 70%;
+    margin: auto;
+  }
+  input,
+  button {
+    margin-bottom: 10px;
+  }
+  &:target {
+    visibility: visible;
+    opacity: 1;
+  }
+  & > div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    width: 70%;
+    padding: 50px;
+  }
+  header {
+    font-weight: bold;
+  }
+}
+
+.modal-close {
+  color: #aaa;
+  line-height: 50px;
+  font-size: 80%;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  width: 70px;
+  text-decoration: none;
+  &:hover {
+    color: black;
+  }
+}
+
+a {
+  color: inherit;
+}
+
+.container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.modal-window {
+  & > div {
+    border-radius: 1rem;
+  }
+}
+
+small {
+  color: lightgray;
+}
+
+.btn {
+  background-color: white;
+  // padding: 1em 1.5em;
+  border-radius: 1rem;
+  text-decoration: none;
+  i {
+    // padding-right: 0.3em;
+  }
+}

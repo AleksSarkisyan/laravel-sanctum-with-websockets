@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\TestControllerInterface;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::post('login', [AuthController::class, 'authenticate']);
+Route::get('test', [TestController::class, 'test']);
 
 Route::get('/', function () {
     return view('welcome');

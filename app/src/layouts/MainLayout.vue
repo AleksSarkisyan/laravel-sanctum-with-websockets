@@ -15,7 +15,12 @@
           Quasar App
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div v-if="!user.name">
+          <span @click="toggleAuthModal">Login</span>
+          <span @click="toggleAuthModal">Register</span>
+        </div>
+        <div v-else> Hi, {{ user.name }} </div>
+
       </q-toolbar>
     </q-header>
 
@@ -38,8 +43,16 @@
         />
       </q-list>
     </q-drawer>
+    <br>
+
+    <login-form
+      :modalOpened="modalOpened"
+      :toggleAuthModal="toggleAuthModal"
+    >
+    </login-form>
 
     <q-page-container>
+
       <router-view />
     </q-page-container>
   </q-layout>
@@ -47,70 +60,32 @@
 
 <script lang="ts">
 import EssentialLink from '../components/EssentialLink.vue'
-
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
-
+import useAuth from '../hooks/useAuth.vue';
 import { defineComponent, ref } from 'vue'
+import LoginForm from '../components/Auth/LoginForm.vue';
 
 export default defineComponent({
   name: 'MainLayout',
 
   components: {
-    EssentialLink
+    EssentialLink,
+    LoginForm
   },
 
   setup () {
+    const { modalOpened, toggleAuthModal, user } = useAuth(null);
+
     const leftDrawerOpen = ref(false)
 
     return {
-      essentialLinks: linksList,
+      essentialLinks: [],
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
-      }
+      },
+      modalOpened,
+      toggleAuthModal,
+      user
     }
   }
 })
