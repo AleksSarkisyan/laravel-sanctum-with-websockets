@@ -31,6 +31,7 @@ export type UserModel = {
 export enum API_PATHS {
   SANCTUM_COOKIE = 'sanctum/csrf-cookie',
   LOGIN = 'login',
+  REGISTER = 'register',
   USER = 'api/user'
 }
 

@@ -3,6 +3,7 @@
     <q-header elevated>
       <q-toolbar>
         <q-btn
+          v-if="essentialLinks.length"
           flat
           dense
           round
@@ -12,12 +13,13 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          Food App
         </q-toolbar-title>
 
         <div v-if="!user.name">
-          <span @click="toggleAuthModal">Login</span>
-          <span @click="toggleAuthModal">Register</span>
+          <span @click="toggleAuthModal('login')">Login </span>
+          <span @click="toggleAuthModal">| </span>
+          <span @click="toggleAuthModal('register')">Register</span>
         </div>
         <div v-else> Hi, {{ user.name }} </div>
 
@@ -25,6 +27,7 @@
     </q-header>
 
     <q-drawer
+      v-if="essentialLinks.length"
       v-model="leftDrawerOpen"
       show-if-above
       bordered
@@ -41,6 +44,7 @@
           :key="link.title"
           v-bind="link"
         />
+
       </q-list>
     </q-drawer>
     <br>
@@ -48,6 +52,7 @@
     <login-form
       :modalOpened="modalOpened"
       :toggleAuthModal="toggleAuthModal"
+      :modalTitle="modalTitle"
     >
     </login-form>
 
@@ -73,7 +78,7 @@ export default defineComponent({
   },
 
   setup () {
-    const { modalOpened, toggleAuthModal, user } = useAuth(null);
+    const { modalOpened, toggleAuthModal, user, modalTitle } = useAuth(null);
 
     const leftDrawerOpen = ref(false)
 
@@ -82,10 +87,12 @@ export default defineComponent({
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
+        console.log('leftDrawerOpen', leftDrawerOpen)
       },
       modalOpened,
       toggleAuthModal,
-      user
+      user,
+      modalTitle
     }
   }
 })

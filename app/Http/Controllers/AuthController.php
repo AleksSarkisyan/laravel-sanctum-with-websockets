@@ -23,6 +23,17 @@ class AuthController extends Controller
     return $userService->authenticate($request);
   }
 
+  /**
+   * Handle an authentication attempt.
+   *
+   * @param  \Illuminate\Http\Request $request
+   * @return \Illuminate\Http\Response
+   */
+  public function register(LoginUserRequest $request, UserService $userService)
+  {
+    return $userService->register($request);
+  }
+
   public function getUser(Request $request)
   {
     return $request->user()->only(['name', 'email']);

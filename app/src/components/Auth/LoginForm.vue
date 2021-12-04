@@ -1,8 +1,8 @@
 <template>
-
-    <div v-if="modalOpened" class="modal-window">
-      <div class="box">
-        <form class="ui-form">
+  <div v-if="modalOpened" class="modal-window">
+    <div class="box">
+      <form class="ui-form">
+        <h4 v-if="modalTitle">{{ modalTitle }}</h4>
         <input
           type="email"
           placeholder="Email"
@@ -22,14 +22,13 @@
           @click="toggleAuthModal"
           label="Close"
         />
-
-      <q-btn
-        color="primary"
-        @click="login"
-        label="Login"
-      />
-      </form>
-      </div>
+        <q-btn
+          color="primary"
+          @click="authenticate(modalTitle)"
+          :label="modalTitle"
+        />
+    </form>
+    </div>
   </div>
 </template>
 
@@ -50,19 +49,23 @@ export default defineComponent({
     toggleAuthModal: {
       default: false,
       type: Function
+    },
+    modalTitle: {
+      default: '',
+      type: String
     }
   },
   setup(props) {
     const email = ref('');
     const password = ref('');
-    const { modalOpened, toggleAuthModal } = toRefs(props);
+    const { modalOpened, toggleAuthModal, modalTitle } = toRefs(props);
 
     const formData: LoginFormData = {
       email,
       password
     }
 
-    const { login } = useAuth(formData);
+    const { authenticate } = useAuth(formData);
     const store = useStore();
 
     let axiosErrors: ComputedRef<AxiosModel> = computed(() => {
@@ -74,8 +77,9 @@ export default defineComponent({
       password,
       modalOpened,
       toggleAuthModal,
-      login,
-      axiosErrors
+      authenticate,
+      axiosErrors,
+      modalTitle
     }
   }
 

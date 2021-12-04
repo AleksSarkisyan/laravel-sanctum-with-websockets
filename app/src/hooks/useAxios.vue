@@ -22,7 +22,7 @@ export default function useAxios() {
       });
 
       return response;
-    } catch (error) {
+    } catch (error: any) {
       console.log('error --', error.response.data)
 
       if(error.response.data.message) {

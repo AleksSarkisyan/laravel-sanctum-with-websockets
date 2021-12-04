@@ -16,6 +16,7 @@ use App\Http\Controllers\TestControllerInterface;
 |
 */
 
+Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'authenticate']);
 Route::get('test', [TestController::class, 'test']);
 
