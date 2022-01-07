@@ -21,7 +21,10 @@
           <span @click="toggleAuthModal">| </span>
           <span @click="toggleAuthModal('register')">Register</span>
         </div>
-        <div v-else> Hi, {{ user.name }} </div>
+        <div v-else> Hi, {{ user.name }}
+
+          <span @click="logout">| Logout</span>
+        </div>
 
       </q-toolbar>
     </q-header>
@@ -66,7 +69,7 @@
 <script lang="ts">
 import EssentialLink from '../components/EssentialLink.vue'
 import useAuth from '../hooks/useAuth.vue';
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import LoginForm from '../components/Auth/LoginForm.vue';
 
 export default defineComponent({
@@ -78,7 +81,14 @@ export default defineComponent({
   },
 
   setup () {
-    const { modalOpened, toggleAuthModal, user, modalTitle } = useAuth(null);
+    const { modalOpened, toggleAuthModal, user, modalTitle, logout } = useAuth(null);
+
+    watch(user, (currentValue) => {
+      /** User got authenticated, close auth modal */
+      if (currentValue.name && currentValue.name != '' ) {
+        toggleAuthModal('')
+      }
+    });
 
     const leftDrawerOpen = ref(false)
 
@@ -87,12 +97,12 @@ export default defineComponent({
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
-        console.log('leftDrawerOpen', leftDrawerOpen)
       },
       modalOpened,
       toggleAuthModal,
       user,
-      modalTitle
+      modalTitle,
+      logout
     }
   }
 })

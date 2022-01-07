@@ -7,8 +7,6 @@ const mutation: MutationTree<AxiosModel> = {
   },
 
   clearErrors ( state: AxiosModel, data ) {
-    // state.error.errors = [];
-    // state.error.message = '';
     return state.error = {
       errors: [],
       message: ''

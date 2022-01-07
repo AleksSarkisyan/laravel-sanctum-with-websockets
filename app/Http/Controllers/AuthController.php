@@ -34,6 +34,11 @@ class AuthController extends Controller
     return $userService->register($request);
   }
 
+  public function logout(Request $request, UserService $userService)
+  {
+    return $userService->logout($request);
+  }
+
   public function getUser(Request $request)
   {
     return $request->user()->only(['name', 'email']);

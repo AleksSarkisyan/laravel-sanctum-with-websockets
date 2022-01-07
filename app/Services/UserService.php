@@ -6,6 +6,7 @@ use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Requests\LoginUserRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
@@ -29,25 +30,22 @@ class UserService
     try {
       $credentials = $request->validated();
 
-      $credentials['password'] = md5($credentials['password']);
+      $hashedPassword = Hash::make($credentials['password']);
 
-
-
-      $user = User::firstOrCreate([
+      User::firstOrCreate([
         'email' => $credentials['email'],
         'name' => $credentials['email'],
-        'password' => $credentials['password']
+        'password' => $hashedPassword
       ]);
-
-      // return response()->json([
-      //   'user' => $user
-      // ]);
-
-      //$request->session()->regenerate();
 
       return $this->responseGeneric(true, 'OK', 200);
     } catch (\Exception $e) {
       return $this->responseError($e->getMessage(), 400);
     }
+  }
+
+  public function logout($request)
+  {
+    return Auth::guard('web')->logout();
   }
 }

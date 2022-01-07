@@ -6,6 +6,12 @@ const mutation: MutationTree<UserModel> = {
     return state.user = data;
   },
 
+  resetUser ( state: UserModel, data ) {
+    state.user = state.initialUserState;
+
+    return state.user;
+  },
+
 };
 
 export default mutation;

@@ -15,6 +15,14 @@ const actions: ActionTree<UserModel, StateInterface> = {
     }
   },
 
+  resetUser (context) {
+    try {
+      context.commit('resetUser', null)
+    } catch (error) {
+      console.log('encountered error', error);
+    }
+  },
+
 };
 
 

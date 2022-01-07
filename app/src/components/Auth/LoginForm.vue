@@ -9,14 +9,14 @@
           autocomplete="off"
           v-model="email"
         />
-        <span v-if="axiosErrors.message"> {{ axiosErrors.errors.email[0] }} </span>
+        <span v-if="axiosErrors.message && axiosErrors.errors.email[0]"> {{ axiosErrors.errors.email[0] }} </span>
         <input
           type="password"
           placeholder="Password"
           autocomplete="off"
           v-model="password"
         />
-        <span v-if="axiosErrors.message"> {{ axiosErrors.errors.password[0] }} </span>
+        <span v-if="axiosErrors.message && axiosErrors.errors.password[0]"> {{ axiosErrors.errors.password[0] }} </span>
         <q-btn
           color="primary"
           @click="toggleAuthModal"

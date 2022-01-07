@@ -1,4 +1,4 @@
-import { UserType, UserModel } from "@/src/components/models";
+import { UserModel } from "@/src/components/models";
 
 function state(): UserModel {
   return {
@@ -6,6 +6,10 @@ function state(): UserModel {
       name: '',
       email: '',
     },
+    initialUserState: {
+      name: '',
+      email: '',
+    }
 
   }
 };

@@ -15,26 +15,22 @@ export default function useAuth(formData: LoginFormData|null = null) {
   let modalTitle = ref('');
 
   const toggleAuthModal = (action: string) => {
-    console.log('action', action)
     modalTitle.value = action;
     modalOpened.value = !modalOpened.value;
     store.dispatch('axios/clearErrors');
   }
 
   const authenticate = async (action: string) => {
-    console.log('action is', action)
     const data = {
       email: formData?.email.value,
       password: formData?.password.value
     }
 
-    if(action == API_PATHS.LOGIN) {
-      await post(API_PATHS.LOGIN, data);
-    } else {
-      console.log('register new user...')
+    if(action == API_PATHS.REGISTER) {
       await post(API_PATHS.REGISTER, data);
     }
 
+    await post(API_PATHS.LOGIN, data);
     await store.dispatch('user/getUser');
   }
 
@@ -42,12 +38,19 @@ export default function useAuth(formData: LoginFormData|null = null) {
     return store.getters['user/getUser'];
   });
 
+  const logout = async () => {
+    localStorage.removeItem('vuex');
+    store.dispatch('user/resetUser');
+    await post(API_PATHS.LOGOUT);
+  }
+
   return {
     modalOpened,
     toggleAuthModal,
     authenticate,
     user,
-    modalTitle
+    modalTitle,
+    logout
   };
 
 }
