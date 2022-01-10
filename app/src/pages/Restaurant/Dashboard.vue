@@ -1,9 +1,26 @@
 <template>
-  <div v-if="user && user.email" class="dashboard">
+  <div>
+    <h4 class="total-restaurants">You have  {{ user.restaurants && user.restaurants.length }} restaurants </h4>
+    <div v-if="hasRestaurants" class="dashboard row">
+      <div v-for="restaurant in user.restaurants" :key="restaurant.id" class="q-pa-md items-start q-gutter-md col-6">
+        <q-card class="my-card">
+          <img src="https://cdn.quasar.dev/img/mountains.jpg">
 
-    Logged in with email - {{ user.email }}
-    <p>You have  {{ user.restaurants && user.restaurants.length }} restaurants </p>
+          <q-card-section>
+            <div class="text-h6">Name: {{ restaurant.name }}</div>
+            <div class="text-subtitle2">City: {{ restaurant.city }}</div>
+            <q-btn
+              color="primary" label="Manage"
+              @click="manageRestaurant(restaurant.id)"
+            />
+          </q-card-section>
 
+          <q-card-section class="q-pt-none">
+            {{ lorem }}
+          </q-card-section>
+        </q-card>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -24,11 +41,17 @@ export default defineComponent({
   computed: {
     user() {
       return this.$store.getters['restaurantUser/getUser'];
+    },
+
+    hasRestaurants() {
+      return this.user && this.user.restaurants && this.user.restaurants.length;
     }
   },
 
   methods: {
-
+    manageRestaurant(id: number){
+      this.$router.push(`/restaurant/edit/${id}`)
+    }
   },
 
   created() {
@@ -39,9 +62,11 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.content {
+.dashboard {
   display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
+}
+
+.total-restaurants {
+  padding-left: 15px;
 }
 </style>

@@ -13,7 +13,9 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/MainLayoutRestaurants.vue'),
     children: [
       { path: 'login', component: () => import('pages/Restaurant/RestaurantLogin.vue') },
-      { path: 'dashboard', component: () => import('pages/Restaurant/Dashboard.vue') }
+      { path: 'dashboard', component: () => import('pages/Restaurant/Dashboard.vue') },
+      { path: 'edit/:id', component: () => import('pages/Restaurant/Edit.vue') },
+      { path: 'menus', component: () => import('pages/Restaurant/Menus/List.vue') }
     ],
   },
 

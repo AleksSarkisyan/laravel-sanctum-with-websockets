@@ -3,7 +3,7 @@
     <q-header elevated>
       <q-toolbar>
         <q-btn
-          v-if="true"
+          v-if="essentialLinks.length"
           flat
           dense
           round
@@ -26,6 +26,7 @@
     </q-header>
 
     <q-drawer
+      v-if="leftDrawerOpened"
       v-model="leftDrawerOpened"
       show-if-above
       bordered
@@ -41,6 +42,7 @@
           v-for="link in essentialLinks"
           :key="link.title"
           v-bind="link"
+          @click="toggleLeftDrawer()"
         />
 
       </q-list>
@@ -67,7 +69,11 @@ export default defineComponent({
 
   data(){
     return {
-      leftDrawerOpened: false
+      leftDrawerOpened: false,
+      essentialLinks: [
+        { title: 'Dashboard', caption: 'Manage your restaurants', link: 'restaurant/dashboard', icon: '' },
+        { title: 'Menus', caption: 'Manage your menus', link: 'restaurant/menus', icon: '' }
+      ]
     }
   },
 
@@ -82,7 +88,7 @@ export default defineComponent({
       localStorage.removeItem('vuex');
       this.$store.dispatch('restaurantUser/resetUser');
       await api.post('admin/restaurant/logout');
-      this.$router.push('/');
+      this.$router.push('/restaurant/login');
     },
 
     toggleLeftDrawer() {
