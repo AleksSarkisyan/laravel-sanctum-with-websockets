@@ -38,14 +38,8 @@ export default defineComponent({
   methods: {
     async getRestaurants() {
       let result = await get('restaurants')
-      console.log(' result',  result?.data.restaurants)
-
       return result?.data.restaurants;
     }
-  },
-
-  created() {
-
   },
 
   async mounted() {

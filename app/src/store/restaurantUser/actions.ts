@@ -8,13 +8,8 @@ const actions: ActionTree<RestaurantUserModel, StateInterface> = {
 
   async getUser (context, payload) {
     try {
-      console.log('from restaurantgetUser...', context)
-      console.log('from restaurantgetUser payload', payload)
       let result = await axios.post(url+API_PATHS.RESTAURANT_USER_LOGIN, payload);
-
-      console.log('got result...', result)
       context.commit('setUser', result.data.data)
-
     } catch (error) {
       console.log('encountered error', error);
     }

@@ -3,7 +3,7 @@
     <q-header elevated>
       <q-toolbar>
         <q-btn
-          v-if="false"
+          v-if="true"
           flat
           dense
           round
@@ -26,8 +26,7 @@
     </q-header>
 
     <q-drawer
-      v-if="false"
-      v-model="leftDrawerOpen"
+      v-model="leftDrawerOpened"
       show-if-above
       bordered
     >
@@ -35,7 +34,7 @@
         <q-item-label
           header
         >
-          Essential Links
+          Links
         </q-item-label>
 
         <EssentialLink
@@ -66,6 +65,12 @@ export default defineComponent({
     EssentialLink
   },
 
+  data(){
+    return {
+      leftDrawerOpened: false
+    }
+  },
+
   computed: {
     user() {
       return this.$store.getters['restaurantUser/getUser'];
@@ -78,15 +83,13 @@ export default defineComponent({
       this.$store.dispatch('restaurantUser/resetUser');
       await api.post('admin/restaurant/logout');
       this.$router.push('/');
+    },
+
+    toggleLeftDrawer() {
+      this.leftDrawerOpened = !this.leftDrawerOpened;
     }
   },
 
-  created() {
-    if(  this.user) {
-      console.log('got user', this.user.name)
-    }
-
-  }
 
 })
 </script>

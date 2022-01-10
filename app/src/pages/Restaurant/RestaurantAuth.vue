@@ -5,25 +5,20 @@
       :restaurantAuthModalOpened="restaurantAuthModalOpened"
       @closeRestaurantRegistrationModal="toggleRestaurantAuthModal"
       @restaurantRegistration="onRestaurantRegistration"
-     />
-
+    />
   </div>
 </template>
 
 <script lang="ts">
+
 import { defineComponent } from 'vue';
 import RestaurantRegistrationForm from '../../components/Auth/RestaurantRegistrationForm.vue';
-import useAxios from '../../hooks/useAxios.vue';
 import { api } from '../../boot/axios'
-
-const { post } = { ...useAxios() };
 
 export default defineComponent({
   name: 'RestaurantAuth',
   components: { RestaurantRegistrationForm },
-  props: {
 
-  },
   data(){
     return {
       restaurantAuthModalOpened: false
@@ -45,15 +40,8 @@ export default defineComponent({
         console.log('error is', error)
         this.$store.dispatch('axios/setErrors', error);
       }
-
     }
-
-  },
-
-  computed: {
-
-  },
-
+  }
 
 });
 

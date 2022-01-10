@@ -37,9 +37,7 @@ export default defineComponent({
       type: Object
     }
   },
-  mounted() {
-    console.log('this.user is', this.user)
-  }
+
 });
 </script>
 
