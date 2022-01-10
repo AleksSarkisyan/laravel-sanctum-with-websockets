@@ -85,3 +85,29 @@ small {
     // padding-right: 0.3em;
   }
 }
+
+.danger {
+  color: red;
+}
+
+.top-nav.auth {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.top-nav.auth .hover {
+  cursor: pointer;
+}
+
+.top-nav.auth .restaurant {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.top-nav.auth .regular {
+  width: 100%;
+  text-align: right;
+}

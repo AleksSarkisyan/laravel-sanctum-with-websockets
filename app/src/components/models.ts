@@ -29,12 +29,18 @@ export type UserModel = {
   initialUserState: UserType,
 }
 
+export type RestaurantUserModel = {
+  user: UserType,
+  initialUserState: UserType,
+}
+
 export enum API_PATHS {
   SANCTUM_COOKIE = 'sanctum/csrf-cookie',
   LOGIN = 'login',
   LOGOUT = 'logout',
   REGISTER = 'register',
-  USER = 'api/user'
+  USER = 'api/user',
+  RESTAURANT_USER_LOGIN = 'admin/restaurant/login'
 }
 
 export type AxiosCall = {

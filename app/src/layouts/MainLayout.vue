@@ -12,18 +12,28 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title>
-          Food App
-        </q-toolbar-title>
+       <div>
+          <q-toolbar-title>
+            Food App
+          </q-toolbar-title>
+       </div>
 
-        <div v-if="!user.name">
-          <span @click="toggleAuthModal('login')">Login </span>
-          <span @click="toggleAuthModal">| </span>
-          <span @click="toggleAuthModal('register')">Register</span>
-        </div>
-        <div v-else> Hi, {{ user.name }}
+        <div class="top-nav auth">
+          <!-- Restaurant user auth -->
 
-          <span @click="logout">| Logout</span>
+          <div class="restaurant">
+            <RestaurantAuth />
+          </div>
+
+          <!-- Regular user auth -->
+          <div class="regular" v-if="!user.name">
+            <span class="hover" @click="toggleAuthModal('login')">Login </span>
+            <span @click="toggleAuthModal">| </span>
+            <span class="hover" @click="toggleAuthModal('register')">Register</span>
+          </div>
+          <div v-else> Hi, {{ user.name }}
+            <span @click="logout">| Logout</span>
+          </div>
         </div>
 
       </q-toolbar>
@@ -71,13 +81,15 @@ import EssentialLink from '../components/EssentialLink.vue'
 import useAuth from '../hooks/useAuth.vue';
 import { defineComponent, ref, watch } from 'vue'
 import LoginForm from '../components/Auth/LoginForm.vue';
+import RestaurantAuth from '../pages/Restaurant/RestaurantAuth.vue';
 
 export default defineComponent({
   name: 'MainLayout',
 
   components: {
     EssentialLink,
-    LoginForm
+    LoginForm,
+    RestaurantAuth
   },
 
   setup () {
@@ -107,3 +119,8 @@ export default defineComponent({
   }
 })
 </script>
+
+
+<style scoped>
+
+</style>

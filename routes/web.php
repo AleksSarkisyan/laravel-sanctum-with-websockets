@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TestController;
-use App\Http\Controllers\TestControllerInterface;
+use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\RestaurantAuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +19,26 @@ use App\Http\Controllers\TestControllerInterface;
 */
 
 Route::post('register', [AuthController::class, 'register']);
+Route::post('register-restaurant', [RestaurantAuthController::class, 'registerRestaurant']);
 Route::post('login', [AuthController::class, 'authenticate']);
 Route::post('logout', [AuthController::class, 'logout']);
 Route::get('test', [TestController::class, 'test']);
+
+
+Route::prefix('restaurants')->group(function () {
+    Route::get('/', [RestaurantController::class, 'get']);
+});
+
+Route::post('/admin/restaurant/login', [RestaurantAuthController::class, 'loginRestaurant']);
+
+Route::group(['middleware' => ['auth:restaurant']], function () {
+    Route::prefix('admin')->group(function () {
+        Route::prefix('restaurant')->group(function () {
+            // Route::post('/login', [RestaurantAuthController::class, 'loginRestaurant']);
+            Route::post('/logout', [RestaurantAuthController::class, 'logout']);
+        });
+    });
+});
 
 Route::get('/', function () {
     return view('welcome');

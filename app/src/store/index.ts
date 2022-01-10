@@ -8,6 +8,7 @@ import {
 import { UserType, AxiosModel } from '../components/models';
 import exampleModule from './module-example';
 import userModule from './user';
+import restaurantUserModel from './restaurantUser';
 import axiosModule from './axios';
 import createdPersistedState from 'vuex-persistedstate'
 
@@ -47,6 +48,7 @@ export default store(function (/* { ssrContext } */) {
     modules: {
       example: exampleModule,
       user: userModule,
+      restaurantUser: restaurantUserModel,
       axios: axiosModule
     },
 

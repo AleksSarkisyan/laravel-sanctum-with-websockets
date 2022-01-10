@@ -24,7 +24,7 @@ trait ResponseTrait
   {
     return response()->json([
       'success' => $success,
-      'error' => $message,
+      'message' => $message,
       'code' => $code
     ], $code);
   }
