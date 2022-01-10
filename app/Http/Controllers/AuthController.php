@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Traits\ResponseTrait;
 use App\Requests\LoginUserRequest;
-use App\Services\UserService;
 use Illuminate\Http\Request;
+use App\Contracts\UserServiceContract;
 
 class AuthController extends Controller
 {
@@ -18,9 +18,9 @@ class AuthController extends Controller
    * @param  \Illuminate\Http\Request $request
    * @return \Illuminate\Http\Response
    */
-  public function authenticate(LoginUserRequest $request, UserService $userService)
+  public function login(LoginUserRequest $request, UserServiceContract $userService)
   {
-    return $userService->authenticate($request);
+    return $userService->login($request);
   }
 
   /**
@@ -29,12 +29,12 @@ class AuthController extends Controller
    * @param  \Illuminate\Http\Request $request
    * @return \Illuminate\Http\Response
    */
-  public function register(LoginUserRequest $request, UserService $userService)
+  public function register(LoginUserRequest $request, UserServiceContract $userService)
   {
     return $userService->register($request);
   }
 
-  public function logout(Request $request, UserService $userService)
+  public function logout(Request $request, UserServiceContract $userService)
   {
     return $userService->logout($request);
   }

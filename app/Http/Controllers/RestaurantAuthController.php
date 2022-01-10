@@ -5,12 +5,11 @@ namespace App\Http\Controllers;
 use App\Traits\ResponseTrait;
 use App\Requests\LoginUserRequest;
 use App\Requests\RestaurantRegistrationRequest;
-use App\Services\UserService;
+use App\Contracts\RestaurantUserServiceContract;
 use Illuminate\Http\Request;
 
 class RestaurantAuthController extends Controller
 {
-
   use ResponseTrait;
 
   /**
@@ -19,18 +18,18 @@ class RestaurantAuthController extends Controller
    * @param  \Illuminate\Http\Request $request
    * @return \Illuminate\Http\Response
    */
-  public function registerRestaurant(RestaurantRegistrationRequest $request, UserService $userService)
+  public function register(RestaurantRegistrationRequest $request, RestaurantUserServiceContract $restaurantUserService)
   {
-    return $userService->restaurantRegistration($request);
+    return $restaurantUserService->register($request);
   }
 
-  public function loginRestaurant(LoginUserRequest $request, UserService $userService)
+  public function login(LoginUserRequest $request, RestaurantUserServiceContract $restaurantUserService)
   {
-    return $userService->restaurantLogin($request);
+    return $restaurantUserService->login($request);
   }
 
-  public function logout(Request $request, UserService $userService)
+  public function logout(Request $request, RestaurantUserServiceContract $restaurantUserService)
   {
-    return $userService->restaurantLogout($request);
+    return $restaurantUserService->logout($request);
   }
 }

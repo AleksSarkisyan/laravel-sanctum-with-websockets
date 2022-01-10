@@ -4,6 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Services\UserService;
+use App\Services\RestaurantUserService;
+use App\Contracts\RestaurantUserServiceContract;
+use App\Contracts\UserServiceContract;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,9 +17,15 @@ class AppServiceProvider extends ServiceProvider
    */
   public function register()
   {
-    $this->app->singleton(UserService::class, function ($request) {
-      return new UserService($request);
-    });
+    $this->app->singleton(
+      UserServiceContract::class,
+      UserService::class
+    );
+
+    $this->app->singleton(
+      RestaurantUserServiceContract::class,
+      RestaurantUserService::class
+    );
   }
 
   /**
