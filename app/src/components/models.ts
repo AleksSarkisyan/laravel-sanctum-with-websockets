@@ -24,6 +24,12 @@ export type UserType = {
   email: string;
 }
 
+export type MenusType = {
+  name: string;
+  description: string;
+  isActive: boolean;
+}
+
 export type UserModel = {
   user: UserType,
   initialUserState: UserType,
@@ -34,13 +40,18 @@ export type RestaurantUserModel = {
   initialUserState: UserType,
 }
 
+export type MenusModel = {
+  menus: MenusType[],
+}
+
 export enum API_PATHS {
   SANCTUM_COOKIE = 'sanctum/csrf-cookie',
   LOGIN = 'login',
   LOGOUT = 'logout',
   REGISTER = 'register',
   USER = 'api/user',
-  RESTAURANT_USER_LOGIN = 'admin/restaurant/login'
+  RESTAURANT_USER_LOGIN = 'admin/restaurant/login',
+  RESTAURANT_GET_USER_MENUES = 'admin/restaurant/menu/get-all'
 }
 
 export type AxiosCall = {

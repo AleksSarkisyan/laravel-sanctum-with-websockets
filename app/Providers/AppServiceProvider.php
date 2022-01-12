@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Contracts\MenuServiceContract;
 use Illuminate\Support\ServiceProvider;
 use App\Services\UserService;
 use App\Services\RestaurantUserService;
 use App\Contracts\RestaurantUserServiceContract;
 use App\Contracts\UserServiceContract;
+use App\Services\MenuService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +27,11 @@ class AppServiceProvider extends ServiceProvider
     $this->app->singleton(
       RestaurantUserServiceContract::class,
       RestaurantUserService::class
+    );
+
+    $this->app->singleton(
+      MenuServiceContract::class,
+      MenuService::class
     );
   }
 

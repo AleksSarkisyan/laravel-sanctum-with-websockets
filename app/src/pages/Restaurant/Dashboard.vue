@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h4 class="total-restaurants">You have  {{ user.restaurants && user.restaurants.length }} restaurants </h4>
-    <div v-if="hasRestaurants" class="dashboard row">
+  <div v-if="hasRestaurants">
+    <!-- <h4 class="total-restaurants">You have  {{ user.restaurants && user.restaurants.length }} restaurants </h4> -->
+    <div class="dashboard row">
       <div v-for="restaurant in user.restaurants" :key="restaurant.id" class="q-pa-md items-start q-gutter-md col-6">
         <q-card class="my-card">
           <img src="https://cdn.quasar.dev/img/mountains.jpg">
@@ -43,8 +43,8 @@ export default defineComponent({
       return this.$store.getters['restaurantUser/getUser'];
     },
 
-    hasRestaurants() {
-      return this.user && this.user.restaurants && this.user.restaurants.length;
+    hasRestaurants(): any {
+      return this.user;
     }
   },
 

@@ -111,3 +111,18 @@ small {
   width: 100%;
   text-align: right;
 }
+
+.menu {
+  text-align: center;
+}
+
+.menu form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: auto;
+}
+
+.menu form input {
+  margin-bottom: 10px;
+}

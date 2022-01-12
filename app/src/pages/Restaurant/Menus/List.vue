@@ -1,7 +1,24 @@
 <template>
-  <div v-if="menus && menus.length" class="dashboard">
+  <div v-if="menus && menus.length" class="menu-list">
 
-    Manage your menus
+    <h3>Manage your menus - {{ menus.length }}</h3>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Menu Name</th>
+        <th>Description</th>
+        <th>Is Active</th>
+        <th>Edit</th>
+      </tr>
+      <tr v-for="menu in menus" :key="menu.id">
+        <td>{{ menu.id }}</td>
+        <td>{{ menu.name }}</td>
+        <td>{{ menu.description }}</td>
+        <td>{{ menu.is_active ? 'Active' : 'Inactive' }}</td>
+        <td @click="editMenu(menu.id)">Edit</td>
+      </tr>
+
+</table>
 
   </div>
 </template>
@@ -22,21 +39,45 @@ export default defineComponent({
 
   computed: {
     menus(){
-      return null;
+      return this.$store.getters['menus/getAllById'];;
     }
   },
 
   methods: {
-
+    async getMenus() {
+      await this.$store.dispatch('menus/getAllById');
+    },
+    editMenu(id: number) {
+      this.$router.push(`/restaurant/menu/update/${id}`);
+    }
   },
 
-  created() {
+  async mounted() {
+    await this.getMenus();
 
+    console.log(this.menus)
   }
 
 });
 </script>
 
 <style scoped>
+.menu-list {
+  padding: 15px;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
 
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
 </style>

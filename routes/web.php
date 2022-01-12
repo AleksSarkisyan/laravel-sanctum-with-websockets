@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\RestaurantAuthController;
-
+use App\Http\Controllers\MenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +35,15 @@ Route::group(['middleware' => ['auth:restaurant']], function () {
     Route::prefix('admin')->group(function () {
         Route::prefix('restaurant')->group(function () {
             Route::post('/logout', [RestaurantAuthController::class, 'logout']);
+            Route::post('/get', [RestaurantController::class, 'getById']);
+            Route::post('/update', [RestaurantController::class, 'update']);
+
+            Route::prefix('menu')->group(function () {
+                Route::get('/get', [MenuController::class, 'get']);
+                Route::get('/get-all', [MenuController::class, 'getAllById']);
+                Route::post('/create', [MenuController::class, 'create']);
+                Route::post('/save', [MenuController::class, 'save']);
+            });
         });
     });
 });

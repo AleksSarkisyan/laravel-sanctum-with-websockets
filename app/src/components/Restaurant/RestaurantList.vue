@@ -5,8 +5,8 @@
     </div>
     <div class="restaurant-listing">
         <div class="content">
-            <h3 class="name">{{ restaurant?.name }} - {{ restaurant?.city }}</h3>
-            <p class="info">The best food!</p>
+            <h3 class="name">{{ restaurant?.name }}</h3>
+            <p class="info"> {{ restaurant?.city }}</p>
             <!-- <p class="price">Average delivery time </p> -->
             <div class="btn-and-rating-box">
                 <div class="rating">
