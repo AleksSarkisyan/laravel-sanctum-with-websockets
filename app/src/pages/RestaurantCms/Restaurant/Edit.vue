@@ -28,7 +28,8 @@
 <script lang="ts">
 
 import { defineComponent } from 'vue';
-import { api } from '../../boot/axios';
+import { api } from '../../../boot/axios';
+import { API_PATHS } from '../../../components/models';
 
 export default defineComponent({
   name: 'Edit',
@@ -36,7 +37,7 @@ export default defineComponent({
 
   data() {
     return {
-      selectedMenu: null as any,
+      selectedMenu: { } as any,
       availableMenus: [] as any,
       restaurant: {} as any
     }
@@ -54,17 +55,13 @@ export default defineComponent({
     },
     async updateRestaurant() {
       let restaurantId = this.$route.params.restaurantId;
-      console.log('restaurantId', restaurantId)
-      console.log('selectedMenu', this.selectedMenu.value)
-      let restaurantMenu = await api.post('admin/restaurant/update', { params: { restaurantId, menuId: this.selectedMenu.value } });
 
-      console.log('restaurantMenu result', restaurantMenu)
+      await api.post(`${API_PATHS.RESTAURANT_CMS_PATH}/update`, { params: { restaurantId, menuId: this.selectedMenu.value } });
     },
     async getRestaurant() {
       let restaurantId = this.$route.params.restaurantId;
 
-      this.restaurant = await api.post('admin/restaurant/get', { params: { restaurantId: restaurantId } });
-      console.log('this.restaurant...', {...this.restaurant.data.restaurant})
+      this.restaurant = await api.post(`${API_PATHS.RESTAURANT_CMS_PATH}/get`, { params: { restaurantId: restaurantId } });
       this.selectedMenu = this.restaurant.data.restaurant.menu_id
     },
     redirect(path: string) {

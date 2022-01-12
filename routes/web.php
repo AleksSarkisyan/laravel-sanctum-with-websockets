@@ -24,7 +24,7 @@ Route::post('logout', [AuthController::class, 'logout']);
 
 /** Public routes for restaurant users */
 Route::post('register-restaurant', [RestaurantAuthController::class, 'register']);
-Route::post('/admin/restaurant/login', [RestaurantAuthController::class, 'login']);
+Route::post('/restaurant/login', [RestaurantAuthController::class, 'login']);
 
 Route::prefix('restaurants')->group(function () {
     Route::get('/', [RestaurantController::class, 'get']);
@@ -32,18 +32,16 @@ Route::prefix('restaurants')->group(function () {
 
 /** Protected routes for restaurant users */
 Route::group(['middleware' => ['auth:restaurant']], function () {
-    Route::prefix('admin')->group(function () {
-        Route::prefix('restaurant')->group(function () {
-            Route::post('/logout', [RestaurantAuthController::class, 'logout']);
-            Route::post('/get', [RestaurantController::class, 'getById']);
-            Route::post('/update', [RestaurantController::class, 'update']);
+    Route::prefix('restaurant-cms')->group(function () {
+        Route::post('/logout', [RestaurantAuthController::class, 'logout']);
+        Route::post('/get', [RestaurantController::class, 'getById']);
+        Route::post('/update', [RestaurantController::class, 'update']);
 
-            Route::prefix('menu')->group(function () {
-                Route::get('/get', [MenuController::class, 'get']);
-                Route::get('/get-all', [MenuController::class, 'getAllById']);
-                Route::post('/create', [MenuController::class, 'create']);
-                Route::post('/save', [MenuController::class, 'save']);
-            });
+        Route::prefix('menu')->group(function () {
+            Route::get('/get', [MenuController::class, 'get']);
+            Route::get('/get-all', [MenuController::class, 'getAllById']);
+            Route::post('/create', [MenuController::class, 'create']);
+            Route::post('/save', [MenuController::class, 'save']);
         });
     });
 });

@@ -67,7 +67,8 @@
 <script lang="ts">
 
 import { defineComponent } from 'vue';
-import { api } from '../../../boot/axios'
+import { api } from '../../../boot/axios';
+import { API_PATHS } from '../../../components/models';
 
 export default defineComponent({
   name: 'Update',
@@ -97,34 +98,26 @@ export default defineComponent({
 
   methods: {
     async updateMenu() {
-      let result = await api.post('admin/restaurant/menu/update', { ...this.updateMenuFormData });
-
-      console.log('update result is', result)
+      let result = await api.post(`${API_PATHS.RESTAURANT_CMS_PATH}/menu/update`, { ...this.updateMenuFormData });
     },
 
     async saveMenu() {
-      console.log('this.menu.pro', { ...this.menu.products })
       let menuId = this.$route.params.menuId;
       let productIds = { ...this.menu.products }
-      let saveMenu = await api.post('admin/restaurant/menu/save', { params: { menuId, productIds } });
-
-      console.log('saveMenu result', { ...saveMenu })
+      await api.post(`${API_PATHS.RESTAURANT_CMS_PATH}/menu/save`, { params: { menuId, productIds } });
     }
   },
 
   async mounted() {
-    console.log('this.$route.params', this.$route.params.menuId)
     if (!this.$route.params.menuId) {
       this.$router.push('/restaurant/dashboard')
     }
 
     let menuId = this.$route.params.menuId;
-    let menu = await api.get('admin/restaurant/menu/get', { params: { menuId } });
+    let menu = await api.get(`${API_PATHS.RESTAURANT_CMS_PATH}/menu/get`, { params: { menuId } });
 
-    console.log('menu is', menu)
     this.products = menu.data.products
     this.updateMenuFormData = { ...menu.data.menu }
-
     this.menu.products = menu.data.productIds;
   },
 

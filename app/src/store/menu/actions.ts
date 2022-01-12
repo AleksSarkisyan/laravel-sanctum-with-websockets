@@ -9,7 +9,6 @@ const actions: ActionTree<MenusModel, StateInterface> = {
   async getAllById (context) {
     try {
       let result = await axios.get(url+API_PATHS.RESTAURANT_GET_USER_MENUES);
-      console.log('got result', result)
       context.commit('setMenus', result.data.data)
     } catch (error) {
       console.log('encountered error', error);

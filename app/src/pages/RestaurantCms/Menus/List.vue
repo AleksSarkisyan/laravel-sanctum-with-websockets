@@ -54,8 +54,6 @@ export default defineComponent({
 
   async mounted() {
     await this.getMenus();
-
-    console.log(this.menus)
   }
 
 });

@@ -50,8 +50,9 @@ export enum API_PATHS {
   LOGOUT = 'logout',
   REGISTER = 'register',
   USER = 'api/user',
-  RESTAURANT_USER_LOGIN = 'admin/restaurant/login',
-  RESTAURANT_GET_USER_MENUES = 'admin/restaurant/menu/get-all'
+  RESTAURANT_USER_LOGIN = 'restaurant/login',
+  RESTAURANT_GET_USER_MENUES = 'restaurant-cms/menu/get-all',
+  RESTAURANT_CMS_PATH = 'restaurant-cms',
 }
 
 export type AxiosCall = {
@@ -72,4 +73,32 @@ export type AxiosErrors = {
 
 export type AxiosModel = {
   error: AxiosErrors
+}
+
+export interface EditRestaurantComponentData {
+  selectedMenu: number | SelectedMenuProps;
+  availableMenus: AvailableMenusProps[];
+  restaurant: Restaurant;
+}
+
+export interface AvailableMenusProps {
+  label: string;
+  value: number;
+}
+
+export interface SelectedMenuProps {
+  value: number;
+}
+
+export type Restaurant = {
+  data: {
+    restaurant: {
+      id: number;
+      user_id: number;
+      menu_id: number;
+      name: string;
+      city: string;
+    }
+  }
+
 }

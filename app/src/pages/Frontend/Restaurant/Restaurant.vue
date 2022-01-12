@@ -14,8 +14,8 @@
 <script lang="ts">
 
 import { defineComponent } from 'vue'
-import RestaurantList  from "../../components/Restaurant/RestaurantList.vue";
-import useAxios from '../../hooks/useAxios.vue';
+import RestaurantList  from "../../../components/Restaurant/RestaurantList.vue";
+import useAxios from '../../../hooks/useAxios.vue';
 
 const { get } = { ...useAxios()};
 

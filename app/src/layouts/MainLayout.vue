@@ -22,7 +22,7 @@
           <!-- Restaurant user auth -->
 
           <div class="restaurant">
-            <RestaurantAuth />
+            <RestaurantRegistration />
           </div>
 
           <!-- Regular user auth -->
@@ -81,7 +81,7 @@ import EssentialLink from '../components/EssentialLink.vue'
 import useAuth from '../hooks/useAuth.vue';
 import { defineComponent, ref, watch } from 'vue'
 import LoginForm from '../components/Auth/LoginForm.vue';
-import RestaurantAuth from '../pages/Restaurant/RestaurantAuth.vue';
+import RestaurantRegistration from '../pages/Frontend/Restaurant/RestaurantRegistration.vue';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -89,7 +89,7 @@ export default defineComponent({
   components: {
     EssentialLink,
     LoginForm,
-    RestaurantAuth
+    RestaurantRegistration
   },
 
   setup () {

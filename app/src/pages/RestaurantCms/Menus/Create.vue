@@ -33,6 +33,7 @@
 
 import { defineComponent } from 'vue';
 import { api } from '../../../boot/axios'
+import { API_PATHS } from '../../../components/models';
 
 export default defineComponent({
   name: 'Create',
@@ -56,7 +57,7 @@ export default defineComponent({
   methods: {
     async createMenu() {
       try {
-        let result = await api.post('admin/restaurant/menu/create', { ...this.createMenuFormData });
+        let result = await api.post(`${API_PATHS.RESTAURANT_CMS_PATH}/menu/create`, { ...this.createMenuFormData });
         let menuId = result.data.result.id;
         this.$router.push(`/restaurant/menu/update/${menuId}`);
       } catch (error) {

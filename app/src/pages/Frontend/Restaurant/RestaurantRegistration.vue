@@ -12,11 +12,11 @@
 <script lang="ts">
 
 import { defineComponent } from 'vue';
-import RestaurantRegistrationForm from '../../components/Auth/RestaurantRegistrationForm.vue';
-import { api } from '../../boot/axios'
+import RestaurantRegistrationForm from '../../../components/Auth/RestaurantRegistrationForm.vue';
+import { api } from '../../../boot/axios'
 
 export default defineComponent({
-  name: 'RestaurantAuth',
+  name: 'RestaurantRegistration',
   components: { RestaurantRegistrationForm },
 
   data(){

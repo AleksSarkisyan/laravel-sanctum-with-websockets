@@ -9,7 +9,7 @@
 <script lang="ts">
 
 import { defineComponent } from 'vue';
-import RestaurantLoginForm from '../../components/Auth/RestaurantLoginForm.vue';
+import RestaurantLoginForm from '../../../components/Auth/RestaurantLoginForm.vue';
 
 export default defineComponent({
   name: 'RestaurantLogin',

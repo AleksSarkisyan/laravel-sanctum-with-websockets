@@ -5,19 +5,19 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Restaurant/Restaurant.vue') },
+      { path: '', component: () => import('pages/Frontend/Restaurant/Restaurant.vue') },
     ],
   },
   {
     path: '/restaurant',
     component: () => import('layouts/MainLayoutRestaurants.vue'),
     children: [
-      { path: 'login', component: () => import('pages/Restaurant/RestaurantLogin.vue') },
-      { path: 'dashboard', component: () => import('pages/Restaurant/Dashboard.vue') },
-      { path: 'edit/:restaurantId', component: () => import('pages/Restaurant/Edit.vue') },
-      { path: 'menus', component: () => import('pages/Restaurant/Menus/List.vue') },
-      { path: 'menu/create', component: () => import('pages/Restaurant/Menus/Create.vue') },
-      { path: 'menu/update/:menuId', component: () => import('pages/Restaurant/Menus/Update.vue') }
+      { path: 'login', component: () => import('pages/RestaurantCms/Restaurant/RestaurantLogin.vue') },
+      { path: 'dashboard', component: () => import('pages/RestaurantCms/Restaurant/Dashboard.vue') },
+      { path: 'edit/:restaurantId', component: () => import('pages/RestaurantCms/Restaurant/Edit.vue') },
+      { path: 'menus', component: () => import('pages/RestaurantCms/Menus/List.vue') },
+      { path: 'menu/create', component: () => import('pages/RestaurantCms/Menus/Create.vue') },
+      { path: 'menu/update/:menuId', component: () => import('pages/RestaurantCms/Menus/Update.vue') }
     ],
   },
 

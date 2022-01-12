@@ -58,7 +58,8 @@
 <script lang="ts">
 import EssentialLink from '../components/EssentialLink.vue'
 import { defineComponent } from 'vue';
-import { api } from '../boot/axios'
+import { api } from '../boot/axios';
+import { API_PATHS } from '../components/models';
 
 export default defineComponent({
   name: 'MainLayoutRestaurants',
@@ -88,7 +89,7 @@ export default defineComponent({
     async logout()  {
       localStorage.removeItem('vuex');
       this.$store.dispatch('restaurantUser/resetUser');
-      await api.post('admin/restaurant/logout');
+      await api.post(`${API_PATHS.RESTAURANT_CMS_PATH}/logout`);
       this.$router.push('/restaurant/login');
     },
 

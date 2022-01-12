@@ -1,6 +1,5 @@
 <template>
   <div v-if="hasRestaurants">
-    <!-- <h4 class="total-restaurants">You have  {{ user.restaurants && user.restaurants.length }} restaurants </h4> -->
     <div class="dashboard row">
       <div v-for="restaurant in user.restaurants" :key="restaurant.id" class="q-pa-md items-start q-gutter-md col-6">
         <q-card class="my-card">
@@ -43,8 +42,8 @@ export default defineComponent({
       return this.$store.getters['restaurantUser/getUser'];
     },
 
-    hasRestaurants(): any {
-      return this.user;
+    hasRestaurants(): string {
+      return this.user.name;
     }
   },
 
@@ -53,10 +52,6 @@ export default defineComponent({
       this.$router.push(`/restaurant/edit/${id}`)
     }
   },
-
-  created() {
-
-  }
 
 });
 </script>
