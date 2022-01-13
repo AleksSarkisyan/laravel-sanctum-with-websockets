@@ -7,12 +7,11 @@
         <div class="content">
             <h3 class="name">{{ restaurant?.name }}</h3>
             <p class="info"> {{ restaurant?.city }}</p>
-            <!-- <p class="price">Average delivery time </p> -->
             <div class="btn-and-rating-box">
                 <div class="rating">
 
                 </div>
-                <button class="btn" :disabled="!user.name">View menu</button>
+                <button @click="getMenu(restaurant)" class="btn" :disabled="false">View menu</button>
             </div>
         </div>
     </div>
@@ -37,6 +36,14 @@ export default defineComponent({
       type: Object
     }
   },
+
+  emits: ['getMenu'],
+
+  methods: {
+    getMenu(restaurant: any) {
+      this.$emit('getMenu', restaurant)
+    }
+  }
 
 });
 </script>

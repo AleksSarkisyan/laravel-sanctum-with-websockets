@@ -57,7 +57,7 @@ export default defineComponent({
   },
   setup(props) {
     const email = ref('');
-    const password = ref('');
+    const password = ref('Test123!');
     const { modalOpened, toggleAuthModal, modalTitle } = toRefs(props);
 
     const formData: LoginFormData = {

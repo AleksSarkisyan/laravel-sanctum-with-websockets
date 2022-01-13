@@ -5,7 +5,11 @@
       v-for="restaurant in restaurants"
       :key="restaurant.id"
     >
-      <RestaurantList :restaurant="restaurant" :user="{ ...user }" />
+      <RestaurantList
+        :restaurant="restaurant"
+        :user="{ ...user }"
+        @getMenu="onGetMenu"
+      />
     </div>
 
   </div>
@@ -16,6 +20,7 @@
 import { defineComponent } from 'vue'
 import RestaurantList  from "../../../components/Restaurant/RestaurantList.vue";
 import useAxios from '../../../hooks/useAxios.vue';
+import { api } from '../../../boot/axios';
 
 const { get } = { ...useAxios()};
 
@@ -39,6 +44,9 @@ export default defineComponent({
     async getRestaurants() {
       let result = await get('restaurants')
       return result?.data.restaurants;
+    },
+    async onGetMenu(restaurant: any) {
+      this.$router.push({ name: 'menu', path: `/menu/${restaurant.name}`, params: { ...restaurant }  })
     }
   },
 

@@ -28,6 +28,7 @@ Route::post('/restaurant/login', [RestaurantAuthController::class, 'login']);
 
 Route::prefix('restaurants')->group(function () {
     Route::get('/', [RestaurantController::class, 'get']);
+    Route::post('/get-menu', [RestaurantController::class, 'getRestaurantMenu']);
 });
 
 /** Protected routes for restaurant users */

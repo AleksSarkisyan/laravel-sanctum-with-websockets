@@ -126,3 +126,36 @@ small {
 .menu form input {
   margin-bottom: 10px;
 }
+
+.menu {
+  width: 100%;
+}
+.menu-card {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  justify-content: space-between;
+}
+
+.menu-card img {
+  width: 150px;
+}
+
+.menu-items {
+  width: 100%;
+}
+
+.menu-description {
+  display: flex;
+  align-items: center;
+}
+
+.product-name {
+  width: 300px;
+  text-align: left;
+  word-break: break-all;
+}
+
+.product-price {
+  text-align: left;
+}
