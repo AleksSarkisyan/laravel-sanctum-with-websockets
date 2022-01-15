@@ -70,7 +70,6 @@ class RestaurantUserService implements RestaurantUserServiceContract
     return response()->json([
       'data' => $user
     ]);
-    return $this->responseSuccess($user, 200);
   }
 
   public function logout(Request $request)

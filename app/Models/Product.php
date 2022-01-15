@@ -52,4 +52,9 @@ class Product extends Model
   {
     return $this->hasMany(MenuProduct::class, 'user_id');
   }
+
+  public function orderProducts()
+  {
+    return $this->hasMany(OrderProduct::class, 'product_id');
+  }
 }

@@ -1,5 +1,42 @@
 <template>
    <div class="q-pa-md">
+    <q-drawer
+      v-if="getTotalCartPrice > 0"
+      side="right"
+      v-model="cartDrawerOpen"
+      show-if-above
+      bordered
+    >
+      <q-list>
+        <q-item-label
+          header
+        >
+          Products
+        </q-item-label>
+
+        <div v-for="product in cartProducts" :key="product.data.id" class="cart">
+          <div class="product">
+            <span> {{product.data.quantity }} -  {{ product.data.name }}</span>
+            <span>{{ product.data.summedPrice ? product.data.summedPrice : 0 }} lv</span>
+          </div>
+        </div>
+
+        <hr />
+        <div class="total-price">
+          <span>Total Price</span>
+          <span>{{ getTotalCartPrice }} lv</span>
+        </div>
+
+        <q-btn @click="clearCart()" flat color="primary">
+          clear
+        </q-btn>
+
+        <q-btn @click="submitOrder()" flat color="primary">
+          Submit
+        </q-btn>
+
+      </q-list>
+    </q-drawer>
     <div class="q-gutter-y-md" style="">
       <q-card>
         <q-tabs
@@ -35,7 +72,7 @@
                       </q-card-section>
                   </div>
                   <q-card-actions>
-                    <q-btn :disabled="!user.name" @click="addToCart()" flat color="primary">
+                    <q-btn :disabled="!user.name" @click="addToCart(product)" flat color="primary">
                       Add to Cart
                     </q-btn>
                   </q-card-actions>
@@ -61,16 +98,30 @@ export default defineComponent({
 
   data() {
     return {
-      restaurant: { },
+      restaurant: { } as any,
       restaurantMenu: { },
-      testMenu: { } as any,
-      tab: ''
+      tab: '',
+      cartDrawerOpen: true,
     }
   },
 
   computed: {
     user() {
       return this.$store.getters['user/getUser'];
+    },
+
+    cartProducts() {
+      return this.$store.getters['cart/getCart'];
+    },
+
+    getProductItems() {
+      return this.$store.getters['cart/getProductItems'];
+    },
+    getTotalCartPrice() {
+      return this.$store.getters['cart/getTotalCartPrice'];
+    },
+    getTotalCartQuantity() {
+      return this.$store.getters['cart/getTotalCartQuantity']
     }
   },
 
@@ -80,16 +131,57 @@ export default defineComponent({
       this.restaurantMenu = { ...menu.data.menu }
       this.tab = menu.data.firstCategory
     },
-    async addToCart() {
-      console.log('to do')
+
+    addToCart(product: any) {
+      this.$store.dispatch('cart/updateCart', { ...product })
+      this.getCartDetails(product)
+    },
+
+    clearCart() {
+      this.$store.dispatch('cart/clearCart');
+    },
+
+    getCartDetails(product: any) {
+      this.getProductItems.find((item: any) => {
+        if( item.id == product.id) {
+          let updateData = {
+            id: product.id,
+            quantity: item.quantity,
+            summedPrice:  item.summedPrice
+          }
+          this.$store.dispatch('cart/updateCartProduct', updateData)
+        }
+      });
+    },
+    async submitOrder() {
+      let data = {
+        restautant: this.restaurant,
+        totalCartQuantity: this.getTotalCartQuantity,
+        totalCartPrice: this.getTotalCartPrice,
+        productItems: {...this.getProductItems}
+      }
+
+      let orderResult: any = await api.post('order/add', { params: data });
+
+      if(orderResult.data.success) {
+        this.clearCart();
+        console.log('Thanks for your order.')
+      }
     }
   },
+
   created() {
     this.restaurant = this.$route.params;
+
+    /** If we have the id this means that the user has navigated away from a restaurant menu, so I clear the cart. Don't want to clear it if user just reloads the page */
+    if (this.restaurant.id) {
+      this.clearCart()
+    }
   },
 
   async mounted() {
     await this.getRestaurantMenu();
+
   }
 });
 </script>

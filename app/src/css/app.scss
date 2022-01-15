@@ -159,3 +159,18 @@ small {
 .product-price {
   text-align: left;
 }
+
+.cart {
+  padding: 10px;
+}
+
+.cart .product {
+  display: flex;
+  justify-content: space-between;
+}
+
+.total-price {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}

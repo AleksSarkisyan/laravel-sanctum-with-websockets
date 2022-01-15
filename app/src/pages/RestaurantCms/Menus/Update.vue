@@ -103,8 +103,8 @@ export default defineComponent({
 
     async saveMenu() {
       let menuId = this.$route.params.menuId;
-      let productIds = { ...this.menu.products }
-      await api.post(`${API_PATHS.RESTAURANT_CMS_PATH}/menu/save`, { params: { menuId, productIds } });
+      let productItems = { ...this.menu.products }
+      await api.post(`${API_PATHS.RESTAURANT_CMS_PATH}/menu/save`, { params: { menuId, productItems } });
     }
   },
 
@@ -118,7 +118,7 @@ export default defineComponent({
 
     this.products = menu.data.products
     this.updateMenuFormData = { ...menu.data.menu }
-    this.menu.products = menu.data.productIds;
+    this.menu.products = menu.data.productItems;
   },
 
 

@@ -53,6 +53,8 @@ export enum API_PATHS {
   RESTAURANT_USER_LOGIN = 'restaurant/login',
   RESTAURANT_GET_USER_MENUES = 'restaurant-cms/menu/get-all',
   RESTAURANT_CMS_PATH = 'restaurant-cms',
+  ADD_TO_CART = 'cart/add',
+  GET_CART = 'cart/get'
 }
 
 export type AxiosCall = {
@@ -100,5 +102,15 @@ export type Restaurant = {
       city: string;
     }
   }
+}
 
+export type ProductType = {
+  id: number;
+}
+
+export type CartModel = {
+  products: any[],
+  productItems: any[],
+  totalCartPrice: number;
+  totalCartQuantity: number;
 }

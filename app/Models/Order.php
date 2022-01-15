@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Restaurant extends Model
+class Order extends Model
 {
   /**
    * The attributes that are mass assignable.
@@ -13,8 +13,9 @@ class Restaurant extends Model
    */
   protected $fillable = [
     'user_id',
-    'name',
-    'city'
+    'restaurant_id',
+    'total_quantity',
+    'total_price'
   ];
 
   protected $guarded = [
@@ -30,11 +31,16 @@ class Restaurant extends Model
    */
   public function user()
   {
-    return $this->belongsTo(RestaurantUser::class, 'user_id');
+    return $this->belongsTo(User::class, 'user_id');
+  }
+
+  public function restaurant()
+  {
+    return $this->belongsTo(Restaurant::class, 'restaurant_id');
   }
 
   public function orders()
   {
-    return $this->hasMany(Order::class, 'restaurant_id');
+    return $this->hasMany(OrderProduct::class, 'order_id');
   }
 }

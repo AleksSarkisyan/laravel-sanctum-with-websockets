@@ -2,9 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\RestaurantAuthController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,14 +24,24 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);
 
-/** Public routes for restaurant users */
-Route::post('register-restaurant', [RestaurantAuthController::class, 'register']);
-Route::post('/restaurant/login', [RestaurantAuthController::class, 'login']);
-
 Route::prefix('restaurants')->group(function () {
     Route::get('/', [RestaurantController::class, 'get']);
     Route::post('/get-menu', [RestaurantController::class, 'getRestaurantMenu']);
 });
+
+Route::prefix('cart')->group(function () {
+    Route::post('/add', [CartController::class, 'add']);
+    Route::get('/get', [CartController::class, 'get']);
+});
+
+Route::prefix('order')->group(function () {
+    Route::post('/add', [OrderController::class, 'add']);
+    Route::get('/get', [OrderController::class, 'get']);
+});
+
+/** Public routes for restaurant users */
+Route::post('register-restaurant', [RestaurantAuthController::class, 'register']);
+Route::post('/restaurant/login', [RestaurantAuthController::class, 'login']);
 
 /** Protected routes for restaurant users */
 Route::group(['middleware' => ['auth:restaurant']], function () {

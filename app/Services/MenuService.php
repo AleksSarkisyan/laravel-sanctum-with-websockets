@@ -95,12 +95,12 @@ class MenuService implements MenuServiceContract
         'user_id' => $this->user->id
       ];
 
-      $productIds = MenuProduct::where($menuProductConditions)->pluck('product_id')->toArray();
+      $productItems = MenuProduct::where($menuProductConditions)->pluck('product_id')->toArray();
 
       return response()->json([
         'menu' => $menu[0],
         'products' => $userProducts,
-        'productIds' => $productIds
+        'productItems' => $productItems
       ]);
     } catch (\Exception $e) {
       return $this->responseError($e->getMessage(), 400);
@@ -115,7 +115,7 @@ class MenuService implements MenuServiceContract
       ]);
     }
 
-    if (!isset($request->params['productIds']) || empty($request->params['productIds'])) {
+    if (!isset($request->params['productItems']) || empty($request->params['productItems'])) {
       return response()->json([
         'error' => 'Missing products'
       ]);
@@ -130,7 +130,7 @@ class MenuService implements MenuServiceContract
 
     $dataInsert = [];
 
-    foreach ($request->params['productIds'] as $productId) {
+    foreach ($request->params['productItems'] as $productId) {
       $dataInsert[] = [
         'user_id' => $this->user->id,
         'menu_id' => $request->params['menuId'],
@@ -147,13 +147,5 @@ class MenuService implements MenuServiceContract
       'menuId' => $request->params['menuId'],
       'dataInsert' => $dataInsert
     ]);
-  }
-
-  public function getProductIds($menuId)
-  {
-    $productConditions = [
-      'id' => $menuId,
-      'user_id' => $this->user->id
-    ];
   }
 }
