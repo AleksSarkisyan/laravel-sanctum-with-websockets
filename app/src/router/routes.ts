@@ -18,7 +18,8 @@ const routes: RouteRecordRaw[] = [
       { path: 'edit/:restaurantId', component: () => import('pages/RestaurantCms/Restaurant/Edit.vue') },
       { path: 'menus', component: () => import('pages/RestaurantCms/Menus/List.vue') },
       { path: 'menu/create', component: () => import('pages/RestaurantCms/Menus/Create.vue') },
-      { path: 'menu/update/:menuId', component: () => import('pages/RestaurantCms/Menus/Update.vue') }
+      { path: 'menu/update/:menuId', component: () => import('pages/RestaurantCms/Menus/Update.vue') },
+      { path: 'orders', component: () => import('pages/RestaurantCms/Orders/List.vue') },
     ],
   },
 

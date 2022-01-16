@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\OrderServiceContract;
+use App\Events\OrderCreated;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -65,6 +66,11 @@ class OrderService implements OrderServiceContract
     }
 
     OrderProduct::insert($orderProductParams);
+
+    // $orders = Order::all();
+    event(new OrderCreated());
+
+    broadcast(new OrderCreated());
 
     return response()->json([
       'success' => true

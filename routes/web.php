@@ -29,10 +29,10 @@ Route::prefix('restaurants')->group(function () {
     Route::post('/get-menu', [RestaurantController::class, 'getRestaurantMenu']);
 });
 
-Route::prefix('cart')->group(function () {
-    Route::post('/add', [CartController::class, 'add']);
-    Route::get('/get', [CartController::class, 'get']);
-});
+// Route::prefix('cart')->group(function () {
+//     Route::post('/add', [CartController::class, 'add']);
+//     Route::get('/get', [CartController::class, 'get']);
+// });
 
 Route::prefix('order')->group(function () {
     Route::post('/add', [OrderController::class, 'add']);

@@ -38,6 +38,7 @@
       </q-list>
     </q-drawer>
     <div class="q-gutter-y-md" style="">
+      test = {{ test }}
       <q-card>
         <q-tabs
           v-model="tab"
@@ -75,6 +76,10 @@
                     <q-btn :disabled="!user.name" @click="addToCart(product)" flat color="primary">
                       Add to Cart
                     </q-btn>
+                     <q-btn @click="addItemTest()" flat color="primary">
+                     TEST
+                    </q-btn>
+
                   </q-card-actions>
 
                 </q-card>
@@ -89,8 +94,11 @@
 
 <script lang="ts">
 
+import axios from 'axios';
+import Echo from 'laravel-echo';
 import { defineComponent } from 'vue'
 import { api } from '../../../boot/axios';
+import { echo } from '../../../boot/laravel-echo-js';
 
 export default defineComponent({
   name: 'RestaurantMenu',
@@ -102,6 +110,7 @@ export default defineComponent({
       restaurantMenu: { },
       tab: '',
       cartDrawerOpen: true,
+      test: null
     }
   },
 
@@ -153,6 +162,19 @@ export default defineComponent({
         }
       });
     },
+    addItemTest() {
+      api.get('/api/cart/get').then(result => {
+
+      console.log('echo options', echo.options)
+         echo.channel('items').listen('ItemAdded', (result: any) => {
+            console.log('result1', result)
+          this.test = result;
+          console.log('this.test...111', this.test)
+        })
+      }).catch(err => {
+         console.log('err...', err)
+      })
+    },
     async submitOrder() {
       let data = {
         restautant: this.restaurant,
@@ -161,26 +183,67 @@ export default defineComponent({
         productItems: {...this.getProductItems}
       }
 
-      let orderResult: any = await api.post('order/add', { params: data });
+
+      let orderResult: any = await api.post('api/order/add', { params: data });
 
       if(orderResult.data.success) {
         this.clearCart();
         console.log('Thanks for your order.')
+
+         echo.channel('orders').listen('OrderCreated', (result: any) => {
+            console.log('result3', result)
+          this.test = result;
+          console.log('this.test...', this.test)
+        })
+
+        echo.channel('orders').listen('.order.created', (result: any) => {
+           console.log('result3', result)
+          this.test = result;
+          console.log('this.test...', this.test)
+        })
+
+        // echo.channel('.*').listen('.*', (result: any) => {
+        //    console.log('result4', result)
+        //   this.test = result;
+        //   console.log('this.test...', this.test)
+        // })
       }
     }
   },
 
   created() {
+    echo.channel('items').listen('ItemAdded', (result: any) => {
+       console.log('result5', result)
+      this.test = result;
+      console.log('this.test...', this.test)
+    })
     this.restaurant = this.$route.params;
 
     /** If we have the id this means that the user has navigated away from a restaurant menu, so I clear the cart. Don't want to clear it if user just reloads the page */
     if (this.restaurant.id) {
       this.clearCart()
     }
+
+    // echo.channel('orders').listen('.order.created', (result: any) => {
+    //   this.test = result;
+    //   console.log('this.test...', this.test)
+    // })
   },
 
   async mounted() {
+    echo.channel('items').listen('ItemAdded', (result: any) => {
+       console.log('result6', result)
+      this.test = result;
+      console.log('this.test...', this.test)
+    })
     await this.getRestaurantMenu();
+
+
+    echo.channel('orders').listen('OrderCreated', (result: any) => {
+       console.log('result7', result)
+      this.test = result;
+      console.log('this.test...', this.test)
+    })
 
   }
 });
