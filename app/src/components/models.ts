@@ -46,13 +46,13 @@ export type MenusModel = {
 
 export enum API_PATHS {
   SANCTUM_COOKIE = 'sanctum/csrf-cookie',
-  LOGIN = 'login',
-  LOGOUT = 'logout',
+  LOGIN = 'api/login',
+  LOGOUT = 'api/logout',
   REGISTER = 'register',
   USER = 'api/user',
-  RESTAURANT_USER_LOGIN = 'restaurant/login',
-  RESTAURANT_GET_USER_MENUES = 'restaurant-cms/menu/get-all',
-  RESTAURANT_CMS_PATH = 'restaurant-cms',
+  RESTAURANT_USER_LOGIN = 'api/restaurant/login',
+  RESTAURANT_GET_USER_MENUES = 'api/restaurant-cms/menu/get-all',
+  RESTAURANT_CMS_PATH = 'api/restaurant-cms',
   ADD_TO_CART = 'cart/add',
   GET_CART = 'cart/get'
 }

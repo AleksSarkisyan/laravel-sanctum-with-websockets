@@ -16,7 +16,7 @@ class OrderCreated implements ShouldBroadcast
 {
   use Dispatchable, InteractsWithSockets, SerializesModels;
 
-  public $orders;
+  public $order;
   public $message;
   /**
    * Create a new event instance.
@@ -26,12 +26,8 @@ class OrderCreated implements ShouldBroadcast
 
   public function __construct()
   {
-    // return response()->json([
-    //   'orders' =>  Order::all()
-    // ]);
-    //die('xxxx');
-    //$this->orders = Order::all();
-    $this->message =  'HELLO WORLD';
+    $this->message = 'HELLO WORLD';
+    $this->order = Order::where('id', 1)->get();
   }
 
   /**
@@ -46,11 +42,14 @@ class OrderCreated implements ShouldBroadcast
 
   public function broadcastWith()
   {
-    return ['message' => 'NE MI GOVORI WE...'];
+    return [
+      'message' => $this->message,
+      'order' => $this->order
+    ];
   }
 
-  public function broadcastAs()
-  {
-    return 'order.created';
-  }
+  // public function broadcastAs()
+  // {
+  //   return 'order.created';
+  // }
 }

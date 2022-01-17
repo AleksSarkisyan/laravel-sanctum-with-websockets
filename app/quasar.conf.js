@@ -24,7 +24,7 @@ module.exports = configure(function (ctx) {
     boot: [
       'i18n',
       'axios',
-      'laravel-echo-js'
+      'laravel-echo'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css

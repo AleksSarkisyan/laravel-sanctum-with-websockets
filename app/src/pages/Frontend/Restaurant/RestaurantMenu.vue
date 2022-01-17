@@ -76,10 +76,6 @@
                     <q-btn :disabled="!user.name" @click="addToCart(product)" flat color="primary">
                       Add to Cart
                     </q-btn>
-                     <q-btn @click="addItemTest()" flat color="primary">
-                     TEST
-                    </q-btn>
-
                   </q-card-actions>
 
                 </q-card>
@@ -94,11 +90,9 @@
 
 <script lang="ts">
 
-import axios from 'axios';
-import Echo from 'laravel-echo';
 import { defineComponent } from 'vue'
 import { api } from '../../../boot/axios';
-import { echo } from '../../../boot/laravel-echo-js';
+import { echo } from '../../../boot/laravel-echo';
 
 export default defineComponent({
   name: 'RestaurantMenu',
@@ -162,19 +156,7 @@ export default defineComponent({
         }
       });
     },
-    addItemTest() {
-      api.get('/api/cart/get').then(result => {
 
-      console.log('echo options', echo.options)
-         echo.channel('items').listen('ItemAdded', (result: any) => {
-            console.log('result1', result)
-          this.test = result;
-          console.log('this.test...111', this.test)
-        })
-      }).catch(err => {
-         console.log('err...', err)
-      })
-    },
     async submitOrder() {
       let data = {
         restautant: this.restaurant,
@@ -183,39 +165,19 @@ export default defineComponent({
         productItems: {...this.getProductItems}
       }
 
-
       let orderResult: any = await api.post('api/order/add', { params: data });
 
       if(orderResult.data.success) {
         this.clearCart();
         console.log('Thanks for your order.')
-
-         echo.channel('orders').listen('OrderCreated', (result: any) => {
-            console.log('result3', result)
-          this.test = result;
-          console.log('this.test...', this.test)
-        })
-
-        echo.channel('orders').listen('.order.created', (result: any) => {
-           console.log('result3', result)
-          this.test = result;
-          console.log('this.test...', this.test)
-        })
-
-        // echo.channel('.*').listen('.*', (result: any) => {
-        //    console.log('result4', result)
-        //   this.test = result;
-        //   console.log('this.test...', this.test)
-        // })
       }
     }
   },
 
   created() {
-    echo.channel('items').listen('ItemAdded', (result: any) => {
-       console.log('result5', result)
+    echo.channel('orders').listen('OrderCreated', (result: any) => {
+      console.log('order is---', result)
       this.test = result;
-      console.log('this.test...', this.test)
     })
     this.restaurant = this.$route.params;
 
@@ -223,28 +185,10 @@ export default defineComponent({
     if (this.restaurant.id) {
       this.clearCart()
     }
-
-    // echo.channel('orders').listen('.order.created', (result: any) => {
-    //   this.test = result;
-    //   console.log('this.test...', this.test)
-    // })
   },
 
   async mounted() {
-    echo.channel('items').listen('ItemAdded', (result: any) => {
-       console.log('result6', result)
-      this.test = result;
-      console.log('this.test...', this.test)
-    })
     await this.getRestaurantMenu();
-
-
-    echo.channel('orders').listen('OrderCreated', (result: any) => {
-       console.log('result7', result)
-      this.test = result;
-      console.log('this.test...', this.test)
-    })
-
   }
 });
 </script>

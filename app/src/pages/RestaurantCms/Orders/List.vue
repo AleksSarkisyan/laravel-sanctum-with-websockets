@@ -7,9 +7,7 @@
 <script lang="ts">
 
 import { defineComponent } from 'vue';
-import Echo from 'laravel-echo';
-import { echo } from '../../../boot/laravel-echo-js';
-
+import { echo } from '../../../boot/laravel-echo';
 
 export default defineComponent({
   name: 'List',
@@ -30,13 +28,6 @@ export default defineComponent({
   },
 
   mounted() {
-    //const echo = new Echo;
-   // echo
-    console.log('got mounted...')
-    echo.channel('orders').listen('OrderCreated', (result: any) => {
-      this.orders = result;
-      console.log('this.orders...', this.orders)
-    })
 
   }
 

@@ -11,9 +11,6 @@ class CartService implements CartServiceContract
 
   public function get()
   {
-    return response()->json([
-      'cart' => 'test cart'
-    ]);
   }
 
   public function add($request)

@@ -1,11 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
-use Illuminate\Support\Facades\Broadcast;
+use App\Http\Controllers\RestaurantAuthController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\RestaurantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,32 +19,46 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-// Route::prefix('order')->group(function () {
-//     Route::post('/add', [OrderController::class, 'add']);
-//     Route::get('/get', [OrderController::class, 'get']);
-// });
+/** Public routes */
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+Route::post('register-restaurant', [RestaurantAuthController::class, 'register']);
+Route::post('restaurant/login', [RestaurantAuthController::class, 'login']);
 
-Route::get('/api/cart/get', [CartController::class, 'get']);
-
-Route::prefix('api')->group(function () {
-    Route::get('/cart/get', [CartController::class, 'get']);
+Route::prefix('restaurants')->group(function () {
+    Route::get('/', [RestaurantController::class, 'get']);
+    Route::post('/get-menu', [RestaurantController::class, 'getRestaurantMenu']);
 });
 
-Broadcast::channel('items', function () {
-    return 'kvooo ';
-});
-
-Broadcast::routes(['middleware' => ['auth:sanctum']]);
-
+/** Protected routes for regular users */
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user', [AuthController::class, 'getUser']);
+
+    Route::prefix('cart')->group(function () {
+        Route::post('/add', [CartController::class, 'add']);
+        Route::get('/get', [CartController::class, 'get']);
+    });
 
     Route::prefix('order')->group(function () {
         Route::post('/add', [OrderController::class, 'add']);
         Route::get('/get', [OrderController::class, 'get']);
     });
 
-    // Broadcast::channel('orders', function ($user, $id) {
-    //     return 'kvooo ';
-    // });
+    Route::post('logout', [AuthController::class, 'logout']);
+});
+
+/** Protected routes for restaurant users (CMS) */
+Route::group(['middleware' => ['auth:restaurant']], function () {
+    Route::prefix('restaurant-cms')->group(function () {
+        Route::post('/logout', [RestaurantAuthController::class, 'logout']);
+        Route::post('/get', [RestaurantController::class, 'getById']);
+        Route::post('/update', [RestaurantController::class, 'update']);
+
+        Route::prefix('menu')->group(function () {
+            Route::get('/get', [MenuController::class, 'get']);
+            Route::get('/get-all', [MenuController::class, 'getAllById']);
+            Route::post('/create', [MenuController::class, 'create']);
+            Route::post('/save', [MenuController::class, 'save']);
+        });
+    });
 });

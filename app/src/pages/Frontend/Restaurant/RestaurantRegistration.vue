@@ -33,7 +33,7 @@ export default defineComponent({
 
     async onRestaurantRegistration(formData: any) {
       try {
-        await api.post('register-restaurant', { ...formData });
+        await api.post('api/register-restaurant', { ...formData });
         this.$store.dispatch('axios/setErrors', '');
 
       } catch (error: any) {
