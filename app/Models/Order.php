@@ -39,7 +39,7 @@ class Order extends Model
     return $this->belongsTo(Restaurant::class, 'restaurant_id');
   }
 
-  public function orders()
+  public function orderProducts()
   {
     return $this->hasMany(OrderProduct::class, 'order_id');
   }

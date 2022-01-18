@@ -11,45 +11,47 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 
-class OrderCreated implements ShouldBroadcast
+class TestPrivate implements ShouldBroadcastNow
 {
   use Dispatchable, InteractsWithSockets, SerializesModels;
 
-  public $orderProducts;
-  public $message;
+  public $order;
+  public $userId;
+
   /**
    * Create a new event instance.
    *
    * @return void
    */
 
-  public function __construct($orderProducts)
+  public function __construct($order)
   {
-    $this->message = 'HELLO WORLD';
-    $this->orderProducts = $orderProducts;
+    $this->order = $order;
+    $this->userId = Auth::guard('restaurant')->user()->id;
+    // $this->userId = 33;
   }
 
   /**
    * Get the channels the event should broadcast on.
    *
-   * @return \Illuminate\Broadcasting\Channel|string
+   * @return \Illuminate\Broadcasting\PrivateChannel|string
    */
   public function broadcastOn()
   {
-    return new Channel('orders');
+    return new PrivateChannel('testPrivate.33');
   }
 
   public function broadcastWith()
   {
     return [
-      'message' => $this->message,
-      'orderProducts' => $this->orderProducts
+      'order' => $this->order
     ];
   }
 
   // public function broadcastAs()
   // {
-  //   return 'order.created';
+  //   return 'test.private';
   // }
 }

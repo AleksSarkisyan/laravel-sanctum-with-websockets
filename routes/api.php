@@ -19,6 +19,22 @@ use App\Http\Controllers\RestaurantController;
 |
 */
 
+// Broadcast::routes(['middleware' => ['auth:sanctum', 'auth:restaurant']]);
+
+Broadcast::routes(['middleware' => ['api']]);
+
+// Broadcast::channel('private-testPrivate.{id}', function ($user, $id) {
+//     // return (int) $user->id === (int) $id;
+//     return true;
+// });
+
+Broadcast::channel('testPrivate.{id}', function ($user, $id) {
+    // return (int) $user->id === (int) $id;
+    //return (int) Auth::guard('restaurant')->user()->id === (int) $id;
+    return true;
+});
+
+
 /** Public routes */
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);

@@ -9,8 +9,13 @@
             <div class="text-h6">Name: {{ restaurant.name }}</div>
             <div class="text-subtitle2">City: {{ restaurant.city }}</div>
             <q-btn
-              color="primary" label="Manage"
+              color="primary" label="Select Menu"
               @click="manageRestaurant(restaurant.id)"
+            />
+
+            <q-btn
+              color="primary" label="Manage Orders"
+              @click="manageOrders(restaurant.id)"
             />
           </q-card-section>
 
@@ -50,6 +55,9 @@ export default defineComponent({
   methods: {
     manageRestaurant(id: number){
       this.$router.push(`/restaurant/edit/${id}`)
+    },
+    manageOrders(id:number) {
+      this.$router.push(`/restaurant/orders/${id}`)
     }
   },
 

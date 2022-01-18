@@ -79,9 +79,11 @@
 <script lang="ts">
 import EssentialLink from '../components/EssentialLink.vue'
 import useAuth from '../hooks/useAuth.vue';
-import { defineComponent, ref, watch } from 'vue'
+import { defineComponent, ref, watch, onMounted } from 'vue'
 import LoginForm from '../components/Auth/LoginForm.vue';
 import RestaurantRegistration from '../pages/Frontend/Restaurant/RestaurantRegistration.vue';
+import { API_PATHS } from '../components/models';
+import useAxios from '../hooks/useAxios.vue';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -94,6 +96,11 @@ export default defineComponent({
 
   setup () {
     const { modalOpened, toggleAuthModal, user, modalTitle, logout } = useAuth(null);
+     const { get } = useAxios();
+
+    const getCsrf = async () => {
+      return await get(API_PATHS.SANCTUM_COOKIE)
+    }
 
     watch(user, (currentValue) => {
       /** User got authenticated, close auth modal */
@@ -101,6 +108,10 @@ export default defineComponent({
         toggleAuthModal('')
       }
     });
+
+    onMounted(() => {
+      getCsrf();
+    })
 
     const leftDrawerOpen = ref(false)
 

@@ -175,10 +175,16 @@ export default defineComponent({
   },
 
   created() {
-    echo.channel('orders').listen('OrderCreated', (result: any) => {
-      console.log('order is---', result)
-      this.test = result;
-    })
+    // echo.channel('orders').listen('OrderCreated', (result: any) => {
+    //   console.log('order is---', result)
+    //   this.test = result;
+    // })
+     console.log('user is', this.user)
+    // echo.channel(`testPrivate.${this.user.id}`).listen(`TestPrivate`, (result: any) => {
+    //   console.log('order is---', result)
+    //   // this.orders.push(result.orderProducts.original.orderDetails);
+    //   // console.log('this.orders is', this.orders)
+    // })
     this.restaurant = this.$route.params;
 
     /** If we have the id this means that the user has navigated away from a restaurant menu, so I clear the cart. Don't want to clear it if user just reloads the page */

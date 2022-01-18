@@ -17,8 +17,7 @@
         <td>{{ menu.is_active ? 'Active' : 'Inactive' }}</td>
         <td @click="editMenu(menu.id)">Edit</td>
       </tr>
-
-</table>
+    </table>
 
   </div>
 </template>

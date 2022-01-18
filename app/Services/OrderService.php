@@ -4,12 +4,15 @@ namespace App\Services;
 
 use App\Contracts\OrderServiceContract;
 use App\Events\OrderCreated;
+use App\Events\TestPrivate;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Restaurant;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 class OrderService implements OrderServiceContract
 {
@@ -26,6 +29,43 @@ class OrderService implements OrderServiceContract
   {
     return response()->json([
       'success' => true
+    ]);
+  }
+
+  public function getAllByRestaurantId($restaurantId)
+  {
+  }
+
+  public function getOrderProducts($orderId)
+  {
+    $productIds = Order::find($orderId)
+      ->orderProducts()
+      ->pluck('product_id')
+      ->toArray();
+
+    $orderDetails = Order::where('id', $orderId)
+      ->get(['id', 'total_quantity', 'total_price']);
+
+    $products = DB::table('orders')->select(
+      'orders.id as order_id',
+      'order_products.product_id',
+      'order_products.quantity',
+      'order_products.price',
+      'products.name as product_name',
+      'products.price',
+      'products.category_id',
+      'categories.name as category_name'
+    )
+      ->join('order_products', 'order_products.order_id', '=', 'orders.id')
+      ->join('products', 'products.id', '=', 'order_products.product_id')
+      ->join('categories', 'categories.id', '=', 'products.category_id')
+      ->where('orders.id', $orderId)
+      ->whereIn('order_products.product_id', $productIds)
+      ->get();
+
+    return response()->json([
+      'products' => $products,
+      'orderDetails' => $orderDetails[0]
     ]);
   }
 
@@ -67,10 +107,14 @@ class OrderService implements OrderServiceContract
 
     OrderProduct::insert($orderProductParams);
 
-    // $orders = Order::all();
-    event(new OrderCreated());
+    $orderProducts = $this->getOrderProducts($orderResult['id']);
+    // event(new OrderCreated($orderProducts));
 
-    broadcast(new OrderCreated());
+    event(new TestPrivate($orderProducts));
+
+    //broadcast(new OrderCreated());
+
+    // return $this->getOrderProducts($orderResult['id']);
 
     return response()->json([
       'success' => true

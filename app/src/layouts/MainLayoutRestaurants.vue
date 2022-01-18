@@ -96,8 +96,17 @@ export default defineComponent({
 
     toggleLeftDrawer() {
       this.leftDrawerOpened = !this.leftDrawerOpened;
+    },
+
+    async getCsrf() {
+      return await api.get(API_PATHS.SANCTUM_COOKIE)
     }
   },
+
+  async mounted() {
+    console.log('got mounted=====')
+    await this.getCsrf();
+  }
 
 
 })
