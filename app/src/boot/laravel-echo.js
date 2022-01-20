@@ -3,7 +3,7 @@ import { api } from '../boot/axios';
 
 window.Pusher = require('pusher-js');
 
-const echo = new Echo({
+const options = {
   broadcaster: 'pusher',
   // key: process.env.MIX_PUSHER_APP_KEY,
   // cluster: process.env.MIX_PUSHER_APP_CLUSTER,
@@ -19,22 +19,21 @@ const echo = new Echo({
   authorizer: (channel) => {
     return {
       authorize: (socketId, callback) => {
-        console.log('got socketId', socketId)
         api.post('broadcasting/auth', {
-            socket_id: socketId,
-            channel_name: channel.name
+          socket_id: socketId,
+          channel_name: channel.name
         })
         .then(response => {
-          console.log('got response', response)
-            callback(false, response.data);
+          callback(false, response.data);
         })
         .catch(error => {
-          console.log('got error', error)
-            callback(true, error);
+          callback(true, error);
         });
       }
     };
   }
-});
+}
 
-export { echo };
+const echo = new Echo(options);
+
+export { echo, options };

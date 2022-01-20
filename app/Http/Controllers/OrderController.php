@@ -17,6 +17,11 @@ class OrderController extends Controller
     return $orderService->get();
   }
 
+  public function getAllByRestaurantId(Request $request, OrderServiceContract $orderService)
+  {
+    return $orderService->getAllByRestaurantId($request);
+  }
+
   public function add(Request $request, OrderServiceContract $orderService)
   {
     return $orderService->add($request);

@@ -1,28 +1,36 @@
 <template>
-  <div v-if="true">
-    Hello from orders list...
+  <div>
+    <div v-if="orders && orders.length">
+      Your orders
 
-    <table>
-      <tr>
-        <th>ID</th>
-        <th>Total Price</th>
-        <th>Total Quantity</th>
-        <th>View</th>
-      </tr>
-      <tr v-for="order in orders" :key="order.id">
-        <td>{{ order.id }}</td>
-        <td>{{ order.total_price }}</td>
-        <td>{{ order.total_quantity }}</td>
-        <td>Edit</td>
-      </tr>
-    </table>
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Total Price</th>
+          <th>Total Quantity</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+        <tr v-for="order in orders" :key="order.id">
+          <td>{{ order.id }}</td>
+          <td>{{ order.total_price }}</td>
+          <td>{{ order.total_quantity }}</td>
+          <td>{{ order.created_at }}</td>
+          <td>Confirm order</td>
+        </tr>
+      </table>
+    </div>
+    <div v-else>No orders yet</div>
   </div>
 </template>
 
 <script lang="ts">
 
 import { defineComponent } from 'vue';
-import { echo } from '../../../boot/laravel-echo';
+import { echo, options } from '../../../boot/laravel-echo';
+import Echo from 'laravel-echo';
+import { api } from '../../../boot/axios';
+import { API_PATHS } from '../../../components/models';
 
 export default defineComponent({
   name: 'List',
@@ -30,7 +38,9 @@ export default defineComponent({
 
   data() {
     return {
-      orders: [] as any
+      orders: [] as any,
+      restaurantId: null as any,
+      echoInstance: echo
     }
   },
 
@@ -40,28 +50,27 @@ export default defineComponent({
     },
   },
 
-  methods: {
+  methods: {},
 
+  async mounted() {
+    let orders = await api.get(`${API_PATHS.RESTAURANT_ORDERS}`, { params: { restaurantId: this.restaurantId } });
+    this.orders = orders.data.orders.sort((a: any, b: any) => parseInt(b.id) - parseInt(a.id));
+    this.echoInstance.channel(`private-orderCreated.${this.restaurantId}.${this.user.id}`).listen(`OrderCreated`, (result: any) => {
+      this.orders.push(result.order.original.orderDetails)
+      this.orders.sort((a: any, b: any) => parseInt(b.id) - parseInt(a.id));
+    })
   },
 
   created() {
-    echo.channel('testPrivate.33').listen(`TestPrivate`, (result: any) => {
-      console.log('order is1', result)
-      // this.orders.push(result.orderProducts.original.orderDetails);
-      // console.log('this.orders is', this.orders)
-    })
-
-     echo.channel(`private-testPrivate.33`).listen(`TestPrivate`, (result: any) => {
-      console.log('order is2', result)
-      // this.orders.push(result.orderProducts.original.orderDetails);
-      // console.log('this.orders is', this.orders)
-    })
+    /** Need to reinitialize Echo in case we navigate to a different restaurant, so that user doesn't get orders from other restaurants that he owns */
+    this.echoInstance = new Echo(options);
+    this.restaurantId = this.$route.params.restaurantId;
   },
 
-  mounted() {
-    let restaurantId = this.$route.params.restaurantId;
-    console.log('user is', this.user)
-  }
+  // unmounted() {
+  //   this.echoInstance.channel(`private-testPrivateRestaurant.${this.restaurantId}.${this.user.id}`).stopListening('TestPrivateRestaurant');
+  //   this.echoInstance.leaveChannel(`private-testPrivateRestaurant.${this.restaurantId}.${this.user.id}`);
+  // }
 
 });
 </script>

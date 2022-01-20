@@ -13,6 +13,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
 
+/** Used for testing purposes */
 class TestPrivate implements ShouldBroadcastNow
 {
   use Dispatchable, InteractsWithSockets, SerializesModels;
@@ -26,11 +27,12 @@ class TestPrivate implements ShouldBroadcastNow
    * @return void
    */
 
-  public function __construct($order)
+  public function __construct($order, $userId)
   {
     $this->order = $order;
-    $this->userId = Auth::guard('restaurant')->user()->id;
-    // $this->userId = 33;
+    // $this->userId = Auth::guard('restaurant')->user()->id;
+    //$this->userId = 34;
+    $this->userId = $userId;
   }
 
   /**
@@ -40,7 +42,8 @@ class TestPrivate implements ShouldBroadcastNow
    */
   public function broadcastOn()
   {
-    return new PrivateChannel('testPrivate.33');
+    // return new PrivateChannel('testPrivate.33');
+    return new PrivateChannel('testPrivate.' . $this->userId);
   }
 
   public function broadcastWith()

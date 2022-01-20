@@ -55,7 +55,8 @@ export enum API_PATHS {
   RESTAURANT_GET_USER_MENUES = 'api/restaurant-cms/menu/get-all',
   RESTAURANT_CMS_PATH = 'api/restaurant-cms',
   ADD_TO_CART = 'cart/add',
-  GET_CART = 'cart/get'
+  GET_CART = 'cart/get',
+  RESTAURANT_ORDERS = 'api/restaurant-cms/order/restaurant-orders'
 }
 
 export type AxiosCall = {

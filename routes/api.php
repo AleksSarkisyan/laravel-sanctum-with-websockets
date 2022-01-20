@@ -21,19 +21,28 @@ use App\Http\Controllers\RestaurantController;
 
 // Broadcast::routes(['middleware' => ['auth:sanctum', 'auth:restaurant']]);
 
-Broadcast::routes(['middleware' => ['api']]);
+Broadcast::routes(['middleware' => ['api', 'auth:restaurant']]);
 
 // Broadcast::channel('private-testPrivate.{id}', function ($user, $id) {
 //     // return (int) $user->id === (int) $id;
 //     return true;
 // });
 
-Broadcast::channel('testPrivate.{id}', function ($user, $id) {
-    // return (int) $user->id === (int) $id;
-    //return (int) Auth::guard('restaurant')->user()->id === (int) $id;
-    return true;
-});
+// Broadcast::channel('testPrivate.{id}', function ($user, $id) {
+//     // return (int) $user->id === (int) $id;
+//     return (int) Auth::guard('restaurant')->user()->id === (int) $id;
+//     //return true;
+// });
 
+// Broadcast::channel('testPrivateRestaurant.{restaurantId}.{userId}', function ($user, $restaurantId, $userId) {
+//     return (int) Auth::guard('restaurant')->user()->id === (int) $userId;
+//     //return true;
+// });
+
+Broadcast::channel('orderCreated.{restaurantId}.{userId}', function ($user, $restaurantId, $userId) {
+    return (int) Auth::guard('restaurant')->user()->id === (int) $userId;
+    //return true;
+});
 
 /** Public routes */
 Route::post('register', [AuthController::class, 'register']);
@@ -75,6 +84,10 @@ Route::group(['middleware' => ['auth:restaurant']], function () {
             Route::get('/get-all', [MenuController::class, 'getAllById']);
             Route::post('/create', [MenuController::class, 'create']);
             Route::post('/save', [MenuController::class, 'save']);
+        });
+
+        Route::prefix('order')->group(function () {
+            Route::get('/restaurant-orders', [OrderController::class, 'getAllByRestaurantId']);
         });
     });
 });

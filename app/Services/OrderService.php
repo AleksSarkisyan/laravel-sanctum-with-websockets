@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Contracts\OrderServiceContract;
 use App\Events\OrderCreated;
 use App\Events\TestPrivate;
+use App\Events\TestPrivateRestaurant;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,7 @@ use App\Models\Restaurant;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use App\Models\RestaurantUser;
 use Illuminate\Support\Facades\DB;
 
 class OrderService implements OrderServiceContract
@@ -32,8 +34,16 @@ class OrderService implements OrderServiceContract
     ]);
   }
 
-  public function getAllByRestaurantId($restaurantId)
+  public function getAllByRestaurantId(Request $request)
   {
+
+    $orders = Order::where('restaurant_id', $request->get('restaurantId'))->get(['id', 'total_quantity', 'total_price', 'created_at']);
+
+    return response()->json([
+      'getAllByRestaurantId' => true,
+      'data' => $request->all(),
+      'orders' => $orders
+    ]);
   }
 
   public function getOrderProducts($orderId)
@@ -44,7 +54,7 @@ class OrderService implements OrderServiceContract
       ->toArray();
 
     $orderDetails = Order::where('id', $orderId)
-      ->get(['id', 'total_quantity', 'total_price']);
+      ->get(['id', 'total_quantity', 'total_price', 'created_at']);
 
     $products = DB::table('orders')->select(
       'orders.id as order_id',
@@ -108,16 +118,14 @@ class OrderService implements OrderServiceContract
     OrderProduct::insert($orderProductParams);
 
     $orderProducts = $this->getOrderProducts($orderResult['id']);
-    // event(new OrderCreated($orderProducts));
+    $userId = Restaurant::where('id', $restaurantId)->pluck('user_id');
 
-    event(new TestPrivate($orderProducts));
-
-    //broadcast(new OrderCreated());
-
-    // return $this->getOrderProducts($orderResult['id']);
+    event(new OrderCreated($orderProducts, $restaurantId, $userId[0]));
 
     return response()->json([
-      'success' => true
+      'success' => true,
+      '$userId' => $userId[0],
+      'restaurantId' => $restaurantId
     ]);
   }
 }

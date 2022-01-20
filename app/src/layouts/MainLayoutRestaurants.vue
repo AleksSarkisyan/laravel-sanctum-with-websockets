@@ -104,7 +104,6 @@ export default defineComponent({
   },
 
   async mounted() {
-    console.log('got mounted=====')
     await this.getCsrf();
   }
 
