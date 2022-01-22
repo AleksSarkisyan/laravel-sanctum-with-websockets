@@ -1,5 +1,17 @@
 <template>
    <div class="q-pa-md">
+    <div v-if="orderDetails.confirmed" class="modal-window">
+      <div class="box">
+        Your order from {{ orderDetails.restaurantName }} is confirmed.
+        <div>
+          <q-btn
+            color="primary"
+            @click="closeConfirmOrderModal()"
+            label="OK"
+          />
+        </div>
+      </div>
+    </div>
     <q-drawer
       v-if="getTotalCartPrice > 0"
       side="right"
@@ -38,7 +50,6 @@
       </q-list>
     </q-drawer>
     <div class="q-gutter-y-md" style="">
-      test = {{ test }}
       <q-card>
         <q-tabs
           v-model="tab"
@@ -92,6 +103,8 @@
 
 import { defineComponent } from 'vue'
 import { api } from '../../../boot/axios';
+import { echo, options } from '../../../boot/laravel-echo';
+import Echo from 'laravel-echo';
 
 export default defineComponent({
   name: 'RestaurantMenu',
@@ -103,7 +116,8 @@ export default defineComponent({
       restaurantMenu: { },
       tab: '',
       cartDrawerOpen: true,
-      test: null
+      echoInstance: echo,
+      orderDetails: { } as any
     }
   },
 
@@ -168,12 +182,17 @@ export default defineComponent({
 
       if(orderResult.data.success) {
         this.clearCart();
-        console.log('Thanks for your order.')
+        console.log('Thanks for your order.');
       }
+    },
+
+    closeConfirmOrderModal() {
+      this.orderDetails.confirmed = !this.orderDetails.confirmed;
     }
   },
 
   created() {
+    this.echoInstance = new Echo(options);
     this.restaurant = this.$route.params;
 
     /** If we have the id this means that the user has navigated away from a restaurant menu, so I clear the cart. Don't want to clear it if user just reloads the page */
@@ -184,6 +203,14 @@ export default defineComponent({
 
   async mounted() {
     await this.getRestaurantMenu();
+    this.echoInstance.channel(`private-orderConfirmed.${this.user.id}`).listen(`OrderConfirmed`, (result: any) => {
+      this.orderDetails = result;
+    })
+  },
+
+  unmounted() {
+    this.echoInstance.channel(`private-orderConfirmed.${this.user.id}`).stopListening('OrderConfirmed');
+    this.echoInstance.leaveChannel(`private-orderConfirmed.${this.user.id}`);
   }
 });
 </script>

@@ -19,30 +19,29 @@ use App\Http\Controllers\RestaurantController;
 |
 */
 
-// Broadcast::routes(['middleware' => ['auth:sanctum', 'auth:restaurant']]);
+// Broadcast::routes(['middleware' => ['web']]);
 
-Broadcast::routes(['middleware' => ['api', 'auth:restaurant']]);
+// Broadcast::routes(['middleware' => ['api', 'auth:restaurant']]);
 
-// Broadcast::channel('private-testPrivate.{id}', function ($user, $id) {
-//     // return (int) $user->id === (int) $id;
-//     return true;
-// });
 
-// Broadcast::channel('testPrivate.{id}', function ($user, $id) {
-//     // return (int) $user->id === (int) $id;
-//     return (int) Auth::guard('restaurant')->user()->id === (int) $id;
-//     //return true;
-// });
-
-// Broadcast::channel('testPrivateRestaurant.{restaurantId}.{userId}', function ($user, $restaurantId, $userId) {
+// Broadcast::channel('orderCreated.{restaurantId}.{userId}', function ($user, $restaurantId, $userId) {
 //     return (int) Auth::guard('restaurant')->user()->id === (int) $userId;
-//     //return true;
+// });
+
+// Broadcast::channel('orderConfirmed.{userId}', function ($user, $userId) {
+//     return true;
+//     // return (int) Auth::guard('web')->user()->id === (int) $userId;
 // });
 
 Broadcast::channel('orderCreated.{restaurantId}.{userId}', function ($user, $restaurantId, $userId) {
-    return (int) Auth::guard('restaurant')->user()->id === (int) $userId;
-    //return true;
-});
+    return true;
+    //return (int) Auth::guard('restaurant')->user()->id === (int) $userId;
+}, ['guards' => ['restaurant']]);
+
+Broadcast::channel('orderConfirmed.{userId}', function ($user, $userId) {
+    return true;
+    //return (int) Auth::guard('restaurant')->user()->id === (int) $userId;
+}, ['guards' => ['web']]);
 
 /** Public routes */
 Route::post('register', [AuthController::class, 'register']);
@@ -88,6 +87,7 @@ Route::group(['middleware' => ['auth:restaurant']], function () {
 
         Route::prefix('order')->group(function () {
             Route::get('/restaurant-orders', [OrderController::class, 'getAllByRestaurantId']);
+            Route::post('/confirm', [OrderController::class, 'confirmOrder']);
         });
     });
 });

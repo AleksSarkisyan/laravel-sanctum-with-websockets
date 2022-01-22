@@ -9,14 +9,17 @@
           <th>Total Price</th>
           <th>Total Quantity</th>
           <th>Created</th>
+          <th>Status</th>
           <th>Actions</th>
         </tr>
-        <tr v-for="order in orders" :key="order.id">
+        <tr v-for="order in orders" :key="order.id" :class="{ new: order.status == 'created' }">
           <td>{{ order.id }}</td>
           <td>{{ order.total_price }}</td>
           <td>{{ order.total_quantity }}</td>
           <td>{{ order.created_at }}</td>
-          <td>Confirm order</td>
+          <td>{{ order.status }}</td>
+          <td v-if="isNewOrder(order)" @click="confirmOrder(order)">Confirm order</td>
+          <td v-else-if="isConfirmedOrder(order)">Confirmed</td>
         </tr>
       </table>
     </div>
@@ -47,14 +50,28 @@ export default defineComponent({
   computed: {
     user() {
       return this.$store.getters['restaurantUser/getUser'];
-    },
+    }
   },
 
-  methods: {},
+  methods: {
+    async confirmOrder(order: any) {
+      order.status = 'confirmed';
+      await api.post(`${API_PATHS.CONFIRM_ORDER}`, { params: { orderId: order.id } });
+    },
+
+    isNewOrder(order: any) {
+      return order.status == 'created' || !order.status;
+    },
+
+    isConfirmedOrder(order: any) {
+      return order.status == 'confirmed';
+    },
+  },
 
   async mounted() {
     let orders = await api.get(`${API_PATHS.RESTAURANT_ORDERS}`, { params: { restaurantId: this.restaurantId } });
     this.orders = orders.data.orders.sort((a: any, b: any) => parseInt(b.id) - parseInt(a.id));
+
     this.echoInstance.channel(`private-orderCreated.${this.restaurantId}.${this.user.id}`).listen(`OrderCreated`, (result: any) => {
       this.orders.push(result.order.original.orderDetails)
       this.orders.sort((a: any, b: any) => parseInt(b.id) - parseInt(a.id));
@@ -76,5 +93,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
+  .new {
+    border: 2px solid green;
+  }
 </style>

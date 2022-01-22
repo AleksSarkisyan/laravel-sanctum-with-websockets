@@ -26,4 +26,9 @@ class OrderController extends Controller
   {
     return $orderService->add($request);
   }
+
+  public function confirmOrder(Request $request, OrderServiceContract $orderService)
+  {
+    return $orderService->confirmOrder($request);
+  }
 }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\OrderServiceContract;
+use App\Events\OrderConfirmed;
 use App\Events\OrderCreated;
 use App\Events\TestPrivate;
 use App\Events\TestPrivateRestaurant;
@@ -37,7 +38,7 @@ class OrderService implements OrderServiceContract
   public function getAllByRestaurantId(Request $request)
   {
 
-    $orders = Order::where('restaurant_id', $request->get('restaurantId'))->get(['id', 'total_quantity', 'total_price', 'created_at']);
+    $orders = Order::where('restaurant_id', $request->get('restaurantId'))->get(['id', 'total_quantity', 'total_price', 'created_at', 'status']);
 
     return response()->json([
       'getAllByRestaurantId' => true,
@@ -54,7 +55,7 @@ class OrderService implements OrderServiceContract
       ->toArray();
 
     $orderDetails = Order::where('id', $orderId)
-      ->get(['id', 'total_quantity', 'total_price', 'created_at']);
+      ->get(['id', 'total_quantity', 'total_price', 'created_at', 'status']);
 
     $products = DB::table('orders')->select(
       'orders.id as order_id',
@@ -97,7 +98,8 @@ class OrderService implements OrderServiceContract
       'user_id' => $user->id,
       'restaurant_id' => $restaurantId,
       'total_quantity' => $params['totalCartQuantity'],
-      'total_price' => $params['totalCartPrice']
+      'total_price' => $params['totalCartPrice'],
+      'status' => 'created'
     ];
 
     $orderResult = Order::create($orderParams);
@@ -126,6 +128,27 @@ class OrderService implements OrderServiceContract
       'success' => true,
       '$userId' => $userId[0],
       'restaurantId' => $restaurantId
+    ]);
+  }
+
+  public function confirmOrder(Request $request)
+  {
+    $params = $request->get('params');
+    $orderId = $params['orderId'];
+    $order = Order::where('id', $orderId)->get(['user_id', 'restaurant_id'])[0];
+    Order::where('id', $orderId)->update(['status' => 'confirmed']);
+
+    $restaurantName = Restaurant::where('id', $order['restaurant_id'])->pluck('name')[0];
+
+    $orderDetails = [
+      'userId' =>  $order['user_id'],
+      'restaurantName' =>  $restaurantName,
+    ];
+
+    event(new OrderConfirmed($orderDetails));
+
+    return response()->json([
+      'success' => true
     ]);
   }
 }

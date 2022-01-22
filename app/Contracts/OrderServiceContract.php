@@ -10,4 +10,5 @@ interface OrderServiceContract
   public function getOrderProducts($orderId);
   public function getAllByRestaurantId(Request $request);
   public function add(Request $request);
+  public function confirmOrder(Request $request);
 }

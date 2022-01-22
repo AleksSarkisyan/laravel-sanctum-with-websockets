@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->integer('restaurant_id')->unsigned();
             $table->integer('total_quantity');
             $table->float('total_price', 8, 2);
+            $table->string('status');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

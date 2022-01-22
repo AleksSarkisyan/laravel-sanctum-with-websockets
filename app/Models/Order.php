@@ -15,7 +15,8 @@ class Order extends Model
     'user_id',
     'restaurant_id',
     'total_quantity',
-    'total_price'
+    'total_price',
+    'status'
   ];
 
   protected $guarded = [
