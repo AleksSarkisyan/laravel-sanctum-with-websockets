@@ -19,28 +19,12 @@ use App\Http\Controllers\RestaurantController;
 |
 */
 
-// Broadcast::routes(['middleware' => ['web']]);
-
-// Broadcast::routes(['middleware' => ['api', 'auth:restaurant']]);
-
-
-// Broadcast::channel('orderCreated.{restaurantId}.{userId}', function ($user, $restaurantId, $userId) {
-//     return (int) Auth::guard('restaurant')->user()->id === (int) $userId;
-// });
-
-// Broadcast::channel('orderConfirmed.{userId}', function ($user, $userId) {
-//     return true;
-//     // return (int) Auth::guard('web')->user()->id === (int) $userId;
-// });
-
 Broadcast::channel('orderCreated.{restaurantId}.{userId}', function ($user, $restaurantId, $userId) {
-    return true;
-    //return (int) Auth::guard('restaurant')->user()->id === (int) $userId;
+    return (int) Auth::guard('restaurant')->user()->id === (int) $userId;
 }, ['guards' => ['restaurant']]);
 
 Broadcast::channel('orderConfirmed.{userId}', function ($user, $userId) {
-    return true;
-    //return (int) Auth::guard('restaurant')->user()->id === (int) $userId;
+    return (int) Auth::guard('web')->user()->id === (int) $userId;
 }, ['guards' => ['web']]);
 
 /** Public routes */
