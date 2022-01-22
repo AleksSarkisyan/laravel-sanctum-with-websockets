@@ -6,8 +6,10 @@ Local SETUP
 -   Run php artisan migrate
 -   Install quasar cli https://quasar.dev/quasar-cli/installation
 -   Run php artisan serve from {parent dir}
+-   Run php artisan websockets:serve from {parent dir}
 -   Run quasar dev from {parent dir}/app
 -   Important - Open project from http://127.0.0.1:8080/
+-   Login from different browsers to test order crreation/confirmation
 -   Use the below env variables
 
 APP_NAME=Laravel
