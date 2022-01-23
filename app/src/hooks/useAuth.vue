@@ -4,7 +4,7 @@ import { ref, ComputedRef, computed } from 'vue';
 import useAxios from '../hooks/useAxios.vue';
 import { UserType } from '../components/models';
 import { useStore } from '../store/index';
-
+import { useRouter } from 'vue-router';
 import { LoginFormData, API_PATHS } from '../components/models';
 
 export default function useAuth(formData: LoginFormData|null = null) {
@@ -13,6 +13,7 @@ export default function useAuth(formData: LoginFormData|null = null) {
   const store = useStore();
   const { post } = useAxios();
   let modalTitle = ref('');
+  const router = useRouter();
 
   const toggleAuthModal = (action: string) => {
     modalTitle.value = action;
@@ -42,6 +43,7 @@ export default function useAuth(formData: LoginFormData|null = null) {
     localStorage.removeItem('vuex');
     store.dispatch('user/resetUser');
     await post(API_PATHS.LOGOUT);
+    router.push('/');
   }
 
   return {

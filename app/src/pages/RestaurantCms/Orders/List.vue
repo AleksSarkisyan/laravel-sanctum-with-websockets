@@ -8,6 +8,7 @@
           <th>ID</th>
           <th>Total Price</th>
           <th>Total Quantity</th>
+          <th>Username</th>
           <th>Created</th>
           <th>Status</th>
           <th>Actions</th>
@@ -16,6 +17,7 @@
           <td>{{ order.id }}</td>
           <td>{{ order.total_price }}</td>
           <td>{{ order.total_quantity }}</td>
+          <td>{{ order.user.name }}</td>
           <td>{{ order.created_at }}</td>
           <td>{{ order.status }}</td>
           <td v-if="isNewOrder(order)" @click="confirmOrder(order)">Confirm order</td>

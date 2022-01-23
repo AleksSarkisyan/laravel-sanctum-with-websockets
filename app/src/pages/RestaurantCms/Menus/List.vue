@@ -1,34 +1,40 @@
 <template>
-  <div v-if="menus && menus.length" class="menu-list">
+  <div>
+    <Create />
+    <div v-if="menus && menus.length" class="menu-list">
 
-    <h3>Manage your menus - {{ menus.length }}</h3>
-    <table>
-      <tr>
-        <th>ID</th>
-        <th>Menu Name</th>
-        <th>Description</th>
-        <th>Is Active</th>
-        <th>Edit</th>
-      </tr>
-      <tr v-for="menu in menus" :key="menu.id">
-        <td>{{ menu.id }}</td>
-        <td>{{ menu.name }}</td>
-        <td>{{ menu.description }}</td>
-        <td>{{ menu.is_active ? 'Active' : 'Inactive' }}</td>
-        <td @click="editMenu(menu.id)">Edit</td>
-      </tr>
-    </table>
+      <h3>Manage your menus - {{ menus.length }}</h3>
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Menu Name</th>
+          <th>Description</th>
+          <th>Is Active</th>
+          <th>Edit</th>
+        </tr>
+        <tr v-for="menu in menus" :key="menu.id">
+          <td>{{ menu.id }}</td>
+          <td>{{ menu.name }}</td>
+          <td>{{ menu.description }}</td>
+          <td>{{ menu.is_active ? 'Active' : 'Inactive' }}</td>
+          <td @click="editMenu(menu.id)">Edit</td>
+        </tr>
+      </table>
 
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
+import Create from './Create.vue';
 
 export default defineComponent({
   name: 'List',
-  components: {  },
+  components: {
+    Create
+  },
 
   data() {
     return {

@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RestaurantAuthController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +73,12 @@ Route::group(['middleware' => ['auth:restaurant']], function () {
         Route::prefix('order')->group(function () {
             Route::get('/restaurant-orders', [OrderController::class, 'getAllByRestaurantId']);
             Route::post('/confirm', [OrderController::class, 'confirmOrder']);
+        });
+
+        Route::prefix('category')->group(function () {
+            Route::get('/get', [CategoryController::class, 'get']);
+            Route::get('/get-all', [CategoryController::class, 'getAll']);
+            Route::post('/create', [CategoryController::class, 'create']);
         });
     });
 });

@@ -21,7 +21,7 @@
         />
       </div>
 
-        <p class="danger" v-if="axiosErrors"> {{ axiosErrors }} </p>
+        <p class="danger" v-if="axiosErrors && axiosErrors.errors.length"> {{ axiosErrors }} </p>
 
         <div>
           <q-btn

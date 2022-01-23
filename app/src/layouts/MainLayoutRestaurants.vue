@@ -73,9 +73,9 @@ export default defineComponent({
       leftDrawerOpened: false,
       essentialLinks: [
         { title: 'Dashboard', caption: 'Manage your restaurants', link: 'restaurant/dashboard', icon: '' },
-        { title: 'Menus', caption: 'Manage your menus', link: 'restaurant/menus', icon: '' },
-        { title: 'Create menu', caption: 'Create new menu', link: 'restaurant/menu/create', icon: '' },
-        { title: 'Orders', caption: 'Orders', link: 'restaurant/orders', icon: '' }
+        { title: 'Menus', caption: 'Create and manage your menus', link: 'restaurant/menus', icon: '' },
+        { title: 'Products', caption: 'Create and manage products', link: 'restaurant/products', icon: '' },
+        { title: 'Categories', caption: 'Create and manage categories', link: 'restaurant/categories', icon: '' }
       ]
     }
   },

@@ -37,12 +37,11 @@ class OrderService implements OrderServiceContract
 
   public function getAllByRestaurantId(Request $request)
   {
-
-    $orders = Order::where('restaurant_id', $request->get('restaurantId'))->get(['id', 'total_quantity', 'total_price', 'created_at', 'status']);
+    $orders = Order::with('user:id,name,email')
+      ->where('restaurant_id', $request->get('restaurantId'))
+      ->get();
 
     return response()->json([
-      'getAllByRestaurantId' => true,
-      'data' => $request->all(),
       'orders' => $orders
     ]);
   }
@@ -56,6 +55,8 @@ class OrderService implements OrderServiceContract
 
     $orderDetails = Order::where('id', $orderId)
       ->get(['id', 'total_quantity', 'total_price', 'created_at', 'status']);
+
+    $orderDetails[0]->user = Auth::guard('web')->user();
 
     $products = DB::table('orders')->select(
       'orders.id as order_id',

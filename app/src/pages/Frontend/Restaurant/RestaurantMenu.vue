@@ -12,6 +12,18 @@
         </div>
       </div>
     </div>
+    <div v-if="orderCreatedModalShown" class="modal-window">
+      <div class="box">
+        Thanks for your order. Stay on this page in order to receive a notification when a restaurant confirms your order.
+        <div>
+          <q-btn
+            color="primary"
+            @click="closeOrderCreatedModal()"
+            label="OK"
+          />
+        </div>
+      </div>
+    </div>
     <q-drawer
       v-if="getTotalCartPrice > 0"
       side="right"
@@ -117,7 +129,8 @@ export default defineComponent({
       tab: '',
       cartDrawerOpen: true,
       echoInstance: echo,
-      orderDetails: { } as any
+      orderDetails: { } as any,
+      orderCreatedModalShown: false
     }
   },
 
@@ -182,12 +195,16 @@ export default defineComponent({
 
       if(orderResult.data.success) {
         this.clearCart();
-        console.log('Thanks for your order.');
+        this.closeOrderCreatedModal();
       }
     },
 
     closeConfirmOrderModal() {
       this.orderDetails.confirmed = !this.orderDetails.confirmed;
+    },
+
+    closeOrderCreatedModal() {
+      this.orderCreatedModalShown = !this.orderCreatedModalShown
     }
   },
 

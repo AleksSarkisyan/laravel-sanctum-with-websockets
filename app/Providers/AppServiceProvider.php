@@ -15,6 +15,8 @@ use App\Services\CartService;
 use App\Contracts\CartServiceContract;
 use App\Services\RestaurantService;
 use App\Contracts\RestaurantServiceContract;
+use App\Services\CategoryService;
+use App\Contracts\CategoryServiceContract;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -53,6 +55,11 @@ class AppServiceProvider extends ServiceProvider
     $this->app->singleton(
       RestaurantServiceContract::class,
       RestaurantService::class
+    );
+
+    $this->app->singleton(
+      CategoryServiceContract::class,
+      CategoryService::class
     );
   }
 
