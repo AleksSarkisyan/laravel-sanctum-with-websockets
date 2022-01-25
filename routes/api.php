@@ -8,6 +8,7 @@ use App\Http\Controllers\RestaurantAuthController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,9 +77,15 @@ Route::group(['middleware' => ['auth:restaurant']], function () {
         });
 
         Route::prefix('category')->group(function () {
-            Route::get('/get', [CategoryController::class, 'get']);
             Route::get('/get-all', [CategoryController::class, 'getAll']);
             Route::post('/create', [CategoryController::class, 'create']);
+        });
+
+        Route::prefix('product')->group(function () {
+            Route::get('/get', [ProductController::class, 'get']);
+            Route::get('/get-all', [ProductController::class, 'getAllById']);
+            Route::post('/create', [ProductController::class, 'create']);
+            Route::post('/update', [ProductController::class, 'update']);
         });
     });
 });

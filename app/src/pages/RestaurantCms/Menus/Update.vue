@@ -40,8 +40,8 @@
         <div v-for="(category, value, index) in products" :key="`category-${index}`" class="q-pa-md">
           <h5 class="category-name">{{ value }}</h5>
           <hr>
-          <span v-for="product in category" :key="product.id">
-            {{ product.name }}
+          <div v-for="product in category" :key="product.id">
+            {{ product.name }} ( {{ product.weight }} gr - {{ product.price }} lv )
              <input
                 left-label
                 :label="product.name"
@@ -49,8 +49,8 @@
                 placeholder="Description"
                 autocomplete="off"
                 v-model="menu.products" :id="'product_' + product.id" :value="product.id"
-              /> |
-          </span>
+              />
+          </div>
 
         </div>
 

@@ -13,6 +13,7 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
+        /** Ideally every restaurant user should be able to create it's own categories */
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();

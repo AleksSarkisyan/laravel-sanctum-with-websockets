@@ -21,13 +21,14 @@ class CreateProductsTable extends Migration
             $table->string('description');
             $table->float('price', 8, 2);
             $table->float('promo_price', 8, 2);
-            $table->string('image_url');
-            $table->string('slug');
+            $table->string('image_url')->nullable();
+            $table->string('slug')->nullable();
             $table->string('weight');
-            $table->tinyInteger('is_promo');
+            $table->tinyInteger('is_promo')->nullable();
             $table->tinyInteger('is_active');
             $table->timestamps();
 
+            $table->unique(['name', 'user_id', 'price', 'weight']);
             $table->foreign('user_id')->references('id')->on('restaurant_users');
             $table->foreign('category_id')->references('id')->on('categories');
         });

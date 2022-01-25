@@ -60,7 +60,11 @@ export enum API_PATHS {
   CONFIRM_ORDER = 'api/restaurant-cms/order/confirm',
   RESTAURANT_ALL_CATEGORIES = 'api/restaurant-cms/category/get-all',
   RESTAURANT_CATEGORY = 'api/restaurant-cms/category/get',
-  RESTAURANT_CREATE_CATEGORY = 'api/restaurant-cms/category/create'
+  RESTAURANT_CREATE_CATEGORY = 'api/restaurant-cms/category/create',
+  RESTAURANT_ALL_PRODUCTS = 'api/restaurant-cms/product/get-all',
+  RESTAURANT_PRODUCT = 'api/restaurant-cms/product/get',
+  RESTAURANT_CREATE_PRODUCT = 'api/restaurant-cms/product/create',
+  RESTAURANT_UPDATE_PRODUCT = 'api/restaurant-cms/product/update'
 }
 
 export type AxiosCall = {

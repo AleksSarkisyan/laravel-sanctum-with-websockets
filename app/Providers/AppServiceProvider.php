@@ -17,6 +17,8 @@ use App\Services\RestaurantService;
 use App\Contracts\RestaurantServiceContract;
 use App\Services\CategoryService;
 use App\Contracts\CategoryServiceContract;
+use App\Services\ProductService;
+use App\Contracts\ProductServiceContract;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
    */
   public function register()
   {
+    /** There should be a better way to register those */
     $this->app->singleton(
       UserServiceContract::class,
       UserService::class
@@ -60,6 +63,11 @@ class AppServiceProvider extends ServiceProvider
     $this->app->singleton(
       CategoryServiceContract::class,
       CategoryService::class
+    );
+
+    $this->app->singleton(
+      ProductServiceContract::class,
+      ProductService::class
     );
   }
 

@@ -5,16 +5,12 @@ namespace App\Services;
 use App\Contracts\OrderServiceContract;
 use App\Events\OrderConfirmed;
 use App\Events\OrderCreated;
-use App\Events\TestPrivate;
-use App\Events\TestPrivateRestaurant;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Restaurant;
 use App\Models\Order;
 use App\Models\OrderProduct;
-use App\Models\Product;
-use App\Models\RestaurantUser;
 use Illuminate\Support\Facades\DB;
 
 class OrderService implements OrderServiceContract
