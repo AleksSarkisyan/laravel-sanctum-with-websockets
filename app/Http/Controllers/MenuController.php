@@ -15,6 +15,11 @@ class MenuController extends Controller
     return $menuService->create($request);
   }
 
+  public function update(Request $request, MenuServiceContract $menuService)
+  {
+    return $menuService->update($request);
+  }
+
   public function getAllById(Request $request, MenuServiceContract $menuService)
   {
     return $menuService->getAllById($request);

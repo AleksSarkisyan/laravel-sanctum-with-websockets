@@ -68,6 +68,7 @@ Route::group(['middleware' => ['auth:restaurant']], function () {
             Route::get('/get', [MenuController::class, 'get']);
             Route::get('/get-all', [MenuController::class, 'getAllById']);
             Route::post('/create', [MenuController::class, 'create']);
+            Route::post('/update', [MenuController::class, 'update']);
             Route::post('/save', [MenuController::class, 'save']);
         });
 

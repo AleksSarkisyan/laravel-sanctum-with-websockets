@@ -45,7 +45,7 @@ class MenuService implements MenuServiceContract
   public function getAllById(Request $request)
   {
     try {
-      $menus = Menu::where('user_id', $this->user->id)->get();
+      $menus = Menu::where('user_id', $this->user->id)->orderBy('updated_at', 'desc')->get();
 
       return response()->json([
         'data' => $menus
@@ -147,5 +147,30 @@ class MenuService implements MenuServiceContract
       'menuId' => $request->params['menuId'],
       'dataInsert' => $dataInsert
     ]);
+  }
+
+  public function update(Request $request)
+  {
+    try {
+      $params = $request->get('params');
+
+      $updateConditions = [
+        'user_id' => $this->user->id,
+        'id' => $params['id'],
+      ];
+
+      $data = [
+        'name' => $params['name'],
+        'description' => $params['description'],
+      ];
+
+      Menu::where($updateConditions)->update($data);
+
+      return response()->json([
+        'success' => true
+      ]);
+    } catch (\Exception $e) {
+      return $this->responseError($e->getMessage(), 400);
+    }
   }
 }

@@ -1,55 +1,31 @@
 <template>
   <div>
     <div class="menu">
-
-      <h3>Update a menu</h3>
-
-      <form class="ui-form">
-          <label for="name">Name</label>
-          <input
-            type="text"
-            placeholder="Name"
-            autocomplete="off"
-            v-model="updateMenuFormData.name"
-            id="name"
-          />
-
-          <!-- <span v-if="axiosErrors.message && axiosErrors.errors.email[0]"> {{ axiosErrors.errors.email[0] }} </span> -->
-          <label for="description">Description</label>
-          <input
-            type="text"
-            placeholder="Description"
-            autocomplete="off"
-            v-model="updateMenuFormData.description"
-            id="description"
-          />
-          <!-- <span v-if="axiosErrors.message && axiosErrors.errors.password[0]"> {{ axiosErrors.errors.password[0] }} </span> -->
-
-          <q-btn
-            color="primary"
-            @click="updateMenu()"
-            :label="btnLabel"
-          />
-      </form>
-
+      <h3>{{ labels.page }}</h3>
+      <Form
+        v-if="menuFields.name"
+        :formType="'Update'"
+        :menuFields="menuFields"
+        @updateMenu="updateMenu"
+      />
     </div>
 
      <div class="products">
-        <h4>Choose Products for {{ updateMenuFormData.name }} </h4>
+        <h4>{{ labels.products }} {{ menuFields.name }} </h4>
 
         <div v-for="(category, value, index) in products" :key="`category-${index}`" class="q-pa-md">
           <h5 class="category-name">{{ value }}</h5>
           <hr>
           <div v-for="product in category" :key="product.id">
             {{ product.name }} ( {{ product.weight }} gr - {{ product.price }} lv )
-             <input
-                left-label
-                :label="product.name"
-                type="checkbox"
-                placeholder="Description"
-                autocomplete="off"
-                v-model="menu.products" :id="'product_' + product.id" :value="product.id"
-              />
+            <input
+              left-label
+              :label="product.name"
+              type="checkbox"
+              placeholder="Description"
+              autocomplete="off"
+              v-model="menu.products" :id="'product_' + product.id" :value="product.id"
+            />
           </div>
 
         </div>
@@ -57,8 +33,8 @@
         <q-btn
           :disabled="menu.products.length == 0"
           color="primary"
-          @click="saveMenu()"
-          :label="btnLabelSaveMenu"
+          @click="saveMenuProducts()"
+          :label="labels.btnSaveMenu"
         />
       </div>
   </div>
@@ -68,56 +44,75 @@
 
 import { defineComponent } from 'vue';
 import { api } from '../../../boot/axios';
-import { API_PATHS } from '../../../components/models';
+import { RestaurantMenuRoutes } from '../../../components/models';
+import Form from '../../../components/Menu/Form.vue';
 
 export default defineComponent({
   name: 'Update',
-  components: {  },
+  components: {
+    Form
+  },
 
   data() {
     return {
-      updateMenuFormData: {
+      menuFields: {
         name: '',
         description: '',
         isActive: 1
       },
-      btnLabel: 'Update menu',
-      btnLabelSaveMenu: 'Save Products To Menu',
-      products: {},
+      products: { },
       menu: {
         products: [
 
         ]
-      }
+      },
+      menuId: ''
     }
   },
 
   computed: {
-
+    labels() {
+      return {
+        products: 'Choose Products for',
+        page: 'Update a menu',
+        btnSaveMenu: 'Save Products To Menu',
+      }
+    }
   },
 
   methods: {
-    async updateMenu() {
-      let result = await api.post(`${API_PATHS.RESTAURANT_CMS_PATH}/menu/update`, { ...this.updateMenuFormData });
+    async updateMenu(menuFormData: any) {
+      this.menuFields.name = menuFormData.name
+      await api.post(
+        `${RestaurantMenuRoutes.UPDATE}`,
+        { params: { ...menuFormData } }
+      );
     },
 
-    async saveMenu() {
-      let menuId = this.$route.params.menuId;
+    async saveMenuProducts() {
       let productItems = { ...this.menu.products }
-      await api.post(`${API_PATHS.RESTAURANT_CMS_PATH}/menu/save`, { params: { menuId, productItems } });
+      await api.post(
+        `${RestaurantMenuRoutes.SAVE}`,
+        { params: { menuId: this.menuId, productItems } }
+      );
     }
   },
 
   async mounted() {
-    if (!this.$route.params.menuId) {
-      this.$router.push('/restaurant/dashboard')
+    this.menuId = <string>this.$route.params.menuId;
+
+    if (!this.menuId) {
+      this.$router.push({ name: 'dashboard'})
     }
 
-    let menuId = this.$route.params.menuId;
-    let menu = await api.get(`${API_PATHS.RESTAURANT_CMS_PATH}/menu/get`, { params: { menuId } });
+    let menu = await api.get(
+      `${RestaurantMenuRoutes.GET}`,
+      { params: { menuId: this.menuId } }
+    );
 
     this.products = menu.data.products
-    this.updateMenuFormData = { ...menu.data.menu }
+    this.menuFields = { ...menu.data.menu }
+
     this.menu.products = menu.data.productItems;
   },
 

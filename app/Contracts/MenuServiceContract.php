@@ -11,4 +11,5 @@ interface MenuServiceContract
   public function getAllById(Request $request);
   public function get(Request $request);
   public function save(Request $request);
+  public function update(Request $request);
 }

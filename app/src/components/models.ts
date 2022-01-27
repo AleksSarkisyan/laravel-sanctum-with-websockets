@@ -64,7 +64,21 @@ export enum API_PATHS {
   RESTAURANT_ALL_PRODUCTS = 'api/restaurant-cms/product/get-all',
   RESTAURANT_PRODUCT = 'api/restaurant-cms/product/get',
   RESTAURANT_CREATE_PRODUCT = 'api/restaurant-cms/product/create',
-  RESTAURANT_UPDATE_PRODUCT = 'api/restaurant-cms/product/update'
+  RESTAURANT_UPDATE_PRODUCT = 'api/restaurant-cms/product/update',
+}
+
+export enum RestaurantMenuPaths {
+  UPDATE = '/menu/update',
+  CREATE = '/menu/create',
+  SAVE = '/menu/save',
+  GET = '/menu/get'
+}
+
+export const RestaurantMenuRoutes = {
+  UPDATE: `${API_PATHS.RESTAURANT_CMS_PATH}${RestaurantMenuPaths.UPDATE}`,
+  CREATE: `${API_PATHS.RESTAURANT_CMS_PATH}${RestaurantMenuPaths.CREATE}`,
+  SAVE: `${API_PATHS.RESTAURANT_CMS_PATH}${RestaurantMenuPaths.SAVE}`,
+  GET: `${API_PATHS.RESTAURANT_CMS_PATH}${RestaurantMenuPaths.GET}`
 }
 
 export type AxiosCall = {
