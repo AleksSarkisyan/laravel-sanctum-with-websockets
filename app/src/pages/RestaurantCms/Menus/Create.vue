@@ -1,5 +1,5 @@
 <template>
-  <div class="menu">
+  <div class="form-container">
 
     <h3>{{ labels.page }}</h3>
     <Form
@@ -16,7 +16,7 @@
 import { defineComponent } from 'vue';
 import { api } from '../../../boot/axios'
 import Form from '../../../components/Menu/Form.vue';
-import { RestaurantMenuRoutes } from '../../../components/models';
+import { RestaurantMenuRoutes, MenuFormComponentData } from '../../../components/models';
 
 export default defineComponent({
   name: 'Create',
@@ -30,7 +30,7 @@ export default defineComponent({
         name: '',
         description: '',
         isActive: 1
-      },
+      } as MenuFormComponentData,
     }
   },
 

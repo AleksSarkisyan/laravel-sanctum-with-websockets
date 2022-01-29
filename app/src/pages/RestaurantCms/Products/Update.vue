@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="menu">
+    <div class="form-container">
 
       <h3>Update a product</h3>
 

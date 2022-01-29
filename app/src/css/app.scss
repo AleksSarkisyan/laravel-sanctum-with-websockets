@@ -112,22 +112,22 @@ small {
   text-align: right;
 }
 
-.menu {
+.form-container {
   text-align: center;
 }
 
-.menu form {
+.form-container form {
   display: flex;
   flex-direction: column;
   width: 50%;
   margin: auto;
 }
 
-.menu form input {
+.form-container form input {
   margin-bottom: 10px;
 }
 
-.menu {
+.form-container {
   width: 100%;
 }
 .menu-card {

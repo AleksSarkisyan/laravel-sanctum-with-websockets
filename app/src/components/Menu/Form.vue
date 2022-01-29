@@ -27,18 +27,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
+import { MenuFormComponentData, Emits } from '../../components/models';
+
 
 export default defineComponent({
   name: 'Form',
   components: {  },
-  data() {
+  data(): {
+    menuFormData: MenuFormComponentData
+  } {
     return {
       menuFormData: {
         name: '',
         description: '',
         isActive: 1
-      },
+      } as MenuFormComponentData,
     }
   },
 
@@ -60,23 +64,20 @@ export default defineComponent({
     }
   },
 
-  emits: ['updateMenu', 'createMenu'],
+  emits: [Emits.CREATE_MENU, Emits.UPDATE_MENU],
 
   methods: {
     submitMenu() {
-      console.log('formType', this.formType)
-
       if (this.isUpdateForm) {
-        this.$emit('updateMenu', this.menuFormData)
+        this.$emit(Emits.CREATE_MENU, this.menuFormData)
       } else {
-        this.$emit('createMenu', this.menuFormData)
+        this.$emit( Emits.UPDATE_MENU, this.menuFormData)
       }
     }
   },
 
   mounted() {
-    console.log('this.menuFields..', this.menuFields)
-    this.menuFormData = { ...this.menuFields }
+    this.menuFormData = { ...this.menuFields } as MenuFormComponentData
   }
 
 });

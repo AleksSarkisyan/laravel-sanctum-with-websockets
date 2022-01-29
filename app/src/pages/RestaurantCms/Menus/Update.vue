@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="menu">
+    <div class="form-container">
       <h3>{{ labels.page }}</h3>
       <Form
         v-if="menuFields.name"

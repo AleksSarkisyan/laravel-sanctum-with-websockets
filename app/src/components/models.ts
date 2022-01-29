@@ -67,6 +67,12 @@ export enum API_PATHS {
   RESTAURANT_UPDATE_PRODUCT = 'api/restaurant-cms/product/update',
 }
 
+export enum Emits {
+  UPDATE_MENU = 'updateMenu',
+  CREATE_MENU = 'createMenu',
+  CATEGORY_CREATED = 'categoryCreated'
+}
+
 export enum RestaurantMenuPaths {
   UPDATE = '/menu/update',
   CREATE = '/menu/create',
@@ -79,6 +85,16 @@ export const RestaurantMenuRoutes = {
   CREATE: `${API_PATHS.RESTAURANT_CMS_PATH}${RestaurantMenuPaths.CREATE}`,
   SAVE: `${API_PATHS.RESTAURANT_CMS_PATH}${RestaurantMenuPaths.SAVE}`,
   GET: `${API_PATHS.RESTAURANT_CMS_PATH}${RestaurantMenuPaths.GET}`
+}
+
+export enum RestaurantCategoryPaths {
+  CREATE = '/category/create',
+  GET = '/category/get'
+}
+
+export const RestaurantCategoryRoutes = {
+  CREATE: `${API_PATHS.RESTAURANT_CMS_PATH}${RestaurantCategoryPaths.CREATE}`,
+  GET: `${API_PATHS.RESTAURANT_CMS_PATH}${RestaurantCategoryPaths.GET}`
 }
 
 export type AxiosCall = {
@@ -137,4 +153,24 @@ export type CartModel = {
   productItems: any[],
   totalCartPrice: number;
   totalCartQuantity: number;
+}
+
+export interface CreateCategoryComponentData {
+  createCategoryFormData: CreateCategoryFormModel;
+}
+
+export type CreateCategoryFormModel = {
+  name: string;
+  description: string;
+}
+
+export type MenuFormComponentData = {
+  name: string;
+  description: string;
+  isActive: number;
+}
+
+export type MenuFormModel = {
+  menuFormData: MenuFormComponentData;
+  menuFields?: MenuFormComponentData
 }

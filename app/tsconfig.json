@@ -2,8 +2,12 @@
   "extends": "@quasar/app/tsconfig-preset",
   "compilerOptions": {
     "experimentalDecorators": true,
+    "module": "commonjs",
+    "sourceMap": true,
+    "declaration": true,
     "types": ["node"],
     "baseUrl": ".",
+    "strict": true,
     "paths": {
       "@/*": [
        "./*"

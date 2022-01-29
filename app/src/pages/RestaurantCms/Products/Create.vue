@@ -1,5 +1,5 @@
 <template>
-  <div class="menu">
+  <div class="form-container">
 
     <h3>Create a product</h3>
 

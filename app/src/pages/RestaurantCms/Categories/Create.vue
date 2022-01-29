@@ -1,29 +1,26 @@
 <template>
-  <div class="menu">
+  <div class="form-container">
 
-    <h3>Create a category</h3>
+    <h3>{{ labels.page }}</h3>
 
     <form class="ui-form">
-        <input
-          type="text"
-          placeholder="Name"
-          autocomplete="off"
-          v-model="createCategoryFormData.name"
-        />
-        <!-- <span v-if="axiosErrors.message && axiosErrors.errors.email[0]"> {{ axiosErrors.errors.email[0] }} </span> -->
-        <input
-          type="text"
-          placeholder="Description"
-          autocomplete="off"
-          v-model="createCategoryFormData.description"
-        />
-        <!-- <span v-if="axiosErrors.message && axiosErrors.errors.password[0]"> {{ axiosErrors.errors.password[0] }} </span> -->
-
-        <q-btn
-          color="primary"
-          @click="createCategory()"
-          :label="btnLabel"
-        />
+      <input
+        type="text"
+        placeholder="Name"
+        autocomplete="off"
+        v-model="createCategoryFormData.name"
+      />
+      <input
+        type="text"
+        placeholder="Description"
+        autocomplete="off"
+        v-model="createCategoryFormData.description"
+      />
+      <q-btn
+        color="primary"
+        @click="createCategory()"
+        :label="labels.btnLabel"
+      />
     </form>
 
   </div>
@@ -33,43 +30,46 @@
 
 import { defineComponent } from 'vue';
 import { api } from '../../../boot/axios'
-import { API_PATHS } from '../../../components/models';
+import { RestaurantCategoryRoutes, CreateCategoryComponentData, Emits } from '../../../components/models';
 
 export default defineComponent({
   name: 'Create',
   components: {  },
 
-  data() {
+  data(): CreateCategoryComponentData {
     return {
       createCategoryFormData: {
         name: '',
         description: ''
       },
-      btnLabel: 'Create category'
     }
   },
 
   computed: {
-
+    labels() {
+      return {
+        page: 'Create a category',
+        btnLabel: 'Create category'
+      }
+    }
   },
 
-  emits: ['categoryCreated'],
+  emits: [Emits.CATEGORY_CREATED],
 
   methods: {
     async createCategory() {
       try {
-        await api.post(`${API_PATHS.RESTAURANT_CREATE_CATEGORY}`, { ...this.createCategoryFormData });
+        await api.post(
+          `${RestaurantCategoryRoutes.CREATE}`,
+          { ...this.createCategoryFormData }
+        );
 
-        this.$emit('categoryCreated')
+        this.$emit(Emits.CATEGORY_CREATED)
       } catch (error) {
         console.log('got error', error)
       }
     }
   },
-
-  created() {
-
-  }
 
 });
 </script>
