@@ -26,9 +26,28 @@ export type UserType = {
 }
 
 export type MenusType = {
+  id: number;
   name: string;
   description: string;
-  isActive: boolean;
+  isActive: boolean | number;
+}
+
+export type MenuProducts = {
+  products: Product[];
+}
+
+export type Product = {
+  data: ProductData
+}
+
+export type ProductData = {
+  id: number;
+  name: string;
+  description: string;
+  promoPrice: string;
+  summedPrice: string;
+  quantity: number;
+  price: number;
 }
 
 export type UserModel = {
@@ -70,6 +89,7 @@ export enum API_PATHS {
 export enum Emits {
   UPDATE_MENU = 'updateMenu',
   CREATE_MENU = 'createMenu',
+  GET_MENU = 'getMenu',
   CATEGORY_CREATED = 'categoryCreated'
 }
 
@@ -149,10 +169,17 @@ export type ProductType = {
 }
 
 export type CartModel = {
-  products: any[],
-  productItems: any[],
+  products: Product[],
+  productItems: ProductItemsModel[],
   totalCartPrice: number;
   totalCartQuantity: number;
+}
+
+export type ProductItemsModel = {
+  id: number;
+  singlePrice: number;
+  summedPrice: number;
+  quantity: number;
 }
 
 export interface CreateCategoryComponentData {
@@ -167,7 +194,7 @@ export type CreateCategoryFormModel = {
 export type MenuFormComponentData = {
   name: string;
   description: string;
-  isActive: number;
+  isActive?: number;
 }
 
 export type MenuFormModel = {
@@ -186,4 +213,61 @@ export interface RestaurantsModel {
   restaurants: RestaurantModel[] | null
 }
 
+export type OrderModel = {
+  id: number | string;
+  restaurant_id: number;
+  status: string;
+  total_price: string;
+  total_quantity: number;
+  user: UserModel;
+  user_id: number;
+}
 
+export type OrderData = {
+  data: OrderModel;
+}
+
+export type Orders = {
+  orders: OrderModel;
+}
+
+export type Categories = {
+  data?: {
+    categories: Category[]
+  }
+}
+
+export type Category = {
+  id: number;
+  name: string;
+  description: string;
+}
+
+export type AvailableCategories = {
+  label: string;
+  value: number;
+}
+
+export type SuccessResponse = {
+  data: {
+    success: boolean;
+  }
+}
+
+export type OrderConfirmed = {
+  confirmed: boolean;
+  restaurantName: string;
+}
+
+export type RestaurantRegistrationModel = {
+  email: string;
+  password: string;
+  restaurantName: string;
+  name: string;
+  city: string;
+}
+
+export type AvailableMenus = {
+  label: string;
+  value: number;
+}

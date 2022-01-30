@@ -1,10 +1,10 @@
 import { MutationTree } from 'vuex';
-import { CartModel } from '@/src/components/models';
+import { CartModel, ProductItemsModel } from '@/src/components/models';
 
 const mutation: MutationTree<CartModel> = {
   updateCart ( state: CartModel, data ) {
 
-    let addedProduct: any;
+    let addedProduct = null as ProductItemsModel | null;
 
     /** Check if we already have the product */
     state.productItems.find(({...item}) => {

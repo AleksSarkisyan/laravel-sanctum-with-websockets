@@ -22,7 +22,7 @@ class CategoryService implements CategoryServiceContract
   public function getAll()
   {
     return response()->json([
-      Category::orderBy('created_at', 'desc')->get()
+      'categories' => Category::orderBy('created_at', 'desc')->get()
     ]);
   }
 

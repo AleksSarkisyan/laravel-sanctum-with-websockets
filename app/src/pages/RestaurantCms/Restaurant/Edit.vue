@@ -29,7 +29,7 @@
 
 import { defineComponent } from 'vue';
 import { api } from '../../../boot/axios';
-import { API_PATHS } from '../../../components/models';
+import { API_PATHS, MenusType, Restaurant, AvailableMenus } from '../../../components/models';
 
 export default defineComponent({
   name: 'Edit',
@@ -38,8 +38,8 @@ export default defineComponent({
   data() {
     return {
       selectedMenu: { } as any,
-      availableMenus: [] as any,
-      restaurant: {} as any
+      availableMenus: [] as AvailableMenus[],
+      restaurant: { } as Restaurant
     }
   },
 
@@ -73,7 +73,7 @@ export default defineComponent({
     await this.getMenus();
     await this.getRestaurant()
     if(this.menus.length) {
-      this.menus.map((menu: any) => {
+      this.menus.map((menu: MenusType) => {
         this.availableMenus.push({
           label: menu.name,
           value: menu.id

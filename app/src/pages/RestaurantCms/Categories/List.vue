@@ -47,7 +47,7 @@ export default defineComponent({
   methods: {
     async getCategories() {
       let result = await api.get(API_PATHS.RESTAURANT_ALL_CATEGORIES);
-      this.categories = result.data[0]
+      this.categories = result.data.categories
     },
 
     onCategoryCreated() {

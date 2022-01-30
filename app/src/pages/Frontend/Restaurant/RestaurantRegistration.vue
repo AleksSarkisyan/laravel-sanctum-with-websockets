@@ -13,7 +13,9 @@
 
 import { defineComponent } from 'vue';
 import RestaurantRegistrationForm from '../../../components/Auth/RestaurantRegistrationForm.vue';
-import { api } from '../../../boot/axios'
+import { api } from '../../../boot/axios';
+import { RestaurantRegistrationModel } from '../../../components/models';
+
 
 export default defineComponent({
   name: 'RestaurantRegistration',
@@ -31,7 +33,7 @@ export default defineComponent({
       this.$store.dispatch('axios/setErrors', '');
     },
 
-    async onRestaurantRegistration(formData: any) {
+    async onRestaurantRegistration(formData: RestaurantRegistrationModel) {
       try {
         await api.post('api/register-restaurant', { ...formData });
         this.$store.dispatch('axios/setErrors', '');

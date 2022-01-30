@@ -44,7 +44,7 @@
 
 import { defineComponent } from 'vue';
 import { api } from '../../../boot/axios';
-import { RestaurantMenuRoutes } from '../../../components/models';
+import { RestaurantMenuRoutes, MenusType, MenuProducts, Product, MenuFormComponentData } from '../../../components/models';
 import Form from '../../../components/Menu/Form.vue';
 
 export default defineComponent({
@@ -59,13 +59,13 @@ export default defineComponent({
         name: '',
         description: '',
         isActive: 1
-      },
-      products: { },
+      } as MenusType,
+      products: { } as Product,
       menu: {
         products: [
 
         ]
-      },
+      } as MenuProducts,
       menuId: ''
     }
   },
@@ -81,7 +81,7 @@ export default defineComponent({
   },
 
   methods: {
-    async updateMenu(menuFormData: any) {
+    async updateMenu(menuFormData: MenuFormComponentData) {
       this.menuFields.name = menuFormData.name
       await api.post(
         `${RestaurantMenuRoutes.UPDATE}`,

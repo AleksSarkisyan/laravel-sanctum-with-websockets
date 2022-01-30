@@ -43,7 +43,7 @@ export default defineComponent({
   },
 
   methods: {
-    async createMenu(menuFormData: any) {
+    async createMenu(menuFormData: MenuFormComponentData) {
       try {
         let result = await api.post(
           `${RestaurantMenuRoutes.CREATE}`,

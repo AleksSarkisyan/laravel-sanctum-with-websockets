@@ -35,7 +35,7 @@ import { defineComponent } from 'vue';
 import { echo, options } from '../../../boot/laravel-echo';
 import Echo from 'laravel-echo';
 import { api } from '../../../boot/axios';
-import { API_PATHS } from '../../../components/models';
+import { API_PATHS, OrderModel, OrderData, Orders, UserType } from '../../../components/models';
 
 export default defineComponent({
   name: 'List',
@@ -43,40 +43,44 @@ export default defineComponent({
 
   data() {
     return {
-      orders: [] as any,
-      restaurantId: null as any,
+      orders: [] as Orders[],
+      restaurantId: '0' as string | string[],
       echoInstance: echo
     }
   },
 
   computed: {
-    user() {
+    user(): UserType {
       return this.$store.getters['restaurantUser/getUser'];
     }
   },
 
   methods: {
-    async confirmOrder(order: any) {
+    async confirmOrder(order: OrderModel): Promise<OrderData> {
       order.status = 'confirmed';
-      await api.post(`${API_PATHS.CONFIRM_ORDER}`, { params: { orderId: order.id } });
+      return await api.post(`${API_PATHS.CONFIRM_ORDER}`, { params: { orderId: order.id } });
     },
 
-    isNewOrder(order: any) {
+    isNewOrder(order: OrderModel) {
       return order.status == 'created' || !order.status;
     },
 
-    isConfirmedOrder(order: any) {
+    isConfirmedOrder(order: OrderModel) {
       return order.status == 'confirmed';
     },
   },
 
   async mounted() {
-    let orders = await api.get(`${API_PATHS.RESTAURANT_ORDERS}`, { params: { restaurantId: this.restaurantId } });
-    this.orders = orders.data.orders.sort((a: any, b: any) => parseInt(b.id) - parseInt(a.id));
+    let orders = await api.get(
+      `${API_PATHS.RESTAURANT_ORDERS}`,
+        { params: { restaurantId: this.restaurantId } }
+      );
+
+    this.orders = orders.data.orders.sort((a: OrderModel, b: OrderModel) => parseInt(b.id as string) - parseInt(a.id as string));
 
     this.echoInstance.channel(`private-orderCreated.${this.restaurantId}.${this.user.id}`).listen(`OrderCreated`, (result: any) => {
-      this.orders.push(result.order.original.orderDetails)
-      this.orders.sort((a: any, b: any) => parseInt(b.id) - parseInt(a.id));
+      this.orders.push(result.order.original.orderDetails);
+      this.orders = orders.data.orders.sort((a: OrderModel, b: OrderModel) => parseInt(b.id as string) - parseInt(a.id as string));
     })
   },
 

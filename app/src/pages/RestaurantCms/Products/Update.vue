@@ -72,7 +72,7 @@
 
 import { defineComponent } from 'vue';
 import { api } from '../../../boot/axios';
-import { API_PATHS } from '../../../components/models';
+import { API_PATHS, Categories, Category, AvailableCategories } from '../../../components/models';
 
 export default defineComponent({
   name: 'Update',
@@ -82,7 +82,7 @@ export default defineComponent({
     return {
       updateProductFormData: {
         name: '',
-        category: null as any,
+        category: null as Category | null,
         description: '',
         price: null,
         promo_price: null,
@@ -90,8 +90,8 @@ export default defineComponent({
         is_active: false
       },
       btnLabel: 'Update product',
-      selectedCategory: { } as any,
-      availableCategories: [] as any
+      selectedCategory: { } as AvailableCategories,
+      availableCategories: [] as AvailableCategories[]
     }
   },
 
@@ -101,8 +101,12 @@ export default defineComponent({
 
   methods: {
     async updateProduct() {
-      this.updateProductFormData.category.id = this.selectedCategory.value
-      this.updateProductFormData.category.name = this.selectedCategory.label
+
+      if(this.updateProductFormData.category) {
+        this.updateProductFormData.category.id = this.selectedCategory.value
+        this.updateProductFormData.category.name = this.selectedCategory.label
+      }
+
       await api.post(API_PATHS.RESTAURANT_UPDATE_PRODUCT, { params: { ...this.updateProductFormData } });
       this.$router.push('/restaurant/products')
     },
@@ -136,10 +140,10 @@ export default defineComponent({
 
     this.updateProductFormData = data;
 
-    let categories = await api.get(API_PATHS.RESTAURANT_ALL_CATEGORIES);
-
-    if(categories.data[0].length) {
-      categories.data[0].map((category: any) => {
+    let categories: Categories = await api.get(API_PATHS.RESTAURANT_ALL_CATEGORIES);
+    console.log('got categories', categories)
+    if(categories.data && categories.data.categories.length) {
+      categories.data.categories.map((category: Category) => {
         this.availableCategories.push({
           label: category.name,
           value: category.id

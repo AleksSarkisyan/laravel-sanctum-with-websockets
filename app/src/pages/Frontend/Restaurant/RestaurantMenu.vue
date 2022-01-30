@@ -117,6 +117,7 @@ import { defineComponent } from 'vue'
 import { api } from '../../../boot/axios';
 import { echo, options } from '../../../boot/laravel-echo';
 import Echo from 'laravel-echo';
+import { RestaurantModel, ProductData, SuccessResponse, OrderConfirmed } from '../../../components/models';
 
 export default defineComponent({
   name: 'RestaurantMenu',
@@ -124,12 +125,12 @@ export default defineComponent({
 
   data() {
     return {
-      restaurant: { } as any,
+      restaurant: { } as RestaurantModel,
       restaurantMenu: { },
       tab: '',
       cartDrawerOpen: true,
       echoInstance: echo,
-      orderDetails: { } as any,
+      orderDetails: { } as OrderConfirmed,
       orderCreatedModalShown: false
     }
   },
@@ -161,7 +162,7 @@ export default defineComponent({
       this.tab = menu.data.firstCategory
     },
 
-    addToCart(product: any) {
+    addToCart(product: ProductData) {
       this.$store.dispatch('cart/updateCart', { ...product })
       this.getCartDetails(product)
     },
@@ -170,7 +171,7 @@ export default defineComponent({
       this.$store.dispatch('cart/clearCart');
     },
 
-    getCartDetails(product: any) {
+    getCartDetails(product: ProductData) {
       this.getProductItems.find((item: any) => {
         if( item.id == product.id) {
           let updateData = {
@@ -191,7 +192,7 @@ export default defineComponent({
         productItems: {...this.getProductItems}
       }
 
-      let orderResult: any = await api.post('api/order/add', { params: data });
+      let orderResult: SuccessResponse = await api.post('api/order/add', { params: data });
 
       if(orderResult.data.success) {
         this.clearCart();
@@ -210,7 +211,7 @@ export default defineComponent({
 
   created() {
     this.echoInstance = new Echo(options);
-    this.restaurant = this.$route.params;
+    this.restaurant = this.$route.params as never;
 
     /** If we have the id this means that the user has navigated away from a restaurant menu, so I clear the cart. Don't want to clear it if user just reloads the page */
     if (this.restaurant.id) {
@@ -220,7 +221,8 @@ export default defineComponent({
 
   async mounted() {
     await this.getRestaurantMenu();
-    this.echoInstance.channel(`private-orderConfirmed.${this.user.id}`).listen(`OrderConfirmed`, (result: any) => {
+    this.echoInstance.channel(`private-orderConfirmed.${this.user.id}`).listen(`OrderConfirmed`, (result: OrderConfirmed) => {
+      console.log('restaurant menu -', result)
       this.orderDetails = result;
     })
   },

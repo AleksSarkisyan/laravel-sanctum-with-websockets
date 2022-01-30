@@ -71,7 +71,7 @@
 
 import { defineComponent } from 'vue';
 import { api } from '../../../boot/axios'
-import { API_PATHS } from '../../../components/models';
+import { API_PATHS, Category, AvailableCategories } from '../../../components/models';
 
 export default defineComponent({
   name: 'Create',
@@ -89,7 +89,7 @@ export default defineComponent({
         isActive: true
       },
       btnLabel: 'Create product',
-      availableCategories: [] as any
+      availableCategories: [] as AvailableCategories[]
     }
   },
 
@@ -117,8 +117,8 @@ export default defineComponent({
   async mounted() {
     let categories = await api.get(API_PATHS.RESTAURANT_ALL_CATEGORIES);
 
-    if(categories.data[0].length) {
-      categories.data[0].map((category: any) => {
+    if(categories.data.categories.length) {
+      categories.data.categories.map((category: Category) => {
         this.availableCategories.push({
           label: category.name,
           value: category.id

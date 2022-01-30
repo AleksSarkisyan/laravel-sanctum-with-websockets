@@ -20,8 +20,7 @@
 import { defineComponent } from 'vue'
 import RestaurantList  from "../../../components/Restaurant/RestaurantList.vue";
 import useAxios from '../../../hooks/useAxios.vue';
-import { api } from '../../../boot/axios';
-import { RestaurantModel, RestaurantsModel, Emits } from '../../../components/models';
+import { RestaurantModel, RestaurantsModel, UserType } from '../../../components/models';
 
 const { get } = { ...useAxios()};
 
@@ -38,7 +37,7 @@ export default defineComponent({
   },
 
   computed: {
-    user() {
+    user(): UserType {
       return this.$store.getters['user/getUser'];
     }
   },
@@ -65,9 +64,5 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.content {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
-}
+
 </style>

@@ -10,6 +10,7 @@
 
 import { defineComponent } from 'vue';
 import RestaurantLoginForm from '../../../components/Auth/RestaurantLoginForm.vue';
+import { LoginFormData } from '../../../components/models';
 
 export default defineComponent({
   name: 'RestaurantLogin',
@@ -22,7 +23,7 @@ export default defineComponent({
   },
 
   methods: {
-    async onRestaurantLogin(loginFormData: any) {
+    async onRestaurantLogin(loginFormData: LoginFormData) {
       try {
         this.$store.dispatch('restaurantUser/getUser', { ...loginFormData })
         this.$router.push({ path: '/restaurant/dashboard' });
