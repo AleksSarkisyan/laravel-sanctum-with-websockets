@@ -21,6 +21,7 @@ import { defineComponent } from 'vue'
 import RestaurantList  from "../../../components/Restaurant/RestaurantList.vue";
 import useAxios from '../../../hooks/useAxios.vue';
 import { api } from '../../../boot/axios';
+import { RestaurantModel, RestaurantsModel, Emits } from '../../../components/models';
 
 const { get } = { ...useAxios()};
 
@@ -28,10 +29,12 @@ export default defineComponent({
   name: 'Restaurant',
   components: { RestaurantList },
 
-  data() {
+  data(): {
+    restaurants: RestaurantsModel
+  } {
     return {
-      restaurants: { }
-    }
+      restaurants: { } as RestaurantsModel
+     }
   },
 
   computed: {
@@ -41,12 +44,17 @@ export default defineComponent({
   },
 
   methods: {
-    async getRestaurants() {
+    async getRestaurants(): Promise<RestaurantsModel> {
       let result = await get('restaurants')
       return result?.data.restaurants;
     },
-    async onGetMenu(restaurant: any) {
-      this.$router.push({ name: 'menu', path: `/menu/${restaurant.name}`, params: { ...restaurant }  })
+    async onGetMenu(restaurant: RestaurantModel) {
+      this.$router.push({
+        name: 'menu',
+        path: `/menu/${restaurant.name}`,
+        params:
+        {  ...restaurant }
+      })
     }
   },
 

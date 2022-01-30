@@ -174,3 +174,16 @@ export type MenuFormModel = {
   menuFormData: MenuFormComponentData;
   menuFields?: MenuFormComponentData
 }
+
+export type RestaurantModel = {
+  city: string;
+  id: number;
+  menu_id: number;
+  name: string;
+}
+
+export interface RestaurantsModel {
+  restaurants: RestaurantModel[] | null
+}
+
+
