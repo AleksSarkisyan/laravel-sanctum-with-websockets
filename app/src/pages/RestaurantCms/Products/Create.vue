@@ -82,12 +82,12 @@ export default defineComponent({
   data() {
     return {
       createProductFormData: {
-        name: '',
+        name: 'Familna pizza',
         category: null,
-        description: '',
-        price: null,
-        promoPrice: null,
-        weight: '',
+        description: 'Familna pizza',
+        price: 10,
+        promoPrice: 0,
+        weight: '1000',
         isActive: true
       },
       btnLabel: 'Create product',

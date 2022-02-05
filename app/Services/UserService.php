@@ -15,21 +15,17 @@ class UserService implements UserServiceContract
 
   public function register(LoginUserRequest $request)
   {
-    try {
-      $credentials = $request->validated();
+    $credentials = $request->validated();
 
-      $hashedPassword = Hash::make($credentials['password']);
+    $hashedPassword = Hash::make($credentials['password']);
 
-      User::firstOrCreate([
-        'email' => $credentials['email'],
-        'name' => $credentials['email'],
-        'password' => $hashedPassword
-      ]);
+    User::firstOrCreate([
+      'email' => $credentials['email'],
+      'name' => $credentials['email'],
+      'password' => $hashedPassword
+    ]);
 
-      return $this->responseGeneric(true, 'OK', 200);
-    } catch (\Exception $e) {
-      return $this->responseError($e->getMessage(), 400);
-    }
+    return $this->responseGeneric(true, 'OK', 200);
   }
 
   public function login(LoginUserRequest $request)

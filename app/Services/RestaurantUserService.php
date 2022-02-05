@@ -18,39 +18,35 @@ class RestaurantUserService implements RestaurantUserServiceContract
 
   public function register(RestaurantRegistrationRequest $request)
   {
-    try {
-      $credentials = $request->validated();
-      $credentials['password'] = Hash::make($credentials['password']);
+    $credentials = $request->validated();
+    $credentials['password'] = Hash::make($credentials['password']);
 
-      /** Restaurant name should be unique. Check it first before creating anything */
-      $restaurantExist = Restaurant::where('name', '=',  $credentials['restaurantName'])->exists();
+    /** Restaurant name should be unique. Check it first before creating anything */
+    $restaurantExist = Restaurant::where('name', '=',  $credentials['restaurantName'])->exists();
 
-      if ($restaurantExist) {
-        return $this->responseError('This restaurant already exists.', 400);
-      }
-
-      $restaurantCreateData = [
-        'name' => $credentials['restaurantName']
-      ];
-
-      unset($credentials['restaurantName']);
-
-      /** User could own more than one restaurant - don't attempt inserting new user, just create the restaurant */
-      $restaurantUser = RestaurantUser::where('email', '=',  $credentials['email'])->get();
-
-      if (!isset($restaurantUser[0])) {
-        $restaurantUser[0] = RestaurantUser::create($credentials);
-      }
-
-      $restaurantCreateData['user_id'] = $restaurantUser[0]->id;
-      $restaurantCreateData['city'] = $restaurantUser[0]->city;
-
-      Restaurant::firstOrCreate($restaurantCreateData);
-
-      return $this->responseGeneric(true, 'You have successfully your restaurant', 200);
-    } catch (\Exception $e) {
-      return $this->responseError($e->getMessage(), 400);
+    if ($restaurantExist) {
+      return $this->responseError('This restaurant already exists.', 400);
     }
+
+    $restaurantCreateData = [
+      'name' => $credentials['restaurantName']
+    ];
+
+    unset($credentials['restaurantName']);
+
+    /** User could own more than one restaurant - don't attempt inserting new user, just create the restaurant */
+    $restaurantUser = RestaurantUser::where('email', '=',  $credentials['email'])->get();
+
+    if (!isset($restaurantUser[0])) {
+      $restaurantUser[0] = RestaurantUser::create($credentials);
+    }
+
+    $restaurantCreateData['user_id'] = $restaurantUser[0]->id;
+    $restaurantCreateData['city'] = $restaurantUser[0]->city;
+
+    Restaurant::firstOrCreate($restaurantCreateData);
+
+    return $this->responseGeneric(true, 'You have successfully your restaurant', 200);
   }
 
   public function login(LoginUserRequest $request)
