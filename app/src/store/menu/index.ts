@@ -1,7 +1,7 @@
 import { Module } from 'vuex';
 import { StateInterface } from '../index';
 import state from './state';
-import { MenusModel } from '@/src/components/models';
+import { MenusModel } from "@/src/models/Menu";
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';

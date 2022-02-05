@@ -1,4 +1,4 @@
-import { MenusModel } from "@/src/components/models";
+import { MenusModel } from "@/src/models/Menu";
 
 function state(): MenusModel {
   return {

@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
-import { MenusModel, API_PATHS } from '../../components/models';
+import { API_PATHS } from '../../models/ApiPaths';
+import { MenusModel } from "@/src/models/Menu";
 import axios from 'axios';
 
 let url = 'http://127.0.0.1:8000/';

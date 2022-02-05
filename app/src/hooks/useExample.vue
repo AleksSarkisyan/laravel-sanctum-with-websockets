@@ -1,7 +1,7 @@
 <script lang="ts">
 
 import { ref } from 'vue';
-import { Todo, Meta, } from '../components/models';
+import { Todo, Meta, } from '../models/Shared';
 
 export default function useExample() {
 

@@ -2,15 +2,20 @@
 
 Local SETUP
 
--   composer install
+-   Run composer install
+-   Run sudo apt install postgresql postgresql-contrib
+-   Run sudo apt-get install php8.0-pgsql
+-   Create an .env file in the root folder using the below variables
+-   Create database and change value of DB_DATABASE in .env
+-   Run php artisan key:generate
 -   Run php artisan migrate
 -   Install quasar cli https://quasar.dev/quasar-cli/installation
 -   Run php artisan serve from {parent dir}
 -   Run php artisan websockets:serve from {parent dir}
 -   Run quasar dev from {parent dir}/app
 -   Important - Open project from http://127.0.0.1:8080/
--   Login from different browsers to test order crreation/confirmation
--   Use the below env variables
+-   Register some users
+-   Important - Laravel Sanctum uses cookie based authentication. Login with different users from different browsers to avoid cookie sharing issues.
 
 APP_NAME=Laravel
 APP_ENV=local
@@ -29,7 +34,7 @@ DB_DATABASE=food-delivery-app
 DB_USERNAME=postgres
 DB_PASSWORD=postgres
 
-BROADCAST_DRIVER=log
+BROADCAST_DRIVER=pusher
 CACHE_DRIVER=file
 FILESYSTEM_DRIVER=local
 QUEUE_CONNECTION=sync
@@ -57,9 +62,9 @@ AWS_DEFAULT_REGION=us-east-1
 AWS_BUCKET=
 AWS_USE_PATH_STYLE_ENDPOINT=false
 
-PUSHER_APP_ID=
-PUSHER_APP_KEY=
-PUSHER_APP_SECRET=
+PUSHER_APP_ID=FoodDeliveryApp
+PUSHER_APP_KEY=FoodDeliveryApp
+PUSHER_APP_SECRET=FoodDeliveryApp
 PUSHER_APP_CLUSTER=mt1
 
 MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"

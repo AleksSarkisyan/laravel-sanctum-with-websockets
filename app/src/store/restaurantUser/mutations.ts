@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex';
-import { RestaurantUserModel } from '@/src/components/models';
+import { RestaurantUserModel } from '@/src/models/User';
 
 const mutation: MutationTree<RestaurantUserModel> = {
   setUser ( state: RestaurantUserModel, data ) {

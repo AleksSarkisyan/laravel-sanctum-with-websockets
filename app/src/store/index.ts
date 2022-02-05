@@ -5,7 +5,8 @@ import {
   Store as VuexStore,
   useStore as vuexUseStore,
 } from 'vuex';
-import { UserType, AxiosModel } from '../components/models';
+import { AxiosModel } from '../models/Shared';
+import { UserType } from '@/src/models/User';
 import exampleModule from './module-example';
 import userModule from './user';
 import menusModule from './menu';

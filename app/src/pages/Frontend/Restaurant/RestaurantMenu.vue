@@ -117,7 +117,10 @@ import { defineComponent } from 'vue'
 import { api } from '../../../boot/axios';
 import { echo, options } from '../../../boot/laravel-echo';
 import Echo from 'laravel-echo';
-import { RestaurantModel, ProductData, SuccessResponse, OrderConfirmed } from '../../../components/models';
+import { SuccessResponse } from '../../../models/Shared';
+import { OrderConfirmed } from '../../../models/Order';
+import { RestaurantModel } from '../../../models/Restaurant';
+import { ProductData } from '../../../models/Product';
 
 export default defineComponent({
   name: 'RestaurantMenu',

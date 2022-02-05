@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
 import { StateInterface } from '../index';
-import { RestaurantUserModel } from '@/src/components/models';
+import { RestaurantUserModel } from '@/src/models/User';
 
 const getters: GetterTree<RestaurantUserModel, StateInterface> = {
   getUser (context) {

@@ -72,7 +72,8 @@
 
 import { defineComponent } from 'vue';
 import { api } from '../../../boot/axios';
-import { API_PATHS, Categories, Category, AvailableCategories } from '../../../components/models';
+import { API_PATHS } from '../../../models/ApiPaths';
+import { Category, Categories, AvailableCategories } from '../../../models/Category';
 
 export default defineComponent({
   name: 'Update',

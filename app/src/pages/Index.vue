@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { API_PATHS } from '../components/models';
+import { API_PATHS } from '../models/ApiPaths';
 import ExampleComponent from '../components/CompositionComponent.vue';
 import { defineComponent, onMounted } from 'vue'
 import useAxios from '../hooks/useAxios.vue';

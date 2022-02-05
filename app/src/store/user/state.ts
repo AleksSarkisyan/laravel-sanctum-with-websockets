@@ -1,4 +1,4 @@
-import { UserModel } from "@/src/components/models";
+import { UserModel } from '@/src/models/User';
 
 function state(): UserModel {
   return {

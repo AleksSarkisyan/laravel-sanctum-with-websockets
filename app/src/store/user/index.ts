@@ -1,7 +1,7 @@
 import { Module } from 'vuex';
 import { StateInterface } from '../index';
 import state from './state';
-import { UserModel } from '@/src/components/models';
+import { UserModel } from '@/src/models/User';
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';

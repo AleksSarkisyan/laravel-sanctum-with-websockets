@@ -59,7 +59,7 @@
 import EssentialLink from '../components/EssentialLink.vue'
 import { defineComponent } from 'vue';
 import { api } from '../boot/axios';
-import { API_PATHS } from '../components/models';
+import { API_PATHS } from '../models/ApiPaths';
 
 export default defineComponent({
   name: 'MainLayoutRestaurants',

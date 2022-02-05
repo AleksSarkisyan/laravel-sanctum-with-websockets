@@ -24,7 +24,8 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { Emits, RestaurantModel } from '../models';
+import { Emits } from '../../models/Shared';
+import { RestaurantModel } from '../../models/Restaurant';
 
 export default defineComponent({
   name: 'RestaurantList',

@@ -82,7 +82,7 @@ import useAuth from '../hooks/useAuth.vue';
 import { defineComponent, ref, watch, onMounted } from 'vue'
 import LoginForm from '../components/Auth/LoginForm.vue';
 import RestaurantRegistration from '../pages/Frontend/Restaurant/RestaurantRegistration.vue';
-import { API_PATHS } from '../components/models';
+import { API_PATHS } from '../models/ApiPaths';
 import useAxios from '../hooks/useAxios.vue';
 
 export default defineComponent({

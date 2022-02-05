@@ -10,7 +10,7 @@
 
 import { defineComponent } from 'vue';
 import RestaurantLoginForm from '../../../components/Auth/RestaurantLoginForm.vue';
-import { LoginFormData } from '../../../components/models';
+import { LoginFormData } from '../../../models/User';
 
 export default defineComponent({
   name: 'RestaurantLogin',

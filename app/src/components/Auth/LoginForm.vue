@@ -34,7 +34,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, toRefs, ComputedRef, computed } from 'vue';
-import { AxiosModel, LoginFormData } from '../../components/models';
+import { AxiosModel } from '../../models/Shared';
+import { LoginFormData } from '../../models/User';
 import useAuth from '../../hooks/useAuth.vue';
 import { useStore } from '../../store/index';
 

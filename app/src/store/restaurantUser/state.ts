@@ -1,4 +1,4 @@
-import { RestaurantUserModel } from "@/src/components/models";
+import { RestaurantUserModel } from '@/src/models/User';
 
 function state(): RestaurantUserModel {
   return {

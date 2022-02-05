@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
 import { StateInterface } from '../index';
-import { CartModel } from '@/src/components/models';
+import { CartModel } from "@/src/models/Cart";
 
 const getters: GetterTree<CartModel, StateInterface> = {
   getCart (context) {

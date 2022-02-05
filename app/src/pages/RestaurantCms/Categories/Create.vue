@@ -30,7 +30,9 @@
 
 import { defineComponent } from 'vue';
 import { api } from '../../../boot/axios'
-import { RestaurantCategoryRoutes, CreateCategoryComponentData, Emits } from '../../../components/models';
+import { RestaurantCategoryRoutes } from '../../../models/ApiPaths';
+import { Emits } from '../../../models/Shared';
+import { CreateCategoryComponentData } from '../../../models/Category';
 
 export default defineComponent({
   name: 'Create',

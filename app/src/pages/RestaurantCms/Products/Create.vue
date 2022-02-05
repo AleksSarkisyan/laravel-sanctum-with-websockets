@@ -71,7 +71,9 @@
 
 import { defineComponent } from 'vue';
 import { api } from '../../../boot/axios'
-import { API_PATHS, Category, AvailableCategories } from '../../../components/models';
+import { API_PATHS } from '../../../models/ApiPaths';
+
+import { Category, AvailableCategories } from '../../../models/Category';
 
 export default defineComponent({
   name: 'Create',

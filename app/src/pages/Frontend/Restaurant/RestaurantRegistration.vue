@@ -14,7 +14,7 @@
 import { defineComponent } from 'vue';
 import RestaurantRegistrationForm from '../../../components/Auth/RestaurantRegistrationForm.vue';
 import { api } from '../../../boot/axios';
-import { RestaurantRegistrationModel } from '../../../components/models';
+import { RestaurantRegistrationModel } from '../../../models/Restaurant';
 
 
 export default defineComponent({

@@ -35,7 +35,9 @@ import { defineComponent } from 'vue';
 import { echo, options } from '../../../boot/laravel-echo';
 import Echo from 'laravel-echo';
 import { api } from '../../../boot/axios';
-import { API_PATHS, OrderModel, OrderData, Orders, UserType } from '../../../components/models';
+import { API_PATHS } from '../../../models/ApiPaths';
+import { UserType } from '../../../models/User';
+import { OrderModel, OrderData, Orders } from '../../../models/Order';
 
 export default defineComponent({
   name: 'List',

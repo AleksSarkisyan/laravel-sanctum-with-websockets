@@ -29,7 +29,9 @@
 
 import { defineComponent } from 'vue';
 import { api } from '../../../boot/axios';
-import { API_PATHS, MenusType, Restaurant, AvailableMenus } from '../../../components/models';
+import { API_PATHS } from '../../../models/ApiPaths';
+import { Restaurant } from '../../../models/Restaurant';
+import { MenusType, AvailableMenus } from '../../../models/Menu';
 
 export default defineComponent({
   name: 'Edit',

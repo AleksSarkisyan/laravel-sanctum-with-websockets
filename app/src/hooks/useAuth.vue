@@ -2,10 +2,10 @@
 
 import { ref, ComputedRef, computed } from 'vue';
 import useAxios from '../hooks/useAxios.vue';
-import { UserType } from '../components/models';
+import { UserType, LoginFormData } from '../models/User';
 import { useStore } from '../store/index';
 import { useRouter } from 'vue-router';
-import { LoginFormData, API_PATHS } from '../components/models';
+import { API_PATHS } from '../models/ApiPaths';
 
 export default function useAuth(formData: LoginFormData|null = null) {
 

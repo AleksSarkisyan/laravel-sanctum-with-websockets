@@ -16,7 +16,8 @@
 import { defineComponent } from 'vue';
 import { api } from '../../../boot/axios'
 import Form from '../../../components/Menu/Form.vue';
-import { RestaurantMenuRoutes, MenuFormComponentData } from '../../../components/models';
+import { RestaurantMenuRoutes } from '../../../models/ApiPaths';
+import { MenuFormComponentData } from '../../../models/Menu';
 
 export default defineComponent({
   name: 'Create',

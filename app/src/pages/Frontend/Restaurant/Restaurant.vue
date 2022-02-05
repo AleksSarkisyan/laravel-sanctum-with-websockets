@@ -20,7 +20,8 @@
 import { defineComponent } from 'vue'
 import RestaurantList  from "../../../components/Restaurant/RestaurantList.vue";
 import useAxios from '../../../hooks/useAxios.vue';
-import { RestaurantModel, RestaurantsModel, UserType } from '../../../components/models';
+import { UserType } from '../../../models/User';
+import { RestaurantModel, RestaurantsModel } from '../../../models/Restaurant';
 
 const { get } = { ...useAxios()};
 

@@ -2,7 +2,7 @@
 
 import axios, { AxiosResponse } from 'axios';
 import { useStore } from '../store/index';
-import { AxiosCall, HTTP_METHODS } from '../components/models';
+import { AxiosCall, HTTP_METHODS } from '../models/Shared';
 
 export default function useAxios() {
 

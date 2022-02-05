@@ -1,4 +1,4 @@
-import { CartModel } from "@/src/components/models";
+import { CartModel } from "@/src/models/Cart";
 
 function state(): CartModel {
   return {

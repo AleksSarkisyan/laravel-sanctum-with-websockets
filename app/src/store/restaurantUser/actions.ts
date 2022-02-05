@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
-import { RestaurantUserModel, API_PATHS } from '../../components/models';
+import { API_PATHS } from '../../models/ApiPaths';
+import { RestaurantUserModel } from '@/src/models/User';
 import axios from 'axios';
 
 let url = 'http://127.0.0.1:8000/';

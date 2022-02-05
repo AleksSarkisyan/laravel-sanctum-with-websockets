@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex';
-import { MenusModel } from '@/src/components/models';
+import { MenusModel } from "@/src/models/Menu";
 
 const mutation: MutationTree<MenusModel> = {
   setMenus ( state: MenusModel, data ) {

@@ -28,8 +28,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { MenuFormComponentData, Emits } from '../../components/models';
-
+import { Emits } from '../../models/Shared';
+import { MenuFormComponentData } from '../../models/Menu';
 
 export default defineComponent({
   name: 'Form',
@@ -69,9 +69,9 @@ export default defineComponent({
   methods: {
     submitMenu() {
       if (this.isUpdateForm) {
-        this.$emit(Emits.CREATE_MENU, this.menuFormData)
+        this.$emit(Emits.UPDATE_MENU, this.menuFormData)
       } else {
-        this.$emit( Emits.UPDATE_MENU, this.menuFormData)
+        this.$emit( Emits.CREATE_MENU, this.menuFormData)
       }
     }
   },

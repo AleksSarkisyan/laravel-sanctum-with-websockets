@@ -44,7 +44,9 @@
 
 import { defineComponent } from 'vue';
 import { api } from '../../../boot/axios';
-import { RestaurantMenuRoutes, MenusType, MenuProducts, Product, MenuFormComponentData } from '../../../components/models';
+import { RestaurantMenuRoutes } from '../../../models/ApiPaths';
+import {  Product } from '../../../models/Product';
+import { MenusType, MenuProducts, MenuFormComponentData } from '../../../models/Menu';
 import Form from '../../../components/Menu/Form.vue';
 
 export default defineComponent({

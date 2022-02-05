@@ -1,5 +1,6 @@
 import { MutationTree } from 'vuex';
-import { CartModel, ProductItemsModel } from '@/src/components/models';
+import { CartModel } from "@/src/models/Cart";
+import { ProductItemsModel } from '@/src/models/Product';
 
 const mutation: MutationTree<CartModel> = {
   updateCart ( state: CartModel, data ) {

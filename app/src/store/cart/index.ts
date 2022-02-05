@@ -1,7 +1,7 @@
 import { Module } from 'vuex';
 import { StateInterface } from '../index';
 import state from './state';
-import { CartModel } from '@/src/components/models';
+import { CartModel } from "@/src/models/Cart";
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';

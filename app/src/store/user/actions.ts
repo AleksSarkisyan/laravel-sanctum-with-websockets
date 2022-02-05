@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
-import { UserModel, API_PATHS } from '../../components/models';
+import { UserModel } from '@/src/models/User';
+import { API_PATHS } from '../../models/ApiPaths';
 import axios from 'axios';
 
 let url = 'http://127.0.0.1:8000/';
