@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Contracts\MenuServiceContract;
 use Illuminate\Http\Request;
 use App\Requests\CreateMenuRequest;
-
+use App\Requests\UpdateMenuProductsRequest;
+use App\Requests\UpdateMenuRequest;
 
 class MenuController extends Controller
 {
@@ -15,7 +16,7 @@ class MenuController extends Controller
     return $menuService->create($request);
   }
 
-  public function update(Request $request, MenuServiceContract $menuService)
+  public function update(UpdateMenuRequest $request, MenuServiceContract $menuService)
   {
     return $menuService->update($request);
   }
@@ -30,7 +31,7 @@ class MenuController extends Controller
     return $menuService->get($request);
   }
 
-  public function save(Request $request, MenuServiceContract $menuService)
+  public function save(UpdateMenuProductsRequest $request, MenuServiceContract $menuService)
   {
     return $menuService->save($request);
   }

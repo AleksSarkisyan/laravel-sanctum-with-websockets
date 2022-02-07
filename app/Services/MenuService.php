@@ -11,6 +11,8 @@ use App\Models\Menu;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\MenuProduct;
+use App\Requests\UpdateMenuProductsRequest;
+use App\Requests\UpdateMenuRequest;
 
 class MenuService implements MenuServiceContract
 {
@@ -96,33 +98,23 @@ class MenuService implements MenuServiceContract
     ]);
   }
 
-  public function save(Request $request)
+  public function save(UpdateMenuProductsRequest $request)
   {
-    if (!$request->params['menuId']) {
-      return response()->json([
-        'error' => 'Missing menu id'
-      ]);
-    }
-
-    if (!isset($request->params['productItems']) || empty($request->params['productItems'])) {
-      return response()->json([
-        'error' => 'Missing products'
-      ]);
-    }
+    $params = $request->validated()['params'];
 
     $deleteConditions = [
       'user_id' => $this->user->id,
-      'menu_id' => $request->params['menuId']
+      'menu_id' => $params['menuId']
     ];
 
     MenuProduct::where($deleteConditions)->delete();
 
     $dataInsert = [];
 
-    foreach ($request->params['productItems'] as $productId) {
+    foreach ($params['productItems'] as $productId) {
       $dataInsert[] = [
         'user_id' => $this->user->id,
-        'menu_id' => $request->params['menuId'],
+        'menu_id' => $params['menuId'],
         'product_id' => $productId,
         'created_at' => new \dateTime,
         'updated_at' => new \dateTime,
@@ -132,15 +124,14 @@ class MenuService implements MenuServiceContract
     MenuProduct::insert($dataInsert);
 
     return response()->json([
-      'all' => $request->all(),
-      'menuId' => $request->params['menuId'],
+      'menuId' => $params['menuId'],
       'dataInsert' => $dataInsert
     ]);
   }
 
-  public function update(Request $request)
+  public function update(UpdateMenuRequest $request)
   {
-    $params = $request->get('params');
+    $params = $request->validated();
 
     $updateConditions = [
       'user_id' => $this->user->id,

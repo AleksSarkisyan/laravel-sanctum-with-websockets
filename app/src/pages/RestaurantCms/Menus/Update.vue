@@ -31,11 +31,12 @@
         </div>
 
         <q-btn
-          :disabled="menu.products.length == 0"
+        :disabled="menu.products.length == 0"
           color="primary"
           @click="saveMenuProducts()"
           :label="labels.btnSaveMenu"
         />
+
       </div>
   </div>
 </template>
@@ -84,15 +85,20 @@ export default defineComponent({
 
   methods: {
     async updateMenu(menuFormData: MenuFormComponentData) {
-      this.menuFields.name = menuFormData.name
-      await api.post(
-        `${RestaurantMenuRoutes.UPDATE}`,
-        { params: { ...menuFormData } }
-      );
+      try {
+        await api.post(
+          `${RestaurantMenuRoutes.UPDATE}`,
+            { ...menuFormData }
+        );
+        this.menuFields.name = menuFormData.name
+      } catch (error) {
+        console.log('update menu error -', error)
+      }
     },
 
     async saveMenuProducts() {
       let productItems = { ...this.menu.products }
+
       await api.post(
         `${RestaurantMenuRoutes.SAVE}`,
         { params: { menuId: this.menuId, productItems } }
