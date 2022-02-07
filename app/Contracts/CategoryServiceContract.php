@@ -2,10 +2,10 @@
 
 namespace App\Contracts;
 
-use Illuminate\Http\Request;
+use App\Requests\CreateCategoryRequest;
 
 interface CategoryServiceContract
 {
   public function getAll();
-  public function create(Request $request);
+  public function create(CreateCategoryRequest $request);
 }

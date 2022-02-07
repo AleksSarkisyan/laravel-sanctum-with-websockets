@@ -38,7 +38,7 @@
           type="number"
           placeholder="Promo Price"
           autocomplete="off"
-          v-model="updateProductFormData.promo_price"
+          v-model="updateProductFormData.promoPrice"
         />
 
         <input
@@ -53,7 +53,7 @@
             type="checkbox"
             placeholder="Is Active ?"
             autocomplete="off"
-            v-model="updateProductFormData.is_active"
+            v-model="updateProductFormData.isActive"
           />
         </label>
 
@@ -74,6 +74,7 @@ import { defineComponent } from 'vue';
 import { api } from '../../../boot/axios';
 import { API_PATHS } from '../../../models/ApiPaths';
 import { Category, Categories, AvailableCategories } from '../../../models/Category';
+import { ProductData } from '../../../models/Product';
 
 export default defineComponent({
   name: 'Update',
@@ -85,31 +86,30 @@ export default defineComponent({
         name: '',
         category: null as Category | null,
         description: '',
-        price: null,
-        promo_price: null,
-        weight: null,
-        is_active: false
-      },
+        price: 0,
+        promoPrice: 0,
+        weight: '',
+        isActive: false
+      } as ProductData,
       btnLabel: 'Update product',
       selectedCategory: { } as AvailableCategories,
       availableCategories: [] as AvailableCategories[]
     }
   },
 
-  computed: {
-
-  },
-
   methods: {
     async updateProduct() {
+      try {
+        if (this.updateProductFormData.category) {
+          this.updateProductFormData.category.id = this.selectedCategory.value
+          this.updateProductFormData.category.name = this.selectedCategory.label
+        }
 
-      if(this.updateProductFormData.category) {
-        this.updateProductFormData.category.id = this.selectedCategory.value
-        this.updateProductFormData.category.name = this.selectedCategory.label
+        await api.post(API_PATHS.RESTAURANT_UPDATE_PRODUCT, {  ...this.updateProductFormData });
+        this.$router.push('/restaurant/products')
+      } catch (error) {
+        console.log(error)
       }
-
-      await api.post(API_PATHS.RESTAURANT_UPDATE_PRODUCT, { params: { ...this.updateProductFormData } });
-      this.$router.push('/restaurant/products')
     },
 
   },
@@ -127,22 +127,23 @@ export default defineComponent({
     this.selectedCategory.label = product.data.product.category.name;
     this.selectedCategory.value = product.data.product.category.id;
 
-    const { id, name, description, price, promo_price, weight, is_active, category } = { ...product.data.product } as any;
+    const { id, name, description, price, promo_price, weight, is_active, category } = { ...product.data.product } as ProductData;
+
     const data = {
       id,
       name,
       description,
       price,
-      promo_price,
+      promoPrice: promo_price,
       weight,
-      is_active: is_active  == 1 ? true : false,
+      isActive: is_active  == 1 ? true : false,
       category
     }
 
     this.updateProductFormData = data;
 
     let categories: Categories = await api.get(API_PATHS.RESTAURANT_ALL_CATEGORIES);
-    console.log('got categories', categories)
+
     if(categories.data && categories.data.categories.length) {
       categories.data.categories.map((category: Category) => {
         this.availableCategories.push({

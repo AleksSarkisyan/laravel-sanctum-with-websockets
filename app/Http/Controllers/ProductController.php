@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\ProductServiceContract;
+use App\Requests\CreateProductRequest;
 use Illuminate\Http\Request;
 
 
 class ProductController extends Controller
 {
 
-  public function create(Request $request, ProductServiceContract $productService)
+  public function create(CreateProductRequest $request, ProductServiceContract $productService)
   {
     return $productService->create($request);
   }
@@ -24,7 +25,7 @@ class ProductController extends Controller
     return $productService->get($request);
   }
 
-  public function update(Request $request, ProductServiceContract $productService)
+  public function update(CreateProductRequest $request, ProductServiceContract $productService)
   {
     return $productService->update($request);
   }

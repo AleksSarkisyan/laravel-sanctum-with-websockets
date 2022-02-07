@@ -7,6 +7,7 @@ use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
+use App\Requests\CreateProductRequest;
 
 class ProductService implements ProductServiceContract
 {
@@ -19,7 +20,7 @@ class ProductService implements ProductServiceContract
     $this->user = Auth::guard('restaurant')->user();
   }
 
-  public function create(Request $request)
+  public function create(CreateProductRequest $request)
   {
     $params = $request->all();
     $params['category_id'] = $params['category']['value'];
@@ -73,9 +74,9 @@ class ProductService implements ProductServiceContract
     ]);
   }
 
-  public function update(Request $request)
+  public function update(CreateProductRequest $request)
   {
-    $params = $request->get('params');
+    $params = $request->all();
 
     $updateConditions = [
       'user_id' => $this->user->id,
@@ -83,9 +84,13 @@ class ProductService implements ProductServiceContract
     ];
 
     $params['category_id'] = $params['category']['id'];
+    $params['promo_price'] = $params['promoPrice'];
+    $params['is_active'] = $params['isActive'];
 
     unset($params['id']);
     unset($params['category']);
+    unset($params['promoPrice']);
+    unset($params['isActive']);
 
     Product::where($updateConditions)->update($params);
 

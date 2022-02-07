@@ -1,15 +1,22 @@
+import { Category } from './Category';
+
 export type Product = {
   data: ProductData
 }
 
 export type ProductData = {
-  id: number;
+  id?: number;
   name: string;
+  category: Category;
   description: string;
-  promoPrice: string;
-  summedPrice: string;
-  quantity: number;
+  promoPrice: number | undefined;
+  promo_price?: number | undefined;
+  summedPrice?: string;
+  quantity?: number;
   price: number;
+  weight: string;
+  isActive: boolean;
+  is_active?: boolean | number;
 }
 
 export type ProductType = {

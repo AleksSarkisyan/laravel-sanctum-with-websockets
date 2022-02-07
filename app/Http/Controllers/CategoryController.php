@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Contracts\CategoryServiceContract;
+use App\Requests\CreateCategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -12,7 +13,7 @@ class CategoryController extends Controller
     return $categoryService->getAll($request);
   }
 
-  public function create(Request $request, CategoryServiceContract $categoryService)
+  public function create(CreateCategoryRequest $request, CategoryServiceContract $categoryService)
   {
     return $categoryService->create($request);
   }

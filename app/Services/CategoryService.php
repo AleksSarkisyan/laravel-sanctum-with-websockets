@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Contracts\CategoryServiceContract;
 use App\Traits\ResponseTrait;
-use Illuminate\Http\Request;
+use App\Requests\CreateCategoryRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 
@@ -26,7 +26,7 @@ class CategoryService implements CategoryServiceContract
     ]);
   }
 
-  public function create(Request $request)
+  public function create(CreateCategoryRequest $request)
   {
     $data = $request->all();
 
