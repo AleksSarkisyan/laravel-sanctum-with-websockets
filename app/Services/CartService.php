@@ -20,15 +20,8 @@ class CartService implements CartServiceContract
     $restaurantId = $params['restaurant_id'];
 
     $product = Product::where('id', $productId)->first();
-
-    // return response()->json([
-    //   'product' => $product
-    // ]);
-
     $productPrice = (int) $product['price'];
-
     $productItem = 'cart.products.' . $productId;
-
     $totalCartQuantity = $totalCartPrice = null;
 
     if (Session::has($productItem)) {
