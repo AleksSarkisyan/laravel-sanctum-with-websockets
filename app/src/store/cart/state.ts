@@ -2,10 +2,7 @@ import { CartModel } from "@/src/models/Cart";
 
 function state(): CartModel {
   return {
-    products: [
-
-    ],
-    productItems: [ ],
+    products: [],
     totalCartPrice: 0,
     totalCartQuantity: 0,
   }

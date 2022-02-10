@@ -2,15 +2,13 @@ import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
 import { API_PATHS } from '../../models/ApiPaths';
 import { RestaurantUserModel } from '@/src/models/User';
-import axios from 'axios';
+import { api } from '../../boot/axios';
 
-let url = 'http://127.0.0.1:8000/';
 const actions: ActionTree<RestaurantUserModel, StateInterface> = {
 
   async getUser (context, payload) {
     try {
-      let result = await axios.post(url+API_PATHS.RESTAURANT_USER_LOGIN, payload);
-      console.log('login result', result)
+      let result = await api.post(API_PATHS.RESTAURANT_USER_LOGIN, payload);
       context.commit('setUser', result.data.data)
     } catch (error) {
       console.log('encountered error', error);

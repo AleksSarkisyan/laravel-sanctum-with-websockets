@@ -1,4 +1,5 @@
 export enum API_PATHS {
+  FE_PATH = 'api',
   SANCTUM_COOKIE = 'sanctum/csrf-cookie',
   LOGIN = 'api/login',
   LOGOUT = 'api/logout',
@@ -42,4 +43,24 @@ export enum RestaurantCategoryPaths {
 export const RestaurantCategoryRoutes = {
   CREATE: `${API_PATHS.RESTAURANT_CMS_PATH}${RestaurantCategoryPaths.CREATE}`,
   GET: `${API_PATHS.RESTAURANT_CMS_PATH}${RestaurantCategoryPaths.GET}`
+}
+
+export enum CartPaths {
+  ADD = '/cart/add',
+  GET = '/cart/get',
+  CLEAR = '/cart/clear'
+}
+
+export const CartRoutes = {
+  ADD: `${API_PATHS.FE_PATH}${CartPaths.ADD}`,
+  GET: `${API_PATHS.FE_PATH}${CartPaths.GET}`,
+  CLEAR: `${API_PATHS.FE_PATH}${CartPaths.CLEAR}`
+}
+
+export enum OrderPaths {
+  ADD = '/order/add'
+}
+
+export const OrderRoutes = {
+  ADD: `${API_PATHS.FE_PATH}${OrderPaths.ADD}`
 }

@@ -38,15 +38,18 @@
           Products
         </q-item-label>
 
-        <div v-for="product in cartProducts" :key="product.data.id" class="cart">
+        <div v-for="product in cartProducts" :key="product.id" class="cart">
           <div class="product">
-            <span> {{product.data.quantity }} -  {{ product.data.name }}</span>
-            <span>{{ product.data.summedPrice ? product.data.summedPrice : 0 }} lv</span>
+            <span> {{product.quantity }} -  {{ product.name }}</span>
+            <span>{{ product.summedPrice ? product.summedPrice : 0 }} lv</span>
           </div>
         </div>
 
         <hr />
         <div class="total-price">
+          <span>Total Quantity</span>
+          <span>{{ getTotalCartQuantity }}</span>
+          |
           <span>Total Price</span>
           <span>{{ getTotalCartPrice }} lv</span>
         </div>
@@ -121,6 +124,7 @@ import { SuccessResponse } from '../../../models/Shared';
 import { OrderConfirmed } from '../../../models/Order';
 import { RestaurantModel } from '../../../models/Restaurant';
 import { ProductData } from '../../../models/Product';
+import { OrderRoutes } from '../../../models/ApiPaths';
 
 export default defineComponent({
   name: 'RestaurantMenu',
@@ -144,15 +148,13 @@ export default defineComponent({
     },
 
     cartProducts() {
-      return this.$store.getters['cart/getCart'];
+      return this.$store.getters['cart/getCartProducts'];
     },
 
-    getProductItems() {
-      return this.$store.getters['cart/getProductItems'];
-    },
     getTotalCartPrice() {
       return this.$store.getters['cart/getTotalCartPrice'];
     },
+
     getTotalCartQuantity() {
       return this.$store.getters['cart/getTotalCartQuantity']
     }
@@ -166,36 +168,15 @@ export default defineComponent({
     },
 
     addToCart(product: ProductData) {
-      this.$store.dispatch('cart/updateCart', { ...product })
-      this.getCartDetails(product)
+      this.$store.dispatch('cart/addToCart', { ...product })
     },
 
     clearCart() {
       this.$store.dispatch('cart/clearCart');
     },
 
-    getCartDetails(product: ProductData) {
-      this.getProductItems.find((item: any) => {
-        if( item.id == product.id) {
-          let updateData = {
-            id: product.id,
-            quantity: item.quantity,
-            summedPrice:  item.summedPrice
-          }
-          this.$store.dispatch('cart/updateCartProduct', updateData)
-        }
-      });
-    },
-
     async submitOrder() {
-      let data = {
-        restautant: this.restaurant,
-        totalCartQuantity: this.getTotalCartQuantity,
-        totalCartPrice: this.getTotalCartPrice,
-        productItems: {...this.getProductItems}
-      }
-
-      let orderResult: SuccessResponse = await api.post('api/order/add', { params: data });
+      let orderResult: SuccessResponse = await api.post(OrderRoutes.ADD);
 
       if(orderResult.data.success) {
         this.clearCart();
@@ -225,7 +206,6 @@ export default defineComponent({
   async mounted() {
     await this.getRestaurantMenu();
     this.echoInstance.channel(`private-orderConfirmed.${this.user.id}`).listen(`OrderConfirmed`, (result: OrderConfirmed) => {
-      console.log('restaurant menu -', result)
       this.orderDetails = result;
     })
   },

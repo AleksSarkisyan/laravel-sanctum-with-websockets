@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::prefix('cart')->group(function () {
         Route::post('/add', [CartController::class, 'add']);
         Route::get('/get', [CartController::class, 'get']);
+        Route::get('/clear', [CartController::class, 'clear']);
     });
 
     Route::prefix('order')->group(function () {

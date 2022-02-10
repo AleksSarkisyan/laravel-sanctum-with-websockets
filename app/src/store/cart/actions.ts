@@ -1,31 +1,24 @@
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
-import { API_PATHS } from '../../models/ApiPaths';
+import { CartRoutes } from '../../models/ApiPaths';
 import { CartModel } from "@/src/models/Cart";
-import axios from 'axios';
+import { api } from '../../boot/axios';
 
-let url = 'http://127.0.0.1:8000/';
 const actions: ActionTree<CartModel, StateInterface> = {
 
-  updateCart (context, payload) {
+  async addToCart (context, payload) {
     try {
-      context.commit('updateCart', payload)
+      const { product_id = null, restaurant_id = null } = { ...payload }
+      let result = await api.post(CartRoutes.ADD, { product_id, restaurant_id });
+      context.commit('addToCart', result.data.cart)
     } catch (error) {
       console.log('encountered error', error);
     }
   },
 
-  updateCartProduct (context, payload) {
-    try {
-      context.commit('updateCartProduct', payload)
-    } catch (error) {
-      console.log('encountered error', error);
-    }
-  },
-
-
-  clearCart(context) {
-    context.commit('clearCart')
+  async clearCart(context) {
+    context.commit('clearCart');
+    await api.get(CartRoutes.CLEAR);
   }
 
 };

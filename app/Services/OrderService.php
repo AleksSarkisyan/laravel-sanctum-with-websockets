@@ -12,6 +12,8 @@ use App\Models\Restaurant;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use Illuminate\Support\Facades\DB;
+use App\Requests\CreateOrderRequest;
+use Illuminate\Support\Facades\Session;
 
 class OrderService implements OrderServiceContract
 {
@@ -77,25 +79,20 @@ class OrderService implements OrderServiceContract
     ]);
   }
 
-  /** All this should be retrieved from the Session, instead of trusting the FE */
   public function add(Request $request)
   {
-    $params = $request->get('params');
+    $params = Session::get('cart');
+    $additional = $params['additional'];
+    $products = $params['products'];
+    $restaurantId = $additional['restaurantId'];
+
     $user = Auth::guard('web')->user();
-
-    $restaurant = $params['restautant'];
-
-    if (!isset($restaurant['id']) || empty($restaurant['id'])) {
-      $restaurantId = Restaurant::where('name', $params['restautant']['name'])->pluck('id')[0];
-    } else {
-      $restaurantId = $params['restautant']['id'];
-    }
 
     $orderParams = [
       'user_id' => $user->id,
       'restaurant_id' => $restaurantId,
-      'total_quantity' => $params['totalCartQuantity'],
-      'total_price' => $params['totalCartPrice'],
+      'total_quantity' => $additional['totalCartQuantity'],
+      'total_price' => $additional['totalCartPrice'],
       'status' => 'created'
     ];
 
@@ -103,12 +100,12 @@ class OrderService implements OrderServiceContract
 
     $orderProductParams = [];
 
-    foreach ($params['productItems'] as $value) {
+    foreach ($products as $value) {
       array_push($orderProductParams, [
         'order_id' => $orderResult['id'],
         'product_id' => $value['id'],
         'quantity' => $value['quantity'],
-        'price' => $value['singlePrice'] * $value['quantity'],
+        'price' => $value['price'] * $value['quantity'],
         'created_at' => new \dateTime,
         'updated_at' => new \dateTime,
       ]);
@@ -117,14 +114,14 @@ class OrderService implements OrderServiceContract
     OrderProduct::insert($orderProductParams);
 
     $orderProducts = $this->getOrderProducts($orderResult['id']);
-    $userId = Restaurant::where('id', $restaurantId)->pluck('user_id');
+    $restaurantUserId = Restaurant::where('id', $restaurantId)->pluck('user_id');
 
-    event(new OrderCreated($orderProducts, $restaurantId, $userId[0]));
+    event(new OrderCreated($orderProducts, $restaurantId, $restaurantUserId[0]));
 
     return response()->json([
       'success' => true,
-      '$userId' => $userId[0],
-      'restaurantId' => $restaurantId
+      // 'restaurantUserId' => $restaurantUserId[0],
+      // 'restaurantId' => $restaurantId
     ]);
   }
 

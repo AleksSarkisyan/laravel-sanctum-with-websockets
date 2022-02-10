@@ -2,6 +2,7 @@
 
 namespace App\Contracts;
 
+use App\Requests\CreateOrderRequest;
 use Illuminate\Http\Request;
 
 interface OrderServiceContract

@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Restaurant;
 use Illuminate\Support\Facades\Auth;
 use App\Contracts\OrderServiceContract;
+use App\Requests\CreateOrderRequest;
+
 
 class OrderController extends Controller
 {

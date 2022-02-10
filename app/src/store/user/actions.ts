@@ -2,14 +2,13 @@ import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
 import { UserModel } from '@/src/models/User';
 import { API_PATHS } from '../../models/ApiPaths';
-import axios from 'axios';
+import { api } from '../../boot/axios';
 
-let url = 'http://127.0.0.1:8000/';
 const actions: ActionTree<UserModel, StateInterface> = {
 
   async getUser (context) {
     try {
-      let result = await axios.get(url+API_PATHS.USER);
+      let result = await api.get(API_PATHS.USER);
       context.commit('setUser', result.data)
     } catch (error) {
       console.log('encountered error', error);
