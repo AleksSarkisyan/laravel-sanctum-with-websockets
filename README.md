@@ -12,6 +12,7 @@ Local SETUP
 -   Install quasar cli https://quasar.dev/quasar-cli/installation
 -   Run php artisan serve from {parent dir}
 -   Run php artisan websockets:serve from {parent dir}
+-   Run npm install from {parent dir}/app
 -   Run quasar dev from {parent dir}/app
 -   Important - Open project from http://127.0.0.1:8080/
 -   Register some users
